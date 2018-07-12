@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ccc"
+    android:divider="@android:drawable/divider_horizontal_dark"
+    android:orientation="horizontal"
+    android:showDividers="middle">
+
+    <TextView
+        android:id="@+id/tv_item_func0_column0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:layout_weight="1"
+        android:background="@android:color/background_light"
+        android:padding="5dp"
+        android:text="编码"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_item_func0_column1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:layout_weight="1"
+        android:background="@android:color/background_light"
+        android:padding="5dp"
+        android:text="数量"
+        android:textStyle="bold" />
+
+</LinearLayout>
