@@ -2,26 +2,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/dp_10"
     android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_func0_tag0"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_tag"
+            android:layout_gravity="center_vertical"
+            android:text="@string/text_material"
             android:textSize="15sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/et_func0_tag0"
+            android:id="@+id/et_func1_tag2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/text_frame"
+            android:ems="10"
+            android:inputType="textVisiblePassword"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/button_func1_recommand"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:layout_weight="2"
+            android:background="@color/colorPrimaryDark"
+            android:text="推荐库位"
+            android:textColor="@android:color/background_light" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/text_warehouse_position"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_func1_tag0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/text_frame"
             android:ems="10"
@@ -33,20 +73,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_func0_tag1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_tag"
+            android:layout_gravity="center_vertical"
+            android:text="@string/text_pack"
             android:textSize="15sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/et_func0_tag1"
+            android:id="@+id/et_func1_tag1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/text_frame"
             android:ems="10"
@@ -62,7 +104,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_func0_currentTag0"
+            android:id="@+id/tv_func1_currentTag0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -79,7 +121,7 @@
             android:text="@string/text_sum" />
 
         <TextView
-            android:id="@+id/tv_func0_count"
+            android:id="@+id/tv_func1_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -87,7 +129,7 @@
             android:textColor="@android:color/holo_green_dark" />
 
         <Button
-            android:id="@+id/button_func0_add"
+            android:id="@+id/button_func1_add"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="50dp"
             android:layout_height="30dp"
@@ -127,7 +169,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_func0"
+        android:id="@+id/recycler_func1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -140,7 +182,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button_func0_submit"
+            android:id="@+id/button_func1_submit"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="50dp"
             android:layout_height="30dp"

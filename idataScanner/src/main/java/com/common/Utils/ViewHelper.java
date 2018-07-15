@@ -89,5 +89,19 @@ public class ViewHelper {
         return flag;
     }
 
+    /**
+     * Edittext延时获取焦点
+     *
+     * @param editText 需要焦点的EditText
+     */
+    public static void postFoucus(final EditText editText) {
+        editText.postDelayed(new Runnable() {//给他个延迟时间
+            @Override
+            public void run() {
+                editText.requestFocus();
+            }
+        }, 200);
+    }
+
 }
 

@@ -114,7 +114,7 @@ public class MainActivity extends BaseActivity {
                         intent.setClass(MainActivity.this, Func0Activity.class);
                         break;
                     case 1:
-                        intent.setClass(MainActivity.this, Func0Activity.class);
+                        intent.setClass(MainActivity.this, Func1Activity.class);
                         break;
                     case 2:
                         intent.setClass(MainActivity.this, Func0Activity.class);

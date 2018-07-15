@@ -2,7 +2,6 @@ package com.weihan.fragments;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,16 +14,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.weihan.R;
+import com.weihan.adapters.FuncRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.common.Utils.ViewHelper.postFoucus;
+import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_CODE;
+import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_NUM;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,27 +36,25 @@ import java.util.Map;
  */
 public class Func0Fragment extends Fragment {
 
-    public static final String KEY_MAP_CODE = "code";
-    public static final String KEY_MAP_NUM = "num";
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_TAG0_TYPE = "tag0_type";
     private static final String ARG_TAG1_TYPE = "tag1_type";
     private static final String ARG_TYPE_CODE = "type_code";
-    private static final String ARG_CODE_PACK = "pack_code";
+    private static final String ARG_TAG0_CURRENT = "tag0_current";
     private static final String ARG_LIST_JSON = "list_json";
-    String tag0Type, tag1Type, tempPackCode, listdataJson;
+
+    String tag0Type, tag1Type, listdataJson, sharePrefPackCoe;
     int typeCode;
 
     List<Map<String, Object>> listData = new ArrayList<>();
     Gson gson = new Gson();
 
-    EditText etTag0;
-    EditText etTag1;
-    TextView tvCount, tvTag0, tvTag1;
+    EditText etTag0, etTag1;
+    TextView tvCount, tvTag0, tvTag1, tvCurrentTag0;
     RecyclerView recyclerView;
-    Button buttonAdd;
+    Button buttonAdd, buttonSubmit;
 
-    Func0RecyclerAdapter adapter;
+    FuncRecyclerAdapter adapter;
 
 
     public Func0Fragment() {
@@ -61,12 +62,12 @@ public class Func0Fragment extends Fragment {
     }
 
 
-    public static Func0Fragment newInstance(String tag0Type, String tag1Type, int typeCode, String tempPackCode, String listdataJson) {
+    public static Func0Fragment newInstance(String tag0Type, String tag1Type, int typeCode, String currentTag0, String listdataJson) {
         Func0Fragment fragment = new Func0Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_TAG0_TYPE, tag0Type);
         args.putString(ARG_TAG1_TYPE, tag1Type);
-        args.putString(ARG_CODE_PACK, tempPackCode);
+        args.putString(ARG_TAG0_CURRENT, currentTag0);
         args.putString(ARG_LIST_JSON, listdataJson);
         args.putInt(ARG_TYPE_CODE, typeCode);
         fragment.setArguments(args);
@@ -80,7 +81,7 @@ public class Func0Fragment extends Fragment {
             tag0Type = getArguments().getString(ARG_TAG0_TYPE);
             tag1Type = getArguments().getString(ARG_TAG1_TYPE);
             typeCode = getArguments().getInt(ARG_TYPE_CODE, -1);
-            tempPackCode = getArguments().getString(ARG_CODE_PACK);
+            sharePrefPackCoe = getArguments().getString(ARG_TAG0_CURRENT);
             listdataJson = getArguments().getString(ARG_LIST_JSON);
         }
     }
@@ -95,8 +96,11 @@ public class Func0Fragment extends Fragment {
         tvTag0 = view.findViewById(R.id.tv_func0_tag0);
         tvTag1 = view.findViewById(R.id.tv_func0_tag1);
         tvCount = view.findViewById(R.id.tv_func0_count);
+        tvCurrentTag0 = view.findViewById(R.id.tv_func0_currentTag0);
         recyclerView = view.findViewById(R.id.recycler_func0);
         buttonAdd = view.findViewById(R.id.button_func0_add);
+        buttonSubmit = view.findViewById(R.id.button_func0_submit);
+
 
         tvTag0.setText(String.format("%s%s", tag0Type, getString(R.string.text_tag)));
         tvTag1.setText(String.format("%s%s", tag1Type, getString(R.string.text_tag)));
@@ -109,9 +113,15 @@ public class Func0Fragment extends Fragment {
                 addData();
             }
         });
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submitData();
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new Func0RecyclerAdapter(listData);
+        adapter = new FuncRecyclerAdapter(listData);
         recyclerView.setAdapter(adapter);
         //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         //View headerView = LayoutInflater.from(this).inflate(R.layout.item_func0_header, null);
@@ -129,8 +139,9 @@ public class Func0Fragment extends Fragment {
         });
 
 
-        if (!tempPackCode.isEmpty()) {
-            etTag0.setText(tempPackCode);
+        if (!sharePrefPackCoe.isEmpty()) {
+            etTag0.setText(sharePrefPackCoe);
+            tvCurrentTag0.setText(sharePrefPackCoe);
             postFoucus(etTag1);
         }
 
@@ -147,21 +158,30 @@ public class Func0Fragment extends Fragment {
 
     private void addData() {
 
+
         String packCode = etTag0.getText().toString().trim();
         String mCode = etTag1.getText().toString().trim();
 
         if (packCode.isEmpty() || mCode.isEmpty()) {
-            String toastStr = getString(R.string.toast_func0_input_code, tag0Type, tag1Type);
+            String toastStr = getString(R.string.toast_func_input_code2, tag0Type, tag1Type);
             Toast.makeText(getContext(), toastStr, Toast.LENGTH_LONG).show();
             if (mCode.isEmpty()) postFoucus(etTag1);
             else if (packCode.isEmpty()) postFoucus(etTag0);
             return;
         }
 
+        String currentCode = tvCurrentTag0.getText().toString().trim();
+        if (!currentCode.equals(packCode) && !currentCode.isEmpty()) {
+            Toast.makeText(getContext(), getString(R.string.toast_list_diffenrcetag, tag0Type), Toast.LENGTH_LONG).show();
+            return;
+        } else tvCurrentTag0.setText(packCode);
+
         Map<String, Object> map;
 
         map = new HashMap<>();
         map.put(KEY_MAP_CODE, mCode);
+
+        // TODO: 7/15/2018 数量编码方法
         if (mCode.length() > 3) map.put(KEY_MAP_NUM, mCode.subSequence(0, 3));
         listData.add(map);
 
@@ -174,19 +194,13 @@ public class Func0Fragment extends Fragment {
 
     }
 
-    private void postFoucus(final EditText editText) {
-        editText.postDelayed(new Runnable() {//给他个延迟时间
-            @Override
-            public void run() {
-                editText.requestFocus();
-            }
-        }, 200);
-    }
+
 
     public void clearList(boolean isToFocus) {
         listData.clear();
         adapter.notifyDataSetChanged();
         tvCount.setText(String.valueOf(listData.size()));
+        tvCurrentTag0.setText("");
         etTag1.setText("");
         etTag0.setText("");
         if (isToFocus) postFoucus(etTag0);
@@ -197,24 +211,19 @@ public class Func0Fragment extends Fragment {
         return listdataJson;
     }
 
-    public String getTag0Str() {
-        if (etTag0 != null)
-            return etTag0.getText().toString();
+    public String getCurrentTag0Str() {
+        if (tvCurrentTag0 != null)
+            return tvCurrentTag0.getText().toString().trim();
         else
             return "";
     }
 
-    class Func0RecyclerAdapter extends BaseQuickAdapter<Map<String, Object>, BaseViewHolder> {
-
-        public Func0RecyclerAdapter(@Nullable List<Map<String, Object>> data) {
-            super(R.layout.item_func0_line, data);
+    private void submitData() {
+        if (listData.isEmpty()) {
+            Toast.makeText(getContext(), R.string.toast_list_empty, Toast.LENGTH_LONG).show();
+            return;
         }
-
-        @Override
-        protected void convert(BaseViewHolder helper, Map<String, Object> item) {
-            helper.setText(R.id.tv_item_func0_column0, (String) item.get(KEY_MAP_CODE));
-            helper.setText(R.id.tv_item_func0_column1, (String) item.get(KEY_MAP_NUM));
-        }
+        getListdataJson();
     }
 
 }

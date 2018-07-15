@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.WindowManager;
 
 import com.weihan.R;
 import com.weihan.adapters.MyFragmentPagerAdapter;
@@ -23,6 +22,7 @@ public class Func0Activity extends BaseActivity {
 
     public static final String KEY_SHAREPREF_FUNC0_PACK = "KEY_SHAREPREF_FUNC0_PACK_";
     public static final String KEY_SHAREPREF_FUNC0_LIST = "KEY_SHAREPREF_FUNC0_LIST_";
+
     TabLayout tabLayout;
     ViewPager viewPager;
     MyFragmentPagerAdapter pagerAdapter;
@@ -71,7 +71,7 @@ public class Func0Activity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_func0);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
 
         findView();
         initFragmentTab();
@@ -87,7 +87,7 @@ public class Func0Activity extends BaseActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         for (int index = 0; index < fragmentList.size(); index++) {
             Func0Fragment fragment = (Func0Fragment) fragmentList.get(index);
-            editor.putString(KEY_SHAREPREF_FUNC0_PACK + index, fragment.getTag0Str());
+            editor.putString(KEY_SHAREPREF_FUNC0_PACK + index, fragment.getCurrentTag0Str());
             editor.putString(KEY_SHAREPREF_FUNC0_LIST + index, fragment.getListdataJson());
         }
         editor.apply();
@@ -120,7 +120,7 @@ public class Func0Activity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_func0, menu);
+        inflater.inflate(R.menu.menu_func, menu);
         return true;
     }
 

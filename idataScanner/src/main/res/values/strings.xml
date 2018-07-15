@@ -5,10 +5,19 @@
     <string name="text_tag">标签</string>
     <string name="text_pack">包装</string>
     <string name="text_input_barcode">输入%s条码</string>
-    <string name="toast_func0_input_code">请输入%s编码和%s编码</string>
+    <string name="toast_func_input_code2">请输入%s编码和%s编码</string>
+    <string name="toast_func_input_code1">请先输入%s编码</string>
     <string name="text_material">物料</string>
     <string name="text_button_clear">清空</string>
     <string name="text_button_cancel">取消</string>
     <string name="text_dialog_clear">注意，该操作将清空本地缓存数据。</string>
+    <string name="text_button_add">增加</string>
+    <string name="text_codenum">编号</string>
+    <string name="text_count">数量</string>
+    <string name="text_sum">总数:</string>
+    <string name="text_warehouse_position">库位</string>
+    <string name="text_button_submit">提交</string>
+    <string name="toast_list_empty">列表没有数据</string>
+    <string name="toast_list_diffenrcetag">输入的%s与列表数据不同，请先清空当前列表。</string>
 
 </resources>

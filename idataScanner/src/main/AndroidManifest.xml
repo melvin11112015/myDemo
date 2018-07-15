@@ -20,9 +20,8 @@
         </activity>
         <activity
             android:name=".activities.Func0Activity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity android:name=".activities.Func1Activity"></activity>
     </application>
 
 </manifest>
