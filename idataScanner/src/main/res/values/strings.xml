@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">仓库条码系统</string>
+    <string name="text_small">小</string>
+    <string name="text_big">大</string>
+    <string name="text_tag">标签</string>
+    <string name="text_pack">包装</string>
+    <string name="text_input_barcode">输入%s条码</string>
+    <string name="toast_func0_input_code">请输入%s编码和%s编码</string>
+    <string name="text_material">物料</string>
+    <string name="text_button_clear">清空</string>
+    <string name="text_button_cancel">取消</string>
+    <string name="text_dialog_clear">注意，该操作将清空本地缓存数据。</string>
+
 </resources>

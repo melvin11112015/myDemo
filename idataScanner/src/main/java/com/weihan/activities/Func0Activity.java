@@ -1,124 +1,121 @@
 package com.weihan.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.common.Utils.ViewHelper;
 import com.weihan.R;
+import com.weihan.adapters.MyFragmentPagerAdapter;
+import com.weihan.fragments.Func0Fragment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class Func0Activity extends BaseActivity implements View.OnClickListener {
+public class Func0Activity extends BaseActivity {
 
+    public static final String KEY_SHAREPREF_FUNC0_PACK = "KEY_SHAREPREF_FUNC0_PACK_";
+    public static final String KEY_SHAREPREF_FUNC0_LIST = "KEY_SHAREPREF_FUNC0_LIST_";
+    TabLayout tabLayout;
+    ViewPager viewPager;
+    MyFragmentPagerAdapter pagerAdapter;
+    private List<String> titleList = new ArrayList<>();// 标题集合
+    private List<Fragment> fragmentList = new ArrayList<>();// 碎片集合
 
-    List<Map<String, Object>> listData = new ArrayList<>();
-    EditText etPackCode;
-    EditText etMaterial;
-    TextView tvCount;
-    RecyclerView recyclerView;
-    Func0Adapter adapter;
+    private void findView() {
+        tabLayout = findViewById(R.id.tablayout_func0);
+        viewPager = findViewById(R.id.viewPager_func0);
+    }
+
+    private void initFragmentTab() {
+        titleList.clear();
+        titleList.add(String.format("%s%s", getString(R.string.text_small), getString(R.string.text_pack)));
+        titleList.add(String.format("%s%s", getString(R.string.text_big), getString(R.string.text_pack)));
+
+        fragmentList.clear();
+
+        for (int index = 0; index < titleList.size(); index++) {
+            tabLayout.addTab(tabLayout.newTab().setText(titleList.get(index)));
+            String tempPackCode = sharedPreferences.getString(KEY_SHAREPREF_FUNC0_PACK + index, "");
+            String listdataJson = sharedPreferences.getString(KEY_SHAREPREF_FUNC0_LIST + index, "");
+            String tag1;
+            switch (index) {
+                case 0:
+                    tag1 = getString(R.string.text_material);
+                    break;
+                case 1:
+                    tag1 = titleList.get(0);
+                    break;
+                default:
+                    tag1 = "";
+                    break;
+            }
+            fragmentList.add(Func0Fragment.newInstance(titleList.get(index), tag1, index, tempPackCode, listdataJson));
+        }
+
+        pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), titleList, fragmentList);
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+        viewPager.setCurrentItem(0);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_func0);
-
-        etPackCode = findViewById(R.id.et_tag_pack_s);
-        etMaterial = findViewById(R.id.et_tag_material);
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        tvCount = findViewById(R.id.tv_func0_count);
-        Button buttonAdd = findViewById(R.id.button_func0_add);
-        buttonAdd.setOnClickListener(this);
+        findView();
+        initFragmentTab();
 
-        recyclerView = findViewById(R.id.recycler_func0);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new Func0Adapter(listData);
-        recyclerView.setAdapter(adapter);
-        //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        //View headerView = LayoutInflater.from(this).inflate(R.layout.item_func0_header, null);
-        //adapter.addHeaderView(headerView);
-
-        etMaterial.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                    addData();
-                    return true;
-                }
-                return false;
-            }
-        });
 
     }
 
-    private void addData() {
-
-        String packCode = etPackCode.getText().toString().trim();
-        String mCode = etMaterial.getText().toString().trim();
-
-        if (packCode.isEmpty() || mCode.isEmpty()) {
-            Toast.makeText(this, "请输入物料编码和包装编码", Toast.LENGTH_LONG).show();
-            if (mCode.isEmpty()) postFoucus(etMaterial);
-            else if (packCode.isEmpty()) postFoucus(etPackCode);
-            return;
-        }
-
-        Map<String, Object> map;
-
-        map = new HashMap<>();
-        map.put("code", mCode);
-        if (mCode.length() > 3) map.put("num", mCode.subSequence(0, 3));
-        listData.add(map);
-
-        adapter.notifyDataSetChanged();
-        recyclerView.scrollToPosition(listData.size() - 1);
-
-        tvCount.setText(String.valueOf(listData.size()));
-        etMaterial.setText("");
-        postFoucus(etMaterial);
-
-    }
-
-    private void clearList() {
-        listData.clear();
-        adapter.notifyDataSetChanged();
-        tvCount.setText(String.valueOf(listData.size()));
-        etMaterial.setText("");
-        etPackCode.setText("");
-        postFoucus(etPackCode);
-    }
 
     @Override
-    public void onClick(View view) {
-        if (ViewHelper.isFastClick()) return;
-        switch (view.getId()) {
-            case R.id.button_func0_add:
-                addData();
-                break;
-            case R.id.button_func0_submit:
-                break;
-            default:
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        for (int index = 0; index < fragmentList.size(); index++) {
+            Func0Fragment fragment = (Func0Fragment) fragmentList.get(index);
+            editor.putString(KEY_SHAREPREF_FUNC0_PACK + index, fragment.getTag0Str());
+            editor.putString(KEY_SHAREPREF_FUNC0_LIST + index, fragment.getListdataJson());
         }
+        editor.apply();
     }
+
+
+    private void clearList() {
+        (new AlertDialog.Builder(this))
+                .setMessage(R.string.text_dialog_clear)
+                .setPositiveButton(R.string.text_button_clear, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        for (int index = 0; index < fragmentList.size(); index++) {
+                            editor.remove(KEY_SHAREPREF_FUNC0_PACK + index);
+                            editor.remove(KEY_SHAREPREF_FUNC0_LIST + index);
+                            ((Func0Fragment) fragmentList.get(index)).clearList(viewPager.getCurrentItem() == index);
+                        }
+                        editor.apply();
+
+
+                    }
+                })
+                .setNegativeButton(R.string.text_button_cancel, null)
+                .show();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -133,28 +130,6 @@ public class Func0Activity extends BaseActivity implements View.OnClickListener 
             clearList();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void postFoucus(final EditText editText) {
-        editText.postDelayed(new Runnable() {//给他个延迟时间
-            @Override
-            public void run() {
-                editText.requestFocus();
-            }
-        }, 200);
-    }
-
-    class Func0Adapter extends BaseQuickAdapter<Map<String, Object>, BaseViewHolder> {
-
-        public Func0Adapter(@Nullable List<Map<String, Object>> data) {
-            super(R.layout.item_func0_line, data);
-        }
-
-        @Override
-        protected void convert(BaseViewHolder helper, Map<String, Object> item) {
-            helper.setText(R.id.tv_item_func0_column0, (String) item.get("code"));
-            helper.setText(R.id.tv_item_func0_column1, (String) item.get("num"));
-        }
     }
 
 
