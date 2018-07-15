@@ -21,21 +21,20 @@ import com.weihan.adapters.FuncRecyclerAdapter;
 import com.weihan.interfaces.FragmentClearInterface;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.common.Utils.ViewHelper.postFoucus;
+import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_CHECKED;
 import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_CODE;
-import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_NUM;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Func0Fragment#newInstance} factory method to
+ * Use the {@link Func5Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Func0Fragment extends Fragment implements FragmentClearInterface {
+public class Func5Fragment extends Fragment implements FragmentClearInterface {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_TAG0_TYPE = "tag0_type";
@@ -53,18 +52,18 @@ public class Func0Fragment extends Fragment implements FragmentClearInterface {
     EditText etTag0, etTag1;
     TextView tvCount, tvTag0, tvTag1, tvCurrentTag0;
     RecyclerView recyclerView;
-    Button buttonAdd, buttonSubmit;
+    Button buttonCheck, buttonSubmit, buttonAcquire;
 
     FuncRecyclerAdapter adapter;
 
 
-    public Func0Fragment() {
+    public Func5Fragment() {
         // Required empty public constructor
     }
 
 
-    public static Func0Fragment newInstance(String tag0Type, String tag1Type, int typeCode, String currentTag0, String listdataJson) {
-        Func0Fragment fragment = new Func0Fragment();
+    public static Func5Fragment newInstance(String tag0Type, String tag1Type, int typeCode, String currentTag0, String listdataJson) {
+        Func5Fragment fragment = new Func5Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_TAG0_TYPE, tag0Type);
         args.putString(ARG_TAG1_TYPE, tag1Type);
@@ -91,16 +90,17 @@ public class Func0Fragment extends Fragment implements FragmentClearInterface {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_func0, container, false);
-        etTag0 = view.findViewById(R.id.et_func0_tag0);
-        etTag1 = view.findViewById(R.id.et_func0_tag1);
-        tvTag0 = view.findViewById(R.id.tv_func0_tag0);
-        tvTag1 = view.findViewById(R.id.tv_func0_tag1);
-        tvCount = view.findViewById(R.id.tv_func0_count);
-        tvCurrentTag0 = view.findViewById(R.id.tv_func0_currentTag0);
-        recyclerView = view.findViewById(R.id.recycler_func0);
-        buttonAdd = view.findViewById(R.id.button_func0_add);
-        buttonSubmit = view.findViewById(R.id.button_func0_submit);
+        View view = inflater.inflate(R.layout.fragment_func5, container, false);
+        etTag0 = view.findViewById(R.id.et_func5_tag0);
+        etTag1 = view.findViewById(R.id.et_func5_tag1);
+        tvTag0 = view.findViewById(R.id.tv_func5_tag0);
+        tvTag1 = view.findViewById(R.id.tv_func5_tag1);
+        tvCount = view.findViewById(R.id.tv_func5_count);
+        tvCurrentTag0 = view.findViewById(R.id.tv_func5_currentTag0);
+        recyclerView = view.findViewById(R.id.recycler_func5);
+        buttonCheck = view.findViewById(R.id.button_func5_check);
+        buttonSubmit = view.findViewById(R.id.button_func5_submit);
+        buttonAcquire = view.findViewById(R.id.button_func5_acquire);
 
 
         tvTag0.setText(String.format("%s%s", tag0Type, getString(R.string.text_tag)));
@@ -108,10 +108,10 @@ public class Func0Fragment extends Fragment implements FragmentClearInterface {
         etTag0.setHint(getString(R.string.text_input_barcode, tag0Type));
         etTag1.setHint(getString(R.string.text_input_barcode, tag1Type));
 
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+        buttonCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addData();
+                checkData();
             }
         });
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
@@ -120,19 +120,25 @@ public class Func0Fragment extends Fragment implements FragmentClearInterface {
                 submitData();
             }
         });
+        buttonAcquire.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                acquireData();
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new FuncRecyclerAdapter(listData);
         recyclerView.setAdapter(adapter);
         //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        //View headerView = LayoutInflater.from(this).inflate(R.layout.item_func0_header, null);
+        //View headerView = LayoutInflater.from(this).inflate(R.layout.item_func5_header, null);
         //adapter.addHeaderView(headerView);
 
         etTag1.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                    addData();
+                    checkData();
                     return true;
                 }
                 return false;
@@ -146,7 +152,28 @@ public class Func0Fragment extends Fragment implements FragmentClearInterface {
             postFoucus(etTag1);
         }
 
+        setList();
 
+        return view;
+    }
+
+    private void acquireData() {
+        String packCode = etTag0.getText().toString().trim();
+        if (packCode.isEmpty()) {
+            String toastStr = getString(R.string.toast_func_input_code1, tag0Type);
+            Toast.makeText(getContext(), toastStr, Toast.LENGTH_LONG).show();
+            postFoucus(etTag0);
+            return;
+        }
+        // TODO: 7/15/2018 获得数据
+        clearList(false);
+        tvCurrentTag0.setText(packCode);
+        listdataJson = "[{\"code\":\"1223\",\"num\":\"123\",\"checked\":true},{\"code\":\"12b23\",\"num\":\"1c23\",\"checked\":false}]";
+        setList();
+
+    }
+
+    private void setList() {
         if (!listdataJson.isEmpty()) {
             List<Map<String, Object>> tempListData = gson.fromJson(listdataJson, new TypeToken<List<Map<String, Object>>>() {
             }.getType());
@@ -154,10 +181,9 @@ public class Func0Fragment extends Fragment implements FragmentClearInterface {
             adapter.notifyDataSetChanged();
             tvCount.setText(String.valueOf(listData.size()));
         }
-        return view;
     }
 
-    private void addData() {
+    private void checkData() {
 
 
         String packCode = etTag0.getText().toString().trim();
@@ -177,24 +203,26 @@ public class Func0Fragment extends Fragment implements FragmentClearInterface {
             return;
         } else tvCurrentTag0.setText(packCode);
 
-        Map<String, Object> map;
+        boolean checkedFlag = false;
+        for (int index = 0; index < listData.size(); index++) {
+            Map<String, Object> map = listData.get(index);
+            if (map.get(KEY_MAP_CODE).equals(mCode)) {
+                map.put(KEY_MAP_CHECKED, true);
+                listData.set(index, map);
+                checkedFlag = true;
+                adapter.notifyDataSetChanged();
+                break;
+                //recyclerView.scrollToPosition(listData.size() - 1);
+                //tvCount.setText(String.valueOf(listData.size()));
+            }
+        }
 
-        map = new HashMap<>();
-        map.put(KEY_MAP_CODE, mCode);
+        if (!checkedFlag)
+            Toast.makeText(getContext(), getString(R.string.toast_no_record), Toast.LENGTH_LONG).show();
 
-        // TODO: 7/15/2018 数量编码方法
-        if (mCode.length() > 3) map.put(KEY_MAP_NUM, mCode.subSequence(0, 3));
-        listData.add(map);
-
-        adapter.notifyDataSetChanged();
-        recyclerView.scrollToPosition(listData.size() - 1);
-
-        tvCount.setText(String.valueOf(listData.size()));
         etTag1.setText("");
         postFoucus(etTag1);
-
     }
-
 
 
     public void clearList(boolean isToFocus) {

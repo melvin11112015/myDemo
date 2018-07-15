@@ -19,5 +19,8 @@
     <string name="text_button_submit">提交</string>
     <string name="toast_list_empty">列表没有数据</string>
     <string name="toast_list_diffenrcetag">输入的%s与列表数据不同，请先清空当前列表。</string>
+    <string name="text_ship_line">发货行</string>
+    <string name="text_cardboard">卡板</string>
+    <string name="toast_no_record">没有找到对应记录</string>
 
 </resources>

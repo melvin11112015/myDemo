@@ -20,8 +20,10 @@
         </activity>
         <activity
             android:name=".activities.Func0Activity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
-        <activity android:name=".activities.Func1Activity"></activity>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".activities.Func1Activity" />
+        <activity android:name=".activities.Func2Activity" />
+        <activity android:name=".activities.Func5Activity"></activity>
     </application>
 
 </manifest>

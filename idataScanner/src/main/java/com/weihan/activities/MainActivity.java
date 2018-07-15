@@ -42,18 +42,15 @@ public class MainActivity extends BaseActivity {
         map.put("code", 2);
         data.add(map);
 
+        /*
         map = new HashMap<>();
         map.put("imageId", R.drawable.icon_man);
         map.put(KEY_TITLE, "工厂-分拆");
         map.put("code", 3);
         data.add(map);
+        */
 
-        map = new HashMap<>();
-        map.put("imageId", R.drawable.icon_pack);
-        map.put(KEY_TITLE, "工厂-出库打包");
-        map.put("code", 4);
-        data.add(map);
-
+        
         map = new HashMap<>();
         map.put("imageId", R.drawable.icon_paper);
         map.put(KEY_TITLE, "海外-成品入库");
@@ -117,16 +114,11 @@ public class MainActivity extends BaseActivity {
                         intent.setClass(MainActivity.this, Func1Activity.class);
                         break;
                     case 2:
-                        intent.setClass(MainActivity.this, Func0Activity.class);
+                        intent.setClass(MainActivity.this, Func2Activity.class);
                         break;
-                    case 3:
-                        intent.setClass(MainActivity.this, Func0Activity.class);
-                        break;
-                    case 4:
-                        intent.setClass(MainActivity.this, Func0Activity.class);
-                        break;
+
                     case 5:
-                        intent.setClass(MainActivity.this, Func0Activity.class);
+                        intent.setClass(MainActivity.this, Func5Activity.class);
                         break;
                     case 6:
                         intent.setClass(MainActivity.this, Func0Activity.class);
