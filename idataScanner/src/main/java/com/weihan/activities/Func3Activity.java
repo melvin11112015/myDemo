@@ -4,12 +4,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.weihan.R;
-import com.weihan.fragments.Func5Fragment;
+import com.weihan.fragments.Func3Fragment;
 
-public class Func5Activity extends BaseFuncPagerActivity {
+public class Func3Activity extends BaseFuncPagerActivity {
 
-    public static final String KEY_SHAREPREF_FUNC5_PACK = "KEY_SHAREPREF_FUNC5_PACK_";
-    public static final String KEY_SHAREPREF_FUNC5_LIST = "KEY_SHAREPREF_FUNC5_LIST_";
+    public static final String KEY_SHAREPREF_FUNC3_PACK = "KEY_SHAREPREF_FUNC3_PACK_";
+    public static final String KEY_SHAREPREF_FUNC3_LIST = "KEY_SHAREPREF_FUNC3_LIST_";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +17,7 @@ public class Func5Activity extends BaseFuncPagerActivity {
         setContentView(R.layout.activity_func08);
 
         findView();
-        initSharedKeySet(KEY_SHAREPREF_FUNC5_PACK, KEY_SHAREPREF_FUNC5_PACK);
+        initSharedKeySet(KEY_SHAREPREF_FUNC3_PACK, KEY_SHAREPREF_FUNC3_PACK);
         initFragmentData();
         initViewPager();
 
@@ -28,14 +28,15 @@ public class Func5Activity extends BaseFuncPagerActivity {
         titleList.clear();
         titleList.add(getString(R.string.text_cardboard));
         titleList.add(String.format("%s%s", getString(R.string.text_big), getString(R.string.text_pack)));
+        titleList.add(String.format("%s%s", getString(R.string.text_small), getString(R.string.text_pack)));
 
 
         fragmentList.clear();
 
         for (int index = 0; index < titleList.size(); index++) {
             tabLayout.addTab(tabLayout.newTab().setText(titleList.get(index)));
-            String tempPackCode = sharedPreferences.getString(KEY_SHAREPREF_FUNC5_PACK + index, "");
-            String listdataJson = sharedPreferences.getString(KEY_SHAREPREF_FUNC5_LIST + index, "");
+            String tempPackCode = sharedPreferences.getString(KEY_SHAREPREF_FUNC3_PACK + index, "");
+            String listdataJson = sharedPreferences.getString(KEY_SHAREPREF_FUNC3_LIST + index, "");
             String tag1;
             switch (index) {
                 case 0:
@@ -44,11 +45,14 @@ public class Func5Activity extends BaseFuncPagerActivity {
                 case 1:
                     tag1 = String.format("%s%s", getString(R.string.text_small), getString(R.string.text_pack));
                     break;
+                case 2:
+                    tag1 = getString(R.string.text_material);
+                    break;
                 default:
                     tag1 = "";
                     break;
             }
-            fragmentList.add(Func5Fragment.newInstance(titleList.get(index), tag1, index, tempPackCode, listdataJson));
+            fragmentList.add(Func3Fragment.newInstance(titleList.get(index), tag1, index, tempPackCode, listdataJson));
         }
 
     }
@@ -60,9 +64,9 @@ public class Func5Activity extends BaseFuncPagerActivity {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         for (int index = 0; index < fragmentList.size(); index++) {
-            Func5Fragment fragment = (Func5Fragment) fragmentList.get(index);
-            editor.putString(KEY_SHAREPREF_FUNC5_PACK + index, fragment.getCurrentTag0Str());
-            editor.putString(KEY_SHAREPREF_FUNC5_LIST + index, fragment.getListdataJson());
+            Func3Fragment fragment = (Func3Fragment) fragmentList.get(index);
+            editor.putString(KEY_SHAREPREF_FUNC3_PACK + index, fragment.getCurrentTag0Str());
+            editor.putString(KEY_SHAREPREF_FUNC3_LIST + index, fragment.getListdataJson());
         }
         editor.apply();
     }

@@ -19,11 +19,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.Func0Activity"
+            android:name=".activities.Func08Activity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".activities.Func1Activity" />
-        <activity android:name=".activities.Func2Activity" />
-        <activity android:name=".activities.Func5Activity"></activity>
+        <activity android:name=".activities.Func16Activity" />
+        <activity android:name=".activities.Func27Activity" />
+        <activity android:name=".activities.Func5Activity" />
+        <activity android:name=".activities.Func12Activity" />
+        <activity android:name=".activities.Func11Activity" />
+        <activity android:name=".activities.Func3Activity" />
+        <activity android:name=".activities.Func9Activity"></activity>
     </application>
 
 </manifest>

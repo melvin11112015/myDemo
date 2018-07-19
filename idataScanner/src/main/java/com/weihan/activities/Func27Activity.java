@@ -11,13 +11,17 @@ import com.weihan.R;
 
 import static com.common.Utils.ViewHelper.postFoucus;
 
-public class Func2Activity extends BaseFuncActivity {
+public class Func27Activity extends BaseFuncActivity {
 
     public static final String KEY_SHAREPREF_FUNC2_WAREHOUSE = "KEY_SHAREPREF_FUNC2_WAREHOUSE";
     public static final String KEY_SHAREPREF_FUNC2_LIST = "KEY_SHAREPREF_FUNC2_LIST_";
 
+    public static final String KEY_SHAREPREF_FUNC7_WAREHOUSE = "KEY_SHAREPREF_FUNC7_WAREHOUSE";
+    public static final String KEY_SHAREPREF_FUNC7_LIST = "KEY_SHAREPREF_FUNC7_LIST_";
+
     Button buttonRecommand;
 
+    private int typeCode = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +30,14 @@ public class Func2Activity extends BaseFuncActivity {
 
         findView();
         initGeneralView();
-
-        initTag0(KEY_SHAREPREF_FUNC2_WAREHOUSE);
-        initListdata(KEY_SHAREPREF_FUNC2_LIST);
+        typeCode = getIntent().getIntExtra("code", -2);
+        if (typeCode == 2) {
+            initTag0(KEY_SHAREPREF_FUNC2_WAREHOUSE);
+            initListdata(KEY_SHAREPREF_FUNC2_LIST);
+        } else if (typeCode == 7) {
+            initTag0(KEY_SHAREPREF_FUNC7_WAREHOUSE);
+            initListdata(KEY_SHAREPREF_FUNC7_LIST);
+        }
     }
 
     @Override
@@ -77,8 +86,13 @@ public class Func2Activity extends BaseFuncActivity {
         super.onStop();
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(KEY_SHAREPREF_FUNC2_WAREHOUSE, getCurrentTag0Str());
-        editor.putString(KEY_SHAREPREF_FUNC2_LIST, getListdataJson());
+        if (typeCode == 2) {
+            editor.putString(KEY_SHAREPREF_FUNC2_WAREHOUSE, getCurrentTag0Str());
+            editor.putString(KEY_SHAREPREF_FUNC2_LIST, getListdataJson());
+        } else if (typeCode == 7) {
+            editor.putString(KEY_SHAREPREF_FUNC7_WAREHOUSE, getCurrentTag0Str());
+            editor.putString(KEY_SHAREPREF_FUNC7_LIST, getListdataJson());
+        } else return;
         editor.apply();
     }
 

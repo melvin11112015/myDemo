@@ -32,10 +32,10 @@ import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_NUM;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Func0Fragment#newInstance} factory method to
+ * Use the {@link Func08Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Func0Fragment extends Fragment implements FragmentClearInterface {
+public class Func08Fragment extends Fragment implements FragmentClearInterface {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_TAG0_TYPE = "tag0_type";
@@ -58,13 +58,13 @@ public class Func0Fragment extends Fragment implements FragmentClearInterface {
     FuncRecyclerAdapter adapter;
 
 
-    public Func0Fragment() {
+    public Func08Fragment() {
         // Required empty public constructor
     }
 
 
-    public static Func0Fragment newInstance(String tag0Type, String tag1Type, int typeCode, String currentTag0, String listdataJson) {
-        Func0Fragment fragment = new Func0Fragment();
+    public static Func08Fragment newInstance(String tag0Type, String tag1Type, int typeCode, String currentTag0, String listdataJson) {
+        Func08Fragment fragment = new Func08Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_TAG0_TYPE, tag0Type);
         args.putString(ARG_TAG1_TYPE, tag1Type);
@@ -91,7 +91,7 @@ public class Func0Fragment extends Fragment implements FragmentClearInterface {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_func0, container, false);
+        View view = inflater.inflate(R.layout.fragment_func08, container, false);
         etTag0 = view.findViewById(R.id.et_func0_tag0);
         etTag1 = view.findViewById(R.id.et_func0_tag1);
         tvTag0 = view.findViewById(R.id.tv_func0_tag0);
@@ -183,7 +183,7 @@ public class Func0Fragment extends Fragment implements FragmentClearInterface {
         map.put(KEY_MAP_CODE, mCode);
 
         // TODO: 7/15/2018 数量编码方法
-        if (mCode.length() > 3) map.put(KEY_MAP_NUM, mCode.subSequence(0, 3));
+        map.put(KEY_MAP_NUM, mCode.length() > 3 ? mCode.substring(0, 3) : "");
         listData.add(map);
 
         adapter.notifyDataSetChanged();
@@ -199,11 +199,11 @@ public class Func0Fragment extends Fragment implements FragmentClearInterface {
 
     public void clearList(boolean isToFocus) {
         listData.clear();
-        adapter.notifyDataSetChanged();
-        tvCount.setText(String.valueOf(listData.size()));
-        tvCurrentTag0.setText("");
-        etTag1.setText("");
-        etTag0.setText("");
+        if (adapter != null) adapter.notifyDataSetChanged();
+        if (tvCount != null) tvCount.setText(String.valueOf(listData.size()));
+        if (tvCurrentTag0 != null) tvCurrentTag0.setText("");
+        if (etTag1 != null) etTag1.setText("");
+        if (etTag0 != null) etTag0.setText("");
         if (isToFocus) postFoucus(etTag0);
     }
 
@@ -224,7 +224,16 @@ public class Func0Fragment extends Fragment implements FragmentClearInterface {
             Toast.makeText(getContext(), R.string.toast_list_empty, Toast.LENGTH_LONG).show();
             return;
         }
-        getListdataJson();
+        List<Map<String, String>> submitList = new ArrayList<>();
+        String tag0 = tvCurrentTag0.getText().toString();
+        for (Map<String, Object> map : listData) {
+            HashMap<String, String> tempMap = new HashMap<>();
+            tempMap.put("Little_Package", (String) map.get(KEY_MAP_CODE));
+            tempMap.put("Big_Package", tag0);
+            submitList.add(tempMap);
+        }
+        String submitJson = gson.toJson(submitList);
+        System.out.println(submitJson);
     }
 
 }

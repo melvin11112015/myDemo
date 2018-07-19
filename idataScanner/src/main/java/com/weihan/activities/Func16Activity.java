@@ -12,18 +12,24 @@ import com.weihan.R;
 import static com.common.Utils.ViewHelper.postFoucus;
 
 
-public class Func1Activity extends BaseFuncActivity {
+public class Func16Activity extends BaseFuncActivity {
 
     public static final String KEY_SHAREPREF_FUNC1_WAREHOUSE = "KEY_SHAREPREF_FUNC1_WAREHOUSE";
     public static final String KEY_SHAREPREF_FUNC1_LIST = "KEY_SHAREPREF_FUNC1_LIST_";
 
+    public static final String KEY_SHAREPREF_FUNC6_WAREHOUSE = "KEY_SHAREPREF_FUNC6_WAREHOUSE";
+    public static final String KEY_SHAREPREF_FUNC6_LIST = "KEY_SHAREPREF_FUNC6_LIST_";
+
     Button buttonRecommand;
 
+    private int typeCode = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_func1);
+        setContentView(R.layout.activity_func16);
+
+        typeCode = getIntent().getIntExtra("code", -2);
 
         findView();
         initGeneralView();
@@ -78,8 +84,13 @@ public class Func1Activity extends BaseFuncActivity {
         super.onStop();
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(KEY_SHAREPREF_FUNC1_WAREHOUSE, getCurrentTag0Str());
-        editor.putString(KEY_SHAREPREF_FUNC1_LIST, getListdataJson());
+        if (typeCode == 1) {
+            editor.putString(KEY_SHAREPREF_FUNC1_WAREHOUSE, getCurrentTag0Str());
+            editor.putString(KEY_SHAREPREF_FUNC1_LIST, getListdataJson());
+        } else if (typeCode == 6) {
+            editor.putString(KEY_SHAREPREF_FUNC6_WAREHOUSE, getCurrentTag0Str());
+            editor.putString(KEY_SHAREPREF_FUNC6_LIST, getListdataJson());
+        } else return;
         editor.apply();
     }
 

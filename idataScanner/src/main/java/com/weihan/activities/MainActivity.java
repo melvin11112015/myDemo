@@ -42,13 +42,12 @@ public class MainActivity extends BaseActivity {
         map.put("code", 2);
         data.add(map);
 
-        /*
+
         map = new HashMap<>();
         map.put("imageId", R.drawable.icon_man);
         map.put(KEY_TITLE, "工厂-分拆");
         map.put("code", 3);
         data.add(map);
-        */
 
         
         map = new HashMap<>();
@@ -77,15 +76,10 @@ public class MainActivity extends BaseActivity {
 
         map = new HashMap<>();
         map.put("imageId", R.drawable.icon_card);
-        map.put(KEY_TITLE, "海外-理货下架");
+        map.put(KEY_TITLE, "海外-理货");
         map.put("code", 9);
         data.add(map);
 
-        map = new HashMap<>();
-        map.put("imageId", R.drawable.icon_ok);
-        map.put(KEY_TITLE, "海外-理货上架");
-        map.put("code", 10);
-        data.add(map);
 
         map = new HashMap<>();
         map.put("imageId", R.drawable.icon_survey);
@@ -106,40 +100,41 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent();
-                switch ((int) data.get(i).get("code")) {
+                int code = (int) data.get(i).get("code");
+                intent.putExtra("code", code);
+                switch (code) {
                     case 0:
-                        intent.setClass(MainActivity.this, Func0Activity.class);
+                        intent.setClass(MainActivity.this, Func08Activity.class);
                         break;
                     case 1:
-                        intent.setClass(MainActivity.this, Func1Activity.class);
+                        intent.setClass(MainActivity.this, Func16Activity.class);
                         break;
                     case 2:
-                        intent.setClass(MainActivity.this, Func2Activity.class);
+                        intent.setClass(MainActivity.this, Func27Activity.class);
                         break;
-
+                    case 3:
+                        intent.setClass(MainActivity.this, Func3Activity.class);
+                        break;
                     case 5:
                         intent.setClass(MainActivity.this, Func5Activity.class);
                         break;
                     case 6:
-                        intent.setClass(MainActivity.this, Func0Activity.class);
+                        intent.setClass(MainActivity.this, Func16Activity.class);
                         break;
                     case 7:
-                        intent.setClass(MainActivity.this, Func0Activity.class);
+                        intent.setClass(MainActivity.this, Func27Activity.class);
                         break;
                     case 8:
-                        intent.setClass(MainActivity.this, Func0Activity.class);
+                        intent.setClass(MainActivity.this, Func08Activity.class);
                         break;
                     case 9:
-                        intent.setClass(MainActivity.this, Func0Activity.class);
-                        break;
-                    case 10:
-                        intent.setClass(MainActivity.this, Func0Activity.class);
+                        intent.setClass(MainActivity.this, Func9Activity.class);
                         break;
                     case 11:
-                        intent.setClass(MainActivity.this, Func0Activity.class);
+                        intent.setClass(MainActivity.this, Func11Activity.class);
                         break;
                     case 12:
-                        intent.setClass(MainActivity.this, Func0Activity.class);
+                        intent.setClass(MainActivity.this, Func12Activity.class);
                         break;
                     default:
                         intent = null;

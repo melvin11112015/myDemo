@@ -22,5 +22,11 @@
     <string name="text_ship_line">发货行</string>
     <string name="text_cardboard">卡板</string>
     <string name="toast_no_record">没有找到对应记录</string>
+    <string name="text_button_remove">减少</string>
+    <string name="toast_remove_success">移除记录成功</string>
+    <string name="toast_add_success">添加%s成功</string>
+    <string name="text_withdraw">下架</string>
+    <string name="text_puton">上架</string>
+    <string name="toast_puton_hint">请先选择需要上架的记录</string>
 
 </resources>

@@ -158,7 +158,10 @@ public abstract class BaseFuncActivity extends BaseActivity implements View.OnCl
         map = new HashMap<>();
         map.put(KEY_MAP_CODE, tag1);
         // TODO: 7/15/2018 数量编码方法
-        if (tag1.length() > 3) map.put(KEY_MAP_NUM, tag1.subSequence(0, 3));
+        if (tag1.length() > 3)
+            map.put(KEY_MAP_NUM, tag1.subSequence(0, 3));
+        else
+            map.put(KEY_MAP_NUM, "");
         listData.add(map);
 
         adapter.notifyDataSetChanged();
