@@ -16,8 +16,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.weihan.ApiUitls;
 import com.weihan.R;
 import com.weihan.adapters.FuncRecyclerAdapter;
+import com.weihan.bean.PackTag;
 import com.weihan.interfaces.FragmentClearInterface;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import java.util.Map;
 import static com.common.Utils.ViewHelper.postFoucus;
 import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_CODE;
 import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_NUM;
+import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_STATUS;
 
 
 /**
@@ -46,6 +49,7 @@ public class Func08Fragment extends Fragment implements FragmentClearInterface {
 
     String tag0Type, tag1Type, listdataJson, sharePrefPackCoe;
     int typeCode;
+    int failedCount = 0;
 
     List<Map<String, Object>> listData = new ArrayList<>();
     Gson gson = new Gson();
@@ -181,6 +185,7 @@ public class Func08Fragment extends Fragment implements FragmentClearInterface {
 
         map = new HashMap<>();
         map.put(KEY_MAP_CODE, mCode);
+        map.put(KEY_MAP_STATUS, getString(R.string.text_status_pending));
 
         // TODO: 7/15/2018 数量编码方法
         map.put(KEY_MAP_NUM, mCode.length() > 3 ? mCode.substring(0, 3) : "");
@@ -224,16 +229,35 @@ public class Func08Fragment extends Fragment implements FragmentClearInterface {
             Toast.makeText(getContext(), R.string.toast_list_empty, Toast.LENGTH_LONG).show();
             return;
         }
-        List<Map<String, String>> submitList = new ArrayList<>();
-        String tag0 = tvCurrentTag0.getText().toString();
-        for (Map<String, Object> map : listData) {
-            HashMap<String, String> tempMap = new HashMap<>();
-            tempMap.put("Little_Package", (String) map.get(KEY_MAP_CODE));
-            tempMap.put("Big_Package", tag0);
-            submitList.add(tempMap);
-        }
-        String submitJson = gson.toJson(submitList);
-        System.out.println(submitJson);
+
+        (new Thread() {
+            @Override
+            public void run() {
+                failedCount = 0;
+                for (Map<String, Object> map : listData) {
+                    String packtagJson = new PackTag((String) map.get(KEY_MAP_CODE), getCurrentTag0Str(), tag1Type, tag0Type).toString();
+                    System.out.println(packtagJson);
+                    try {
+                        //ApiUitls.getList();
+                        ApiUitls.addTag(packtagJson);
+                        map.put(KEY_MAP_STATUS, getString(R.string.text_status_success));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        failedCount++;
+                        map.put(KEY_MAP_STATUS, getString(R.string.text_status_failure));
+                    }
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(getContext(), String.format(getString(R.string.toast_submit_result), listData.size(), failedCount), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).start();
+
+
     }
 
 }

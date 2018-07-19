@@ -15,7 +15,6 @@
         android:layout_weight="1"
         android:background="@android:color/background_light"
         android:padding="5dp"
-        android:text="编码"
         android:textStyle="bold" />
 
     <TextView
@@ -26,7 +25,16 @@
         android:layout_weight="1"
         android:background="@android:color/background_light"
         android:padding="5dp"
-        android:text="数量"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_item_func0_column2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="1dp"
+        android:layout_weight="1"
+        android:background="@android:color/background_light"
+        android:padding="5dp"
         android:textStyle="bold" />
 
 </LinearLayout>

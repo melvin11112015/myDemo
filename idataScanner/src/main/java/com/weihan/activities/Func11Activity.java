@@ -18,16 +18,21 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.weihan.ApiUitls;
 import com.weihan.R;
 import com.weihan.adapters.FuncRecyclerAdapter;
+import com.weihan.bean.GeneralResult;
+import com.weihan.bean.MaterialValue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.common.Utils.ViewHelper.postFoucus;
 import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_CHECKED;
 import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_CODE;
+import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_NUM;
 
 public class Func11Activity extends BaseActivity {
 
@@ -138,8 +143,8 @@ public class Func11Activity extends BaseActivity {
     }
 
     private void acquireData() {
-        String packCode = etTag0.getText().toString().trim();
-        if (packCode.isEmpty()) {
+        final String warehouse = etTag0.getText().toString().trim();
+        if (warehouse.isEmpty()) {
             String toastStr = getString(R.string.toast_func_input_code1, getString(R.string.text_warehouse_position));
             Toast.makeText(this, toastStr, Toast.LENGTH_LONG).show();
             postFoucus(etTag0);
@@ -147,10 +152,44 @@ public class Func11Activity extends BaseActivity {
         }
         // TODO: 7/15/2018 获得数据
         listData.clear();
-        etTag0.setText(packCode);
-        tvCurrentTag0.setText(packCode);
-        listdataJson = "[{\"code\":\"1223\",\"num\":\"123\",\"checked\":true},{\"code\":\"12b23\",\"num\":\"1c23\",\"checked\":false}]";
-        setList();
+        etTag0.setText(warehouse);
+        tvCurrentTag0.setText(warehouse);
+        (new Thread() {
+            @Override
+            public void run() {
+                GeneralResult<MaterialValue> generalResult = null;
+                try {
+                    generalResult = ApiUitls.checkWarehouse(warehouse);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (generalResult != null) {
+                    for (MaterialValue value : generalResult.getValue()) {
+                        Map<String, Object> map;
+                        map = new HashMap<>();
+                        map.put(KEY_MAP_CODE, value.getItem_No());
+                        map.put(KEY_MAP_NUM, value.getQuantity_Base());
+                        listData.add(map);
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                            if (listData.isEmpty())
+                                Toast.makeText(Func11Activity.this, R.string.toast_no_record, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(Func11Activity.this, R.string.toast_check_fail, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
 
     }
 

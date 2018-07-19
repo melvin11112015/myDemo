@@ -10,6 +10,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public static final String KEY_TITLE = "title";
 
+    int failedCount = 0;
+
     protected SharedPreferences sharedPreferences;
 
     @Override

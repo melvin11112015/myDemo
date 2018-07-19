@@ -13,8 +13,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.common.Utils.ViewHelper;
+import com.weihan.ApiUitls;
 import com.weihan.R;
 import com.weihan.adapters.FuncRecyclerAdapter;
+import com.weihan.bean.GeneralResult;
+import com.weihan.bean.MaterialValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -104,8 +107,9 @@ public class Func12Activity extends BaseActivity implements View.OnClickListener
         etTag1.setText("");
     }
 
+
     private void check0() {
-        String check0tag = etTag0.getText().toString().trim();
+        final String check0tag = etTag0.getText().toString().trim();
         clearList();
 
         postFoucus(etTag0);
@@ -114,51 +118,94 @@ public class Func12Activity extends BaseActivity implements View.OnClickListener
             Toast.makeText(this, toastStr, Toast.LENGTH_LONG).show();
             return;
         }
-        // TODO: 7/18/2018 接口数据
-        Map<String, Object> map;
 
-        map = new HashMap<>();
-        map.put(KEY_MAP_CODE, "check1test");
-        map.put(KEY_MAP_NUM, "11");
-        listData.add(map);
 
-        map = new HashMap<>();
-        map.put(KEY_MAP_CODE, "check1test3");
-        map.put(KEY_MAP_NUM, "22222");
-        listData.add(map);
-
-        map = new HashMap<>();
-        map.put(KEY_MAP_CODE, "check1test3");
-        map.put(KEY_MAP_NUM, "2232");
-        listData.add(map);
-
-        adapter.notifyDataSetChanged();
+        (new Thread() {
+            @Override
+            public void run() {
+                GeneralResult<MaterialValue> generalResult = null;
+                try {
+                    generalResult = ApiUitls.checkMaterial(check0tag);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (generalResult != null) {
+                    for (MaterialValue value : generalResult.getValue()) {
+                        Map<String, Object> map;
+                        map = new HashMap<>();
+                        map.put(KEY_MAP_CODE, value.getBin_Code());
+                        map.put(KEY_MAP_NUM, value.getQuantity_Base());
+                        listData.add(map);
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                            if (listData.isEmpty())
+                                Toast.makeText(Func12Activity.this, R.string.toast_no_record, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(Func12Activity.this, R.string.toast_check_fail, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
     private void check1() {
-        String check1tag = etTag1.getText().toString().trim();
+        final String check1tag = etTag1.getText().toString().trim();
         clearList();
 
         postFoucus(etTag1);
         if (check1tag.isEmpty()) {
-            String toastStr = getString(R.string.toast_func_input_code1, getString(R.string.text_material));
+            String toastStr = getString(R.string.toast_func_input_code1, getString(R.string.text_warehouse_position));
             Toast.makeText(this, toastStr, Toast.LENGTH_LONG).show();
             return;
         }
-        // TODO: 7/18/2018 接口数据
-        Map<String, Object> map;
 
-        map = new HashMap<>();
-        map.put(KEY_MAP_CODE, "check0test");
-        map.put(KEY_MAP_NUM, "11");
-        listData.add(map);
 
-        map = new HashMap<>();
-        map.put(KEY_MAP_CODE, "check0test2");
-        map.put(KEY_MAP_NUM, "12");
-        listData.add(map);
-
-        adapter.notifyDataSetChanged();
+        (new Thread() {
+            @Override
+            public void run() {
+                GeneralResult<MaterialValue> generalResult = null;
+                try {
+                    generalResult = ApiUitls.checkWarehouse(check1tag);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (generalResult != null) {
+                    for (MaterialValue value : generalResult.getValue()) {
+                        Map<String, Object> map;
+                        map = new HashMap<>();
+                        map.put(KEY_MAP_CODE, value.getItem_No());
+                        map.put(KEY_MAP_NUM, value.getQuantity_Base());
+                        listData.add(map);
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                            if (listData.isEmpty())
+                                Toast.makeText(Func12Activity.this, R.string.toast_no_record, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(Func12Activity.this, R.string.toast_check_fail, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
     @Override

@@ -16,17 +16,22 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.weihan.ApiUitls;
 import com.weihan.R;
 import com.weihan.adapters.FuncRecyclerAdapter;
+import com.weihan.bean.GeneralResult;
+import com.weihan.bean.PackValue;
 import com.weihan.interfaces.FragmentClearInterface;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.common.Utils.ViewHelper.postFoucus;
 import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_CHECKED;
 import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_CODE;
+import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_NUM;
 
 
 /**
@@ -168,7 +173,7 @@ public class Func5Fragment extends Fragment implements FragmentClearInterface {
     }
 
     private void acquireData() {
-        String packCode = etTag0.getText().toString().trim();
+        final String packCode = etTag0.getText().toString().trim();
         if (packCode.isEmpty()) {
             String toastStr = getString(R.string.toast_func_input_code1, tag0Type);
             Toast.makeText(getContext(), toastStr, Toast.LENGTH_LONG).show();
@@ -179,8 +184,43 @@ public class Func5Fragment extends Fragment implements FragmentClearInterface {
         clearList(false);
         etTag0.setText(packCode);
         tvCurrentTag0.setText(packCode);
-        listdataJson = "[{\"code\":\"1223\",\"num\":\"123\",\"checked\":true},{\"code\":\"12b23\",\"num\":\"1c23\",\"checked\":false}]";
-        setList();
+
+        (new Thread() {
+            @Override
+            public void run() {
+                GeneralResult<PackValue> generalResult = null;
+                try {
+                    generalResult = ApiUitls.checkPack(packCode, tag0Type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (generalResult != null) {
+                    for (PackValue value : generalResult.getValue()) {
+                        Map<String, Object> map;
+                        map = new HashMap<>();
+                        map.put(KEY_MAP_CODE, value.getLittleBarcode());
+                        map.put(KEY_MAP_NUM, "NaN");
+                        listData.add(map);
+                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                            if (listData.isEmpty())
+                                Toast.makeText(getContext(), R.string.toast_no_record, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(getContext(), R.string.toast_check_fail, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
 
     }
 

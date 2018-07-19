@@ -20,7 +20,7 @@
     <string name="toast_list_empty">列表没有数据</string>
     <string name="toast_list_diffenrcetag">输入的%s与列表数据不同，请先清空当前列表。</string>
     <string name="text_ship_line">发货行</string>
-    <string name="text_cardboard">卡板</string>
+    <string name="text_cardboard">托盘</string>
     <string name="toast_no_record">没有找到对应记录</string>
     <string name="text_button_remove">减少</string>
     <string name="toast_remove_success">移除记录成功</string>
@@ -28,5 +28,11 @@
     <string name="text_withdraw">下架</string>
     <string name="text_puton">上架</string>
     <string name="toast_puton_hint">请先选择需要上架的记录</string>
+    <string name="text_status">状态</string>
+    <string name="toast_submit_result">提交完成，总共%d条记录，%d条记录提交失败</string>
+    <string name="toast_check_fail">查询失败</string>
+    <string name="text_status_success">提交成功</string>
+    <string name="text_status_failure">提交失败</string>
+    <string name="text_status_pending">未提交</string>
 
 </resources>

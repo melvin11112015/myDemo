@@ -7,9 +7,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.weihan.ApiUitls;
 import com.weihan.R;
+import com.weihan.bean.GeneralResult;
+import com.weihan.bean.MaterialValue;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.common.Utils.ViewHelper.postFoucus;
+import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_CODE;
+import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_NUM;
+import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_STATUS;
 
 
 public class Func16Activity extends BaseFuncActivity {
@@ -95,6 +105,31 @@ public class Func16Activity extends BaseFuncActivity {
     }
 
     @Override
+    protected void addToList() {
+        String tag1 = etTag1.getText().toString().trim();
+
+        Map<String, Object> map;
+
+        map = new HashMap<>();
+        map.put(KEY_MAP_CODE, tag1);
+        map.put(KEY_MAP_STATUS, getString(R.string.text_status_pending));
+        // TODO: 7/15/2018 数量编码方法
+        if (tag1.length() > 3)
+            map.put(KEY_MAP_NUM, tag1.subSequence(0, 3));
+        else
+            map.put(KEY_MAP_NUM, "");
+        listData.add(map);
+
+        adapter.notifyDataSetChanged();
+        recyclerView.scrollToPosition(listData.size() - 1);
+
+        tvCount.setText(String.valueOf(listData.size()));
+        etTag1.setText("");
+        postFoucus(etTag1);
+
+    }
+
+    @Override
     protected boolean beforeAdd() {
         String warehouse = etTag0.getText().toString().trim();
         String PackCode = etTag1.getText().toString().trim();
@@ -118,17 +153,50 @@ public class Func16Activity extends BaseFuncActivity {
 
 
     private void recommandWarehouse() {
-        String mCode = etTag2.getText().toString().trim();
+        final String mCode = etTag2.getText().toString().trim();
+
         if (mCode.isEmpty()) {
             String toastStr = getString(R.string.toast_func_input_code1, getString(R.string.text_material));
             Toast.makeText(this, toastStr, Toast.LENGTH_LONG).show();
             postFoucus(etTag2);
             return;
         }
-        // TODO: 7/15/2018  调用接口获得库位
-        String warehouse = "A01";
-        etTag0.setText(warehouse);
-        postFoucus(etTag1);
+
+        (new Thread() {
+            @Override
+            public void run() {
+                GeneralResult generalResult = null;
+                final List<MaterialValue> materialValueList;
+                try {
+                    generalResult = ApiUitls.checkMaterial(mCode);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (generalResult != null) {
+                    materialValueList = generalResult.getValue();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                            if (materialValueList.isEmpty())
+                                Toast.makeText(Func16Activity.this, R.string.toast_no_record, Toast.LENGTH_SHORT).show();
+                            else {
+                                etTag0.setText(materialValueList.get(0).getBin_Code());
+                                postFoucus(etTag1);
+                            }
+                        }
+                    });
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(Func16Activity.this, R.string.toast_check_fail, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
+
     }
 
 
