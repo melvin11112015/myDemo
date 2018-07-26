@@ -156,6 +156,17 @@
             android:text="@string/text_count"
             android:textColor="@android:color/background_light" />
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="@string/text_status"
+            android:textColor="@android:color/background_light" />
+
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

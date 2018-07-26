@@ -8,11 +8,25 @@ public class PackTag {
     private String LittleType;
     private String BigType;
 
+    private String ItemNo;
+
     public PackTag(String littleBarcode, String bigBarcode, String littleType, String bigType) {
         LittleBarcode = littleBarcode;
         BigBarcode = bigBarcode;
         LittleType = littleType;
         BigType = bigType;
+        if (littleBarcode.length() > 3)
+            ItemNo = littleBarcode.substring(0, littleBarcode.length() - 3);
+        else
+            ItemNo = littleBarcode;
+    }
+
+    public String getItemNo() {
+        return ItemNo;
+    }
+
+    public void setItemNo(String itemNo) {
+        ItemNo = itemNo;
     }
 
     @Override

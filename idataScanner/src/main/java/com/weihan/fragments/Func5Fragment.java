@@ -20,7 +20,8 @@ import com.weihan.ApiUitls;
 import com.weihan.R;
 import com.weihan.adapters.FuncRecyclerAdapter;
 import com.weihan.bean.GeneralResult;
-import com.weihan.bean.PackValue;
+import com.weihan.bean.PacakgeScanRec;
+import com.weihan.bean.PackTag;
 import com.weihan.interfaces.FragmentClearInterface;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ import static com.common.Utils.ViewHelper.postFoucus;
 import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_CHECKED;
 import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_CODE;
 import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_NUM;
+import static com.weihan.adapters.FuncRecyclerAdapter.KEY_MAP_STATUS;
 
 
 /**
@@ -60,6 +62,8 @@ public class Func5Fragment extends Fragment implements FragmentClearInterface {
     Button buttonCheck, buttonSubmit, buttonAcquire;
 
     FuncRecyclerAdapter adapter;
+
+    int failedCount = 0;
 
 
     public Func5Fragment() {
@@ -188,18 +192,19 @@ public class Func5Fragment extends Fragment implements FragmentClearInterface {
         (new Thread() {
             @Override
             public void run() {
-                GeneralResult<PackValue> generalResult = null;
+                GeneralResult<PacakgeScanRec> generalResult = null;
                 try {
-                    generalResult = ApiUitls.checkPack(packCode, tag0Type);
+                    generalResult = ApiUitls.checkPack(packCode, tag0Type, tag1Type);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 if (generalResult != null) {
-                    for (PackValue value : generalResult.getValue()) {
+                    for (PacakgeScanRec value : generalResult.getValue()) {
                         Map<String, Object> map;
                         map = new HashMap<>();
                         map.put(KEY_MAP_CODE, value.getLittleBarcode());
-                        map.put(KEY_MAP_NUM, "NaN");
+                        map.put(KEY_MAP_NUM, "1");
+                        map.put(KEY_MAP_STATUS, "未验证");
                         listData.add(map);
                     }
                     getActivity().runOnUiThread(new Runnable() {
@@ -241,8 +246,8 @@ public class Func5Fragment extends Fragment implements FragmentClearInterface {
         String packCode = etTag0.getText().toString().trim();
         String mCode = etTag1.getText().toString().trim();
 
+        String toastStr = getString(R.string.toast_func_input_code2, tag0Type, tag1Type);
         if (packCode.isEmpty() || mCode.isEmpty()) {
-            String toastStr = getString(R.string.toast_func_input_code2, tag0Type, tag1Type);
             Toast.makeText(getContext(), toastStr, Toast.LENGTH_LONG).show();
             if (mCode.isEmpty()) postFoucus(etTag1);
             else if (packCode.isEmpty()) postFoucus(etTag0);
@@ -255,22 +260,53 @@ public class Func5Fragment extends Fragment implements FragmentClearInterface {
             return;
         } else tvCurrentTag0.setText(packCode);
 
+        switch (tag0Type) {
+            case "托盘":
+                if (!packCode.contains("PBL") || !mCode.contains("BLB")) {
+                    Toast.makeText(getContext(), toastStr, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                break;
+            case "大包装":
+                if (!packCode.contains("BLB") || !mCode.contains("LLB")) {
+                    Toast.makeText(getContext(), toastStr, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                break;
+            case "小包装":
+                if (!packCode.contains("LLB")) {
+                    Toast.makeText(getContext(), toastStr, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                break;
+        }
+
         boolean checkedFlag = false;
         for (int index = 0; index < listData.size(); index++) {
             Map<String, Object> map = listData.get(index);
             if (map.get(KEY_MAP_CODE).equals(mCode)) {
                 map.put(KEY_MAP_CHECKED, true);
+                map.put(KEY_MAP_STATUS, "已验证");
                 listData.set(index, map);
                 checkedFlag = true;
-                adapter.notifyDataSetChanged();
                 break;
                 //recyclerView.scrollToPosition(listData.size() - 1);
                 //tvCount.setText(String.valueOf(listData.size()));
             }
         }
 
-        if (!checkedFlag)
-            Toast.makeText(getContext(), getString(R.string.toast_no_record), Toast.LENGTH_LONG).show();
+        //新增记录
+        if (!checkedFlag) {
+            Map<String, Object> map;
+            map = new HashMap<>();
+            map.put(KEY_MAP_CODE, mCode);
+            map.put(KEY_MAP_NUM, "1");
+            map.put(KEY_MAP_STATUS, "待增加");
+            listData.add(map);
+        }
+
+        adapter.notifyDataSetChanged();
+        //Toast.makeText(getContext(), getString(R.string.toast_no_record), Toast.LENGTH_LONG).show();
 
         etTag1.setText("");
         postFoucus(etTag1);
@@ -303,7 +339,38 @@ public class Func5Fragment extends Fragment implements FragmentClearInterface {
             Toast.makeText(getContext(), R.string.toast_list_empty, Toast.LENGTH_LONG).show();
             return;
         }
-        getListdataJson();
+
+        (new Thread() {
+            @Override
+            public void run() {
+                failedCount = 0;
+                for (Map<String, Object> map : listData) {
+                    if (!map.get(KEY_MAP_STATUS).equals("已验证") && !map.get(KEY_MAP_STATUS).equals("待增加"))
+                        continue;
+                    String code = (String) map.get(KEY_MAP_CODE);
+                    String packtagJson = new PackTag(code, getCurrentTag0Str(), tag1Type, tag0Type).toString();
+                    System.out.println(packtagJson);
+                    try {
+                        //ApiUitls.getList();
+                        ApiUitls.addTag2(packtagJson);
+                        map.put(KEY_MAP_STATUS, getString(R.string.text_status_success));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        failedCount++;
+                        map.put(KEY_MAP_STATUS, "已验证");
+                    }
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(getContext(), String.format(getString(R.string.toast_submit_result), listData.size(), failedCount), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).start();
+
+
     }
 
 }

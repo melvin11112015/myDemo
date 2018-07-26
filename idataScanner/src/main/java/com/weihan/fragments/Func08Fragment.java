@@ -167,8 +167,8 @@ public class Func08Fragment extends Fragment implements FragmentClearInterface {
         String packCode = etTag0.getText().toString().trim();
         String mCode = etTag1.getText().toString().trim();
 
+        String toastStr = getString(R.string.toast_func_input_code2, tag0Type, tag1Type);
         if (packCode.isEmpty() || mCode.isEmpty()) {
-            String toastStr = getString(R.string.toast_func_input_code2, tag0Type, tag1Type);
             Toast.makeText(getContext(), toastStr, Toast.LENGTH_LONG).show();
             if (mCode.isEmpty()) postFoucus(etTag1);
             else if (packCode.isEmpty()) postFoucus(etTag0);
@@ -181,6 +181,27 @@ public class Func08Fragment extends Fragment implements FragmentClearInterface {
             return;
         } else tvCurrentTag0.setText(packCode);
 
+        switch (tag0Type) {
+            case "托盘":
+                if (!packCode.contains("PBL") || !mCode.contains("BLB")) {
+                    Toast.makeText(getContext(), toastStr, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                break;
+            case "大包装":
+                if (!packCode.contains("BLB") || !mCode.contains("LLB")) {
+                    Toast.makeText(getContext(), toastStr, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                break;
+            case "小包装":
+                if (!packCode.contains("LLB")) {
+                    Toast.makeText(getContext(), toastStr, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                break;
+        }
+
         Map<String, Object> map;
 
         map = new HashMap<>();
@@ -188,7 +209,7 @@ public class Func08Fragment extends Fragment implements FragmentClearInterface {
         map.put(KEY_MAP_STATUS, getString(R.string.text_status_pending));
 
         // TODO: 7/15/2018 数量编码方法
-        map.put(KEY_MAP_NUM, mCode.length() > 3 ? mCode.substring(0, 3) : "");
+        map.put(KEY_MAP_NUM, "1");
         listData.add(map);
 
         adapter.notifyDataSetChanged();
@@ -199,7 +220,6 @@ public class Func08Fragment extends Fragment implements FragmentClearInterface {
         postFoucus(etTag1);
 
     }
-
 
 
     public void clearList(boolean isToFocus) {
@@ -235,7 +255,8 @@ public class Func08Fragment extends Fragment implements FragmentClearInterface {
             public void run() {
                 failedCount = 0;
                 for (Map<String, Object> map : listData) {
-                    String packtagJson = new PackTag((String) map.get(KEY_MAP_CODE), getCurrentTag0Str(), tag1Type, tag0Type).toString();
+                    String code = (String) map.get(KEY_MAP_CODE);
+                    String packtagJson = new PackTag(code, getCurrentTag0Str(), tag1Type, tag0Type).toString();
                     System.out.println(packtagJson);
                     try {
                         //ApiUitls.getList();

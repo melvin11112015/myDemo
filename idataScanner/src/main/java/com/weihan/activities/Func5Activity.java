@@ -28,6 +28,8 @@ public class Func5Activity extends BaseFuncPagerActivity {
         titleList.clear();
         titleList.add(getString(R.string.text_cardboard));
         titleList.add(String.format("%s%s", getString(R.string.text_big), getString(R.string.text_pack)));
+        titleList.add(String.format("%s%s", getString(R.string.text_small), getString(R.string.text_pack)));
+
 
 
         fragmentList.clear();
@@ -43,6 +45,9 @@ public class Func5Activity extends BaseFuncPagerActivity {
                     break;
                 case 1:
                     tag1 = String.format("%s%s", getString(R.string.text_small), getString(R.string.text_pack));
+                    break;
+                case 2:
+                    tag1 = getString(R.string.text_material);
                     break;
                 default:
                     tag1 = "";

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.weihan.bean.GeneralResult;
 import com.weihan.bean.MaterialValue;
-import com.weihan.bean.PackValue;
+import com.weihan.bean.PacakgeScanRec;
 
 import java.io.IOException;
 
@@ -21,6 +21,22 @@ public class ApiUitls {
         MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json;charset=utf-8");
         Request request = new Request.Builder()
                 .url("http://139.159.253.196:7132/FTK_Demo/OData/Company('FTK')/PacakgeScanRec?$format=json")
+                .header("Authorization", "Basic VGltOlF3ZXJ0ITIzNDU=")
+                .addHeader("Content-Type", "application/json")
+                .post(RequestBody.create(MEDIA_TYPE_JSON, packTagJson))
+                .build();
+
+        Response response = client.newCall(request).execute();//同步
+        if (!response.isSuccessful())
+            throw new IOException("Unexpected code " + response + "\n body" + response.body().string());
+        System.out.println(response.body().string());
+    }
+
+    public static void addTag2(String packTagJson) throws Exception {
+        OkHttpClient client = new OkHttpClient();
+        MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json;charset=utf-8");
+        Request request = new Request.Builder()
+                .url("http://139.159.253.196:7132/FTK_Demo/OData/Company('FTK')/PackageScanReceConfirm?$format=json")
                 .header("Authorization", "Basic VGltOlF3ZXJ0ITIzNDU=")
                 .addHeader("Content-Type", "application/json")
                 .post(RequestBody.create(MEDIA_TYPE_JSON, packTagJson))
@@ -70,12 +86,14 @@ public class ApiUitls {
         }.getType());
     }
 
-    public static GeneralResult<PackValue> checkPack(String packCode, String packType) throws Exception {
+    public static GeneralResult<PacakgeScanRec> checkPack(String packCode, String packType, String littleType) throws Exception {
         OkHttpClient client = new OkHttpClient();
         String url = "http://139.159.253.196:7132/FTK_Demo/OData/Company('FTK')/PacakgeScanRec?$format=json&$filter=BigBarcode eq '" +
                 packCode +
                 "'  and BigType eq '" +
-                packType + "'";
+                packType +
+                "' and LittleType eq '" +
+                littleType + "'";
         System.out.println(url);
         Request request = new Request.Builder()
                 .url(url)
@@ -88,7 +106,7 @@ public class ApiUitls {
         String responseJson = response.body().string();
         System.out.println(responseJson);
         Gson gson = new Gson();
-        return gson.fromJson(responseJson, new TypeToken<GeneralResult<PackValue>>() {
+        return gson.fromJson(responseJson, new TypeToken<GeneralResult<PacakgeScanRec>>() {
         }.getType());
     }
 }

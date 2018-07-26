@@ -5,7 +5,7 @@
     <string name="text_tag">标签</string>
     <string name="text_pack">包装</string>
     <string name="text_input_barcode">输入%s条码</string>
-    <string name="toast_func_input_code2">请输入%s编码和%s编码</string>
+    <string name="toast_func_input_code2">请输入正确的%s编码和%s编码</string>
     <string name="toast_func_input_code1">请先输入%s编码</string>
     <string name="text_material">物料</string>
     <string name="text_button_clear">清空</string>

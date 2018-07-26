@@ -1,6 +1,6 @@
 package com.weihan.bean;
 
-public class PackValue {
+public class PacakgeScanRec {
     private String LittleBarcode;
     private String BigBarcode;
     private String LittleType;
