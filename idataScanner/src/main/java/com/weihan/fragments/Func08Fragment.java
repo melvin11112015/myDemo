@@ -260,7 +260,10 @@ public class Func08Fragment extends Fragment implements FragmentClearInterface {
                     System.out.println(packtagJson);
                     try {
                         //ApiUitls.getList();
-                        ApiUitls.addTag(packtagJson);
+                        if (typeCode == 8)
+                            ApiUitls.addTag2(packtagJson);
+                        else
+                            ApiUitls.addTag(packtagJson);
                         map.put(KEY_MAP_STATUS, getString(R.string.text_status_success));
                     } catch (Exception e) {
                         e.printStackTrace();

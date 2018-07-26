@@ -70,7 +70,9 @@ public class ApiUitls {
 
     public static GeneralResult<MaterialValue> checkMaterial(String materialtag) throws Exception {
         OkHttpClient client = new OkHttpClient();
-        String url = "http://139.159.253.196:7132/FTK_Demo/OData/Company('FTK')/BinContent?$format=json&$filter=Item_No eq '" + materialtag + "'";
+        //取不包括后三位流水的号码
+        String realtag = materialtag.length() >= 12 ? materialtag.substring(0, materialtag.length() - 3) : materialtag;
+        String url = "http://139.159.253.196:7132/FTK_Demo/OData/Company('FTK')/BinContent?$format=json&$filter=Item_No eq '" + realtag + "'";
         System.out.println(url);
         Request request = new Request.Builder()
                 .url(url)
@@ -89,6 +91,7 @@ public class ApiUitls {
 
     public static GeneralResult<MaterialValue> checkWarehouse(String warehousetag) throws Exception {
         OkHttpClient client = new OkHttpClient();
+
         String url = "http://139.159.253.196:7132/FTK_Demo/OData/Company('FTK')/BinContent?$format=json&$filter=Bin_Code eq '" + warehousetag + "'";
         System.out.println(url);
         Request request = new Request.Builder()

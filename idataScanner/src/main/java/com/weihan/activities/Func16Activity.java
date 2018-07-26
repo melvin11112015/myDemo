@@ -114,10 +114,7 @@ public class Func16Activity extends BaseFuncActivity {
         map.put(KEY_MAP_CODE, tag1);
         map.put(KEY_MAP_STATUS, getString(R.string.text_status_pending));
         // TODO: 7/15/2018 数量编码方法
-        if (tag1.length() > 3)
-            map.put(KEY_MAP_NUM, tag1.subSequence(0, 3));
-        else
-            map.put(KEY_MAP_NUM, "");
+        map.put(KEY_MAP_NUM, "1");
         listData.add(map);
 
         adapter.notifyDataSetChanged();
