@@ -174,7 +174,7 @@ public class Func3Fragment extends Fragment implements FragmentClearInterface {
         if (!sharePrefPackCoe.isEmpty()) {
             etTag0.setText(sharePrefPackCoe);
             tvCurrentTag0.setText(sharePrefPackCoe);
-            postFoucus(etTag1);
+            //postFoucus(etTag1);
         }
 
         setList();
@@ -242,7 +242,7 @@ public class Func3Fragment extends Fragment implements FragmentClearInterface {
             listData.addAll(tempListData);
             adapter.notifyDataSetChanged();
             tvCount.setText(String.valueOf(listData.size()));
-            postFoucus(etTag1);
+            //postFoucus(etTag1);
         }
     }
 
@@ -327,6 +327,7 @@ public class Func3Fragment extends Fragment implements FragmentClearInterface {
                     Toast.makeText(getContext(), toastStr, Toast.LENGTH_LONG).show();
                     return;
                 }
+                break;
             case "小包装":
                 if (!packCode.contains("LLB")) {
                     Toast.makeText(getContext(), toastStr, Toast.LENGTH_LONG).show();
@@ -341,6 +342,7 @@ public class Func3Fragment extends Fragment implements FragmentClearInterface {
             if (map.get(KEY_MAP_CODE).equals(mCode)) {
                 map.put(KEY_MAP_STATUS, "待移除");
                 checkedFlag = true;
+                adapter.notifyDataSetChanged();
                 break;
                 //recyclerView.scrollToPosition(listData.size() - 1);
                 //tvCount.setText(String.valueOf(listData.size()));
@@ -431,10 +433,18 @@ public class Func3Fragment extends Fragment implements FragmentClearInterface {
             @Override
             public void run() {
                 for (Map<String, Object> map : listData) {
+                    String code = (String) map.get(KEY_MAP_CODE);
                     if (map.get(KEY_MAP_STATUS).equals("待移除")) {
+                        try {
+                            ApiUitls.delete(code, getCurrentTag0Str());
+                            map.put(KEY_MAP_STATUS, "移除成功");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            map.put(KEY_MAP_STATUS, getString(R.string.text_status_failure));
+                        }
 
                     } else if (map.get(KEY_MAP_STATUS).equals("待增加")) {
-                        String code = (String) map.get(KEY_MAP_CODE);
+
                         String packtagJson = new PackTag(code, getCurrentTag0Str(), tag1Type, tag0Type).toString();
                         System.out.println(packtagJson);
                         try {
@@ -445,8 +455,15 @@ public class Func3Fragment extends Fragment implements FragmentClearInterface {
                             e.printStackTrace();
                             map.put(KEY_MAP_STATUS, getString(R.string.text_status_failure));
                         }
+
                     }
                 }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
         }).start();
 

@@ -16,6 +16,26 @@ import okhttp3.Response;
 
 public class ApiUitls {
 
+    public static void delete(String littleid, String bigid) throws Exception {
+        OkHttpClient client = new OkHttpClient();
+        String url = "http://139.159.253.196:7132/FTK_Demo/OData/Company('FTK')/PacakgeScanRec(LittleBarcode='" +
+                littleid +
+                "',BigBarcode='" +
+                bigid +
+                "')";
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Authorization", "Basic VGltOlF3ZXJ0ITIzNDU=")
+                .addHeader("If-Match", "*")
+                .delete()
+                .build();
+
+        Response response = client.newCall(request).execute();//同步
+        if (!response.isSuccessful())
+            throw new IOException("Unexpected code " + response + "\n body" + response.body().string());
+        System.out.println(response.body().string());
+    }
+
     public static void addTag(String packTagJson) throws Exception {
         OkHttpClient client = new OkHttpClient();
         MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json;charset=utf-8");
