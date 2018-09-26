@@ -15,6 +15,7 @@ import static com.weihan.ligong.Constant.DEFAULT_TEMP_AREA;
 public class LiGongApp extends Application {
 
     public static UserInfo userInfo = new UserInfo();
+    public static BarcodeSettings barcodeSettings = BarcodeSettings.getInstance();
 
     @Override
     public void onCreate() {

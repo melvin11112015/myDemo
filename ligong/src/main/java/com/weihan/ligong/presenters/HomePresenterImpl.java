@@ -11,11 +11,14 @@ public class HomePresenterImpl extends BasePresenter<HomeMvpView> implements Hom
 
     private HomeIconModelImpl model = new HomeIconModelImpl();
 
+    private String title;
+
     public void getData() {
         model.generateDataList(this);
     }
 
-    public void processClickEvent(int position) {
+    public void processClickEvent(int position, String title) {
+        this.title = title;
         model.findClass(this, position);
     }
 
@@ -26,7 +29,7 @@ public class HomePresenterImpl extends BasePresenter<HomeMvpView> implements Hom
 
     @Override
     public void onClassFound(Class<?> clazz) {
-        getView().toCorrespondingActivity(clazz);
+        getView().toCorrespondingActivity(clazz, title);
     }
 
 

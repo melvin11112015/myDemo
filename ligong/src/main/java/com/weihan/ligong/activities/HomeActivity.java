@@ -39,15 +39,16 @@ public class HomeActivity extends BaseActivity<HomePresenterImpl> implements Hom
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                presenter.processClickEvent(position);
+                presenter.processClickEvent(position, (String) data.get(position).get(KEY_TITLE));
             }
         });
     }
 
     @Override
-    public void toCorrespondingActivity(Class<?> clazz) {
+    public void toCorrespondingActivity(Class<?> clazz, String title) {
         if (clazz == null) return;
         Intent intent = new Intent(HomeActivity.this, clazz);
+        intent.putExtra(KEY_TITLE, title);
         startActivity(intent);
     }
 

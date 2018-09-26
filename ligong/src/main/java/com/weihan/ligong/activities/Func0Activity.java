@@ -1,17 +1,13 @@
 package com.weihan.ligong.activities;
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +18,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.common.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.weihan.ligong.BaseMVP.BaseActivity;
+import com.weihan.ligong.BaseMVP.BaseFuncActivity;
 import com.weihan.ligong.Constant;
 import com.weihan.ligong.R;
 import com.weihan.ligong.entities.OutstandingPurchLineInfo;
@@ -38,17 +34,15 @@ import java.util.List;
 
 import static com.weihan.ligong.Constant.KEY_SPREF_FUNC0_DATA;
 
-public class Func0Activity extends BaseActivity<Func0PresenterImpl> implements Func0MvpView, View.OnClickListener {
+public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implements Func0MvpView, View.OnClickListener {
 
     RecyclerView recyclerView;
     EditText etCheck;
     Button btCheck, btSubmit;
     TextView tvCode;
-    PurchaseListAdapter adapter;
 
+    private PurchaseListAdapter adapter;
     private List<Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo>> datas = new ArrayList<>();
-
-    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +53,6 @@ public class Func0Activity extends BaseActivity<Func0PresenterImpl> implements F
         initWidget();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        savePref(false);
-    }
 
     @Override
     protected Func0PresenterImpl buildPresenter() {
@@ -91,20 +80,7 @@ public class Func0Activity extends BaseActivity<Func0PresenterImpl> implements F
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.tv_item_func0_delete) {
-                    final int deleteIndex = position;
-                    new AlertDialog
-                            .Builder(Func0Activity.this)
-                            .setMessage("确认删除？")
-                            .setPositiveButton(R.string.text_delete, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Func0Activity.this.adapter.getData().remove(deleteIndex);
-                                    Func0Activity.this.adapter.notifyItemRemoved(deleteIndex);
-                                }
-                            }).setNegativeButton(R.string.text_cancel, null)
-                            .setCancelable(true)
-                            .create()
-                            .show();
+                    buildDeleteDialog(adapter, position);
                 }
             }
         });
@@ -113,6 +89,7 @@ public class Func0Activity extends BaseActivity<Func0PresenterImpl> implements F
         loadPref();
     }
 
+
     @Override
     public void fillRecycler(List<Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo>> datas) {
         if (!datas.isEmpty()) tvCode.setText(datas.get(0).getInfoEntity().getDocument_No());
@@ -120,13 +97,6 @@ public class Func0Activity extends BaseActivity<Func0PresenterImpl> implements F
         this.datas.addAll(datas);
         adapter.notifyDataSetChanged();
     }
-
-
-    @Override
-    public void toast(String msg) {
-        ToastUtils.showToastLong(msg);
-    }
-
 
     @Override
     public void onClick(View view) {
@@ -139,26 +109,12 @@ public class Func0Activity extends BaseActivity<Func0PresenterImpl> implements F
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_func, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_clear) {
-            presenter.doClearing();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void clearDatas() {
+    protected void clearDatas() {
         savePref(true);
         tvCode.setText("");
         datas.clear();
@@ -166,20 +122,19 @@ public class Func0Activity extends BaseActivity<Func0PresenterImpl> implements F
     }
 
     @Override
-    public void loadPref() {
+    protected void loadPref() {
         sharedPreferences = getSharedPreferences(Constant.SHAREDPREF_NAME, MODE_PRIVATE);
         String prefJson = sharedPreferences.getString(KEY_SPREF_FUNC0_DATA, "");
         if (!prefJson.isEmpty()) {
             List<Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo>> tmpList = new Gson()
                     .fromJson(prefJson, new TypeToken<List<Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo>>>() {
-                    }
-                            .getType());
+                    }.getType());
             fillRecycler(tmpList);
         }
     }
 
     @Override
-    public void savePref(boolean isToClear) {
+    protected void savePref(boolean isToClear) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         String prefJson;
 
@@ -207,7 +162,6 @@ public class Func0Activity extends BaseActivity<Func0PresenterImpl> implements F
 
         public PurchaseListAdapter(@Nullable List<Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo>> datas) {
             super(R.layout.item_func0, datas);
-            //for(Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo> poly:datas) watcherList.add(new MyTextWatcher(poly));
         }
 
         @Override
@@ -216,9 +170,8 @@ public class Func0Activity extends BaseActivity<Func0PresenterImpl> implements F
             helper.setText(R.id.tv_item_func0_name, item.getInfoEntity().getDescription());
             helper.setText(R.id.tv_item_func0_count0, item.getInfoEntity().getOutstanding_Quantity());
             helper.setText(R.id.et_item_func0_count1, item.getAddonEntity().getQuantity());
-
             EditText et = helper.getView(R.id.et_item_func0_count1);
-            //et.setInputType(InputType.TYPE_NULL);
+
             et.setFilters(filters);
 
             final Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo> polymorphItem = item;
@@ -238,9 +191,6 @@ public class Func0Activity extends BaseActivity<Func0PresenterImpl> implements F
                     }
                 }
             };
-
-
-            //et.addTextChangedListener(watcherList.get(helper.getAdapterPosition()));
             et.setOnFocusChangeListener(focusChangeListener);
 
             helper.addOnClickListener(R.id.tv_item_func0_delete);

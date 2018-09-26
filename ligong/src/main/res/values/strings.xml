@@ -29,4 +29,7 @@
     <string name="text_committed">已提交</string>
     <string name="toast_reach_upper_limit">数量超出限制</string>
     <string name="text_clear">清空</string>
+    <string name="text_delete_confirmation">确认删除？</string>
+    <string name="text_check">查询</string>
+    <string name="text_quantity">数量</string>
 </resources>

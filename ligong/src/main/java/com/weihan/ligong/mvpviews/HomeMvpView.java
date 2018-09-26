@@ -8,5 +8,5 @@ import java.util.Map;
 public interface HomeMvpView extends IBaseView {
     void initGridAdapter(final List<Map<String, Object>> data);
 
-    void toCorrespondingActivity(Class<?> clazz);
+    void toCorrespondingActivity(Class<?> clazz, String title);
 }

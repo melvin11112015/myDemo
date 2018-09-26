@@ -3,8 +3,11 @@ package com.weihan.ligong.BaseMVP;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+
+import static com.weihan.ligong.Constant.KEY_TITLE;
 
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity {
 
@@ -17,7 +20,12 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
         presenter = buildPresenter();
         if (this instanceof IBaseView) presenter.attachView((IBaseView) this);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            String title = getIntent().getStringExtra(KEY_TITLE);
+            if (title != null) actionBar.setTitle(title);
+        }
 
     }
 

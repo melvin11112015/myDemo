@@ -2,10 +2,12 @@ package com.weihan.ligong.net;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.weihan.ligong.entities.BinContentInfo;
 import com.weihan.ligong.entities.GenericResult;
 import com.weihan.ligong.entities.OutstandingPurchLineInfo;
 import com.weihan.ligong.entities.UserLogin;
 import com.weihan.ligong.entities.WarehouseReceiptAddon;
+import com.weihan.ligong.entities.WarehouseTransferSingleAddon;
 
 import java.io.IOException;
 import java.util.Map;
@@ -92,10 +94,10 @@ public class ApiTool {
     }
 
 
-    public static void callPurchaseLine(String linecode, Callback<GenericResult<OutstandingPurchLineInfo>> callback) {
+    public static void callPurchaseLine(String filter, Callback<GenericResult<OutstandingPurchLineInfo>> callback) {
         getRetrofit()
                 .create(ApiService.class)
-                .getPurchaseLineList(linecode)
+                .getPurchaseLineList(filter)
                 .enqueue(callback);
     }
 
@@ -106,4 +108,18 @@ public class ApiTool {
                 .enqueue(callback);
     }
 
+
+    public static void callBinContent(String filter, Callback<GenericResult<BinContentInfo>> callback) {
+        getRetrofit()
+                .create(ApiService.class)
+                .getBinContentList(filter)
+                .enqueue(callback);
+    }
+
+    public static void addWarehouseTransferSingle(WarehouseTransferSingleAddon addon, Callback<Map<String, Object>> callback) {
+        getRetrofit()
+                .create(ApiService.class)
+                .addWarehouseTransferSingle(addon)
+                .enqueue(callback);
+    }
 }
