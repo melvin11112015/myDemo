@@ -28,7 +28,8 @@
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.Func0Activity" />
-        <activity android:name=".activities.Func8Activity"></activity>
+        <activity android:name=".activities.Func8Activity" />
+        <activity android:name=".activities.Func11Activity"></activity>
     </application>
 
 </manifest>
