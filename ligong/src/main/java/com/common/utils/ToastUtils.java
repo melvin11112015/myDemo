@@ -348,7 +348,7 @@ public class ToastUtils {
      */
     public static void show(String msg) {
         if (mToast == null) {
-            mToast = Toast.makeText(mContext, msg, Toast.LENGTH_LONG);
+            mToast = Toast.makeText(mContext, msg, Toast.LENGTH_SHORT);
         } else {
             mToast.setText(msg);
         }

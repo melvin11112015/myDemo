@@ -7,6 +7,7 @@ import com.weihan.ligong.entities.GenericResult;
 import com.weihan.ligong.entities.OutstandingPurchLineInfo;
 import com.weihan.ligong.entities.UserLogin;
 import com.weihan.ligong.entities.WarehouseReceiptAddon;
+import com.weihan.ligong.entities.WarehouseTransferMultiFromAddon;
 import com.weihan.ligong.entities.WarehouseTransferSingleAddon;
 
 import java.io.IOException;
@@ -120,6 +121,13 @@ public class ApiTool {
         getRetrofit()
                 .create(ApiService.class)
                 .addWarehouseTransferSingle(addon)
+                .enqueue(callback);
+    }
+
+    public static void addWhseTransferMultiFromBuffer(WarehouseTransferMultiFromAddon addon, Callback<Map<String, Object>> callback) {
+        getRetrofit()
+                .create(ApiService.class)
+                .addWhseTransferMultiFromBuffer(addon)
                 .enqueue(callback);
     }
 }

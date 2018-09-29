@@ -4,19 +4,19 @@ import com.weihan.ligong.BaseMVP.IBaseModel;
 import com.weihan.ligong.LiGongApp;
 import com.weihan.ligong.entities.BinContentInfo;
 import com.weihan.ligong.entities.Polymorph;
-import com.weihan.ligong.entities.WarehouseTransferSingleAddon;
+import com.weihan.ligong.entities.WarehouseTransferMultiFromAddon;
 import com.weihan.ligong.utils.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Func8ModelImpl implements IBaseModel {
+public class Func12ModelImpl implements IBaseModel {
 
-    private Func8ModelImpl() {
+    private Func12ModelImpl() {
     }
 
-    public static List<Polymorph<WarehouseTransferSingleAddon, BinContentInfo>> createPolymorphList(List<BinContentInfo> datas) {
-        List<Polymorph<WarehouseTransferSingleAddon, BinContentInfo>> polymorphs = new ArrayList<>();
+    public static List<Polymorph<WarehouseTransferMultiFromAddon, BinContentInfo>> createPolymorphList(List<BinContentInfo> datas) {
+        List<Polymorph<WarehouseTransferMultiFromAddon, BinContentInfo>> polymorphs = new ArrayList<>();
         for (BinContentInfo info : datas) {
 
             String quantity = info.getQuantity_Base();
@@ -25,10 +25,10 @@ public class Func8ModelImpl implements IBaseModel {
             ;
             if (Integer.valueOf(quantity) == 0) continue;
 
-            WarehouseTransferSingleAddon addon = new WarehouseTransferSingleAddon();
+            WarehouseTransferMultiFromAddon addon = new WarehouseTransferMultiFromAddon();
             addon.setItemNo(info.getItem_No());
             addon.setTerminalID(LiGongApp.userInfo.getUserid());
-            addon.setQuantity("");
+            addon.setQuantity(quantity);
             addon.setToBinCode("");
             addon.setToLocationCode("");
             addon.setFromBinCode(info.getBin_Code());

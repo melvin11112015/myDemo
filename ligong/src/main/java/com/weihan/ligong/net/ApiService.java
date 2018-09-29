@@ -4,6 +4,7 @@ import com.weihan.ligong.entities.BinContentInfo;
 import com.weihan.ligong.entities.GenericResult;
 import com.weihan.ligong.entities.OutstandingPurchLineInfo;
 import com.weihan.ligong.entities.WarehouseReceiptAddon;
+import com.weihan.ligong.entities.WarehouseTransferMultiFromAddon;
 import com.weihan.ligong.entities.WarehouseTransferSingleAddon;
 
 import java.util.Map;
@@ -29,6 +30,9 @@ public interface ApiService {
 
     @POST("WarehouseTransferSingleBuffer" + PARAM_JSON)
     Call<Map<String, Object>> addWarehouseTransferSingle(@Body WarehouseTransferSingleAddon addon);
+
+    @POST("WhseTransferMultiFromBuffer" + PARAM_JSON)
+    Call<Map<String, Object>> addWhseTransferMultiFromBuffer(@Body WarehouseTransferMultiFromAddon addon);
 
     @GET("BinContent" + PARAM_JSON)
     Call<GenericResult<BinContentInfo>> getBinContentList(@Query("$filter") String filter);

@@ -29,7 +29,9 @@
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.Func0Activity" />
         <activity android:name=".activities.Func8Activity" />
-        <activity android:name=".activities.Func11Activity"></activity>
+        <activity android:name=".activities.Func11Activity" />
+        <activity android:name=".activities.Func9Activity" />
+        <activity android:name=".activities.Func12Activity"></activity>
     </application>
 
 </manifest>

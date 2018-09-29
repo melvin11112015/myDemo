@@ -13,4 +13,5 @@ public class Constant {
     public static final String KEY_SPREF_PASSWORD = "password";
     public static final String KEY_SPREF_FUNC0_DATA = "func0data";
     public static final String KEY_SPREF_FUNC8_DATA = "func8data";
+    public static final String KEY_SPREF_FUNC12_DATA = "func12data";
 }

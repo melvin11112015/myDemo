@@ -4,6 +4,7 @@ import com.weihan.ligong.BaseMVP.IBaseModel;
 import com.weihan.ligong.R;
 import com.weihan.ligong.activities.Func0Activity;
 import com.weihan.ligong.activities.Func11Activity;
+import com.weihan.ligong.activities.Func12Activity;
 import com.weihan.ligong.activities.Func8Activity;
 import com.weihan.ligong.activities.SettingsActivity;
 
@@ -102,13 +103,13 @@ public class HomeIconModelImpl implements IBaseModel {
 
         map = new HashMap<>();
         map.put(KEY_IMAGE_ID, R.drawable.icon_tick);
-        map.put(KEY_TITLE, "批量上架");
+        map.put(KEY_TITLE, "批量下架");
         map.put(KEY_CODE, 12);
         data.add(map);
 
         map = new HashMap<>();
         map.put(KEY_IMAGE_ID, R.drawable.icon_tick);
-        map.put(KEY_TITLE, "批量下架");
+        map.put(KEY_TITLE, "批量上架");
         map.put(KEY_CODE, 13);
         data.add(map);
 
@@ -131,6 +132,9 @@ public class HomeIconModelImpl implements IBaseModel {
                 break;
             case 11:
                 callback.onClassFound(Func11Activity.class);
+                break;
+            case 12:
+                callback.onClassFound(Func12Activity.class);
                 break;
             case 14:
                 callback.onClassFound(SettingsActivity.class);
