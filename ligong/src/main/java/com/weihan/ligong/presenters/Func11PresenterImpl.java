@@ -1,7 +1,10 @@
 package com.weihan.ligong.presenters;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.common.utils.ToastUtils;
 import com.weihan.ligong.BaseMVP.BasePresenter;
+import com.weihan.ligong.R;
 import com.weihan.ligong.entities.BinContentInfo;
 import com.weihan.ligong.mvpviews.Func11MvpView;
 import com.weihan.ligong.net.ApiTool;
@@ -47,6 +50,22 @@ public class Func11PresenterImpl extends BasePresenter<Func11MvpView> {
         String filter = "Bin_Code eq '" + binCode + "'";
 
         ApiTool.callBinContent(filter, callback1);
+    }
+
+    public static class BinContentListAdapter extends BaseQuickAdapter<BinContentInfo, BaseViewHolder> {
+
+        public BinContentListAdapter(List<BinContentInfo> datas) {
+            super(R.layout.item_func11, datas);
+        }
+
+        @Override
+        protected void convert(final BaseViewHolder helper, BinContentInfo item) {
+            helper.setText(R.id.tv_item_func11_mcn, item.getItem_No());
+            helper.setText(R.id.tv_item_func11_binname, item.getLocation_Code());
+            helper.setText(R.id.tv_item_func11_bincode, item.getBin_Code());
+            helper.setText(R.id.tv_item_func11_quantity, item.getQuantity_Base());
+            helper.setText(R.id.tv_item_func11_name, item.getItem_No());
+        }
     }
 
 

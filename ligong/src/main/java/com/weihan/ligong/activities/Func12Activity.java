@@ -20,7 +20,7 @@ import com.weihan.ligong.Constant;
 import com.weihan.ligong.R;
 import com.weihan.ligong.entities.BinContentInfo;
 import com.weihan.ligong.entities.Polymorph;
-import com.weihan.ligong.entities.WarehouseTransferMultiFromAddon;
+import com.weihan.ligong.entities.WarehouseTransferMultiAddon;
 import com.weihan.ligong.mvpviews.Func12MvpView;
 import com.weihan.ligong.presenters.Func12PresenterImpl;
 import com.weihan.ligong.utils.AdapterHelper;
@@ -39,7 +39,7 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
     RecyclerView recyclerView;
 
     private BinContentListAdapter adapter;
-    private List<Polymorph<WarehouseTransferMultiFromAddon, BinContentInfo>> datas = new ArrayList<>();
+    private List<Polymorph<WarehouseTransferMultiAddon, BinContentInfo>> datas = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +115,8 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
         sharedPreferences = getSharedPreferences(Constant.SHAREDPREF_NAME, MODE_PRIVATE);
         String prefJson = sharedPreferences.getString(KEY_SPREF_FUNC12_DATA, "");
         if (!prefJson.isEmpty()) {
-            List<Polymorph<WarehouseTransferMultiFromAddon, BinContentInfo>> tmpList = new Gson()
-                    .fromJson(prefJson, new TypeToken<List<Polymorph<WarehouseTransferMultiFromAddon, BinContentInfo>>>() {
+            List<Polymorph<WarehouseTransferMultiAddon, BinContentInfo>> tmpList = new Gson()
+                    .fromJson(prefJson, new TypeToken<List<Polymorph<WarehouseTransferMultiAddon, BinContentInfo>>>() {
                     }.getType());
             fillRecycler(tmpList);
         }
@@ -132,7 +132,7 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
     }
 
     @Override
-    public void fillRecycler(List<Polymorph<WarehouseTransferMultiFromAddon, BinContentInfo>> datas) {
+    public void fillRecycler(List<Polymorph<WarehouseTransferMultiAddon, BinContentInfo>> datas) {
         this.datas.clear();
         this.datas.addAll(datas);
         adapter.notifyDataSetChanged();
@@ -143,14 +143,14 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
         adapter.notifyDataSetChanged();
     }
 
-    private static class BinContentListAdapter extends BaseQuickAdapter<Polymorph<WarehouseTransferMultiFromAddon, BinContentInfo>, BaseViewHolder> {
+    private static class BinContentListAdapter extends BaseQuickAdapter<Polymorph<WarehouseTransferMultiAddon, BinContentInfo>, BaseViewHolder> {
 
-        public BinContentListAdapter(@Nullable List<Polymorph<WarehouseTransferMultiFromAddon, BinContentInfo>> datas) {
+        public BinContentListAdapter(@Nullable List<Polymorph<WarehouseTransferMultiAddon, BinContentInfo>> datas) {
             super(R.layout.item_func12, datas);
         }
 
         @Override
-        protected void convert(final BaseViewHolder helper, Polymorph<WarehouseTransferMultiFromAddon, BinContentInfo> item) {
+        protected void convert(final BaseViewHolder helper, Polymorph<WarehouseTransferMultiAddon, BinContentInfo> item) {
             helper.setText(R.id.tv_item_func12_mcn, item.getInfoEntity().getItem_No());
             helper.setText(R.id.tv_item_func12_from_binname, item.getInfoEntity().getLocation_Code());
             helper.setText(R.id.tv_item_func12_from_bincode, item.getInfoEntity().getBin_Code());
@@ -159,7 +159,7 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
             EditText et = helper.getView(R.id.et_item_func12_quantity1);
             ViewHelper.setIntOnlyInputFilterForEditText(et);
 
-            final Polymorph<WarehouseTransferMultiFromAddon, BinContentInfo> polymorphItem = item;
+            final Polymorph<WarehouseTransferMultiAddon, BinContentInfo> polymorphItem = item;
 
             View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
                 @Override

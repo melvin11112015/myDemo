@@ -12,6 +12,12 @@ public class Constant {
     public static final String KEY_SPREF_USERNAME = "username";
     public static final String KEY_SPREF_PASSWORD = "password";
     public static final String KEY_SPREF_FUNC0_DATA = "func0data";
+    public static final String KEY_SPREF_FUNC1_DATA = "func1data";
+    public static final String KEY_SPREF_FUNC3_DATA = "func3data";
+    public static final String KEY_SPREF_FUNC4_DATA = "func4data";
     public static final String KEY_SPREF_FUNC8_DATA = "func8data";
     public static final String KEY_SPREF_FUNC12_DATA = "func12data";
+    public static final String KEY_SPREF_FUNC13_DATA = "func13data";
+    public static final int RESULT_SUCCESS = 111;
+    public static final int REQUEST_RECOMMAND = 50;
 }

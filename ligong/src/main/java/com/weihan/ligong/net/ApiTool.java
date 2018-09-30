@@ -3,12 +3,16 @@ package com.weihan.ligong.net;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.weihan.ligong.entities.BinContentInfo;
+import com.weihan.ligong.entities.ConsumptionPickAddon;
 import com.weihan.ligong.entities.GenericResult;
+import com.weihan.ligong.entities.InvPickingInfo;
 import com.weihan.ligong.entities.OutstandingPurchLineInfo;
 import com.weihan.ligong.entities.UserLogin;
+import com.weihan.ligong.entities.WarehousePutAwayAddon;
 import com.weihan.ligong.entities.WarehouseReceiptAddon;
-import com.weihan.ligong.entities.WarehouseTransferMultiFromAddon;
+import com.weihan.ligong.entities.WarehouseTransferMultiAddon;
 import com.weihan.ligong.entities.WarehouseTransferSingleAddon;
+import com.weihan.ligong.entities.WhseTransferMultiInfo;
 
 import java.io.IOException;
 import java.util.Map;
@@ -124,10 +128,45 @@ public class ApiTool {
                 .enqueue(callback);
     }
 
-    public static void addWhseTransferMultiFromBuffer(WarehouseTransferMultiFromAddon addon, Callback<Map<String, Object>> callback) {
+    public static void addWhseTransferMultiFromBuffer(WarehouseTransferMultiAddon addon, Callback<Map<String, Object>> callback) {
         getRetrofit()
                 .create(ApiService.class)
                 .addWhseTransferMultiFromBuffer(addon)
+                .enqueue(callback);
+    }
+
+    public static void addWarehousePutAwayBuffer(WarehousePutAwayAddon addon, Callback<Map<String, Object>> callback) {
+        getRetrofit()
+                .create(ApiService.class)
+                .addWarehousePutAwayBuffer(addon)
+                .enqueue(callback);
+    }
+
+    public static void callWhseTransferMultiList(String filter, Callback<GenericResult<WhseTransferMultiInfo>> callback) {
+        getRetrofit()
+                .create(ApiService.class)
+                .getWhseTransferMultiList(filter)
+                .enqueue(callback);
+    }
+
+    public static void callInvPickingList(String filter, Callback<GenericResult<InvPickingInfo>> callback) {
+        getRetrofit()
+                .create(ApiService.class)
+                .getInvPickingList(filter)
+                .enqueue(callback);
+    }
+
+    public static void addConsumptionPickBuffer(ConsumptionPickAddon addon, Callback<Map<String, Object>> callback) {
+        getRetrofit()
+                .create(ApiService.class)
+                .addConsumptionPickBuffer(addon)
+                .enqueue(callback);
+    }
+
+    public static void addConsumptionPickConfirm_Buffer(ConsumptionPickAddon addon, Callback<Map<String, Object>> callback) {
+        getRetrofit()
+                .create(ApiService.class)
+                .addConsumptionPickConfirm_Buffer(addon)
                 .enqueue(callback);
     }
 }

@@ -43,21 +43,21 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         /*
-        adapter = new BinContentListAdapter(datas);
+        adapter = new WhseTransferMultiListAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.tv_item_func8_delete) {
                     buildDeleteDialog(adapter, position);
-                    ((BinContentListAdapter) adapter).setSelectedPosition(-1);
+                    ((WhseTransferMultiListAdapter) adapter).setSelectedPosition(-1);
                 }
             }
         });
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ((BinContentListAdapter) adapter).setSelectedPosition(position);
+                ((WhseTransferMultiListAdapter) adapter).setSelectedPosition(position);
             }
         });
         recyclerView.setAdapter(adapter);

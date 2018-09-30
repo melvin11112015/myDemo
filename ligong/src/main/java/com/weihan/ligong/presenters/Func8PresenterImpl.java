@@ -35,14 +35,12 @@ public class Func8PresenterImpl extends BasePresenter<Func8MvpView> {
     private AllFuncModelImpl.PolyChangeListener<WarehouseTransferSingleAddon, BinContentInfo> listener
             = new AllFuncModelImpl.PolyChangeListener<WarehouseTransferSingleAddon, BinContentInfo>() {
 
-        private StringBuilder stringBuilder = new StringBuilder();
         private Random random = new Random();
 
         @Override
         public void onPolyChanged(boolean isFinished, String msg) {
             getView().notifyAdapter();
-            if (msg != null) stringBuilder.append("错误:").append(msg).append('\n');
-            if (isFinished) ToastUtils.showToastLong("提交完成\n" + stringBuilder.toString());
+            allFuncModel.buildingResultMsg(isFinished, msg);
         }
 
         @Override
@@ -109,7 +107,7 @@ public class Func8PresenterImpl extends BasePresenter<Func8MvpView> {
     }
 
     public void submitDatas(List<Polymorph<WarehouseTransferSingleAddon, BinContentInfo>> datas) {
-        ToastUtils.show("提交中");
+        if (!AllFuncModelImpl.checkEmptyList(datas)) return;
         allFuncModel.processList(datas, listener);
     }
 

@@ -32,13 +32,10 @@ public class Func0PresenterImpl extends BasePresenter<Func0MvpView> {
     private AllFuncModelImpl.PolyChangeListener<WarehouseReceiptAddon, OutstandingPurchLineInfo> listener
             = new AllFuncModelImpl.PolyChangeListener<WarehouseReceiptAddon, OutstandingPurchLineInfo>() {
 
-        private StringBuilder stringBuilder = new StringBuilder();
-
         @Override
         public void onPolyChanged(boolean isFinished, String msg) {
             getView().notifyAdapter();
-            if (msg != null) stringBuilder.append("错误:").append(msg).append('\n');
-            if (isFinished) ToastUtils.showToastLong("提交完成\n" + stringBuilder.toString());
+            allFuncModel.buildingResultMsg(isFinished, msg);
         }
 
         @Override
@@ -62,7 +59,7 @@ public class Func0PresenterImpl extends BasePresenter<Func0MvpView> {
     }
 
     public void submitDatas(List<Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo>> datas) {
-        ToastUtils.show("提交中");
+        if (!AllFuncModelImpl.checkEmptyList(datas)) return;
         allFuncModel.processList(datas, listener);
     }
 

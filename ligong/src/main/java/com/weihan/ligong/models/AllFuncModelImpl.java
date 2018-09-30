@@ -2,6 +2,7 @@ package com.weihan.ligong.models;
 
 import android.annotation.SuppressLint;
 
+import com.common.utils.ToastUtils;
 import com.weihan.ligong.entities.Polymorph;
 import com.weihan.ligong.net.BaseOdataCallback;
 
@@ -31,6 +32,25 @@ public class AllFuncModelImpl {
                 taskCount--;
                 listener.onPolyChanged(taskCount <= 0, null);
             }
+        }
+    }
+
+    private StringBuilder stringBuilder = new StringBuilder();
+
+    public static boolean checkEmptyList(List datas) {
+        if (datas.isEmpty()) {
+            ToastUtils.show("没有提交数据");
+            return false;
+        }
+        ToastUtils.show("提交中");
+        return true;
+    }
+
+    public void buildingResultMsg(boolean isFinished, String msg) {
+        if (msg != null) stringBuilder.append('\n').append("错误:").append(msg);
+        if (isFinished) {
+            ToastUtils.showToastLong("提交完成" + stringBuilder.toString());
+            stringBuilder = new StringBuilder();
         }
     }
 

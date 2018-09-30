@@ -31,7 +31,12 @@
         <activity android:name=".activities.Func8Activity" />
         <activity android:name=".activities.Func11Activity" />
         <activity android:name=".activities.Func9Activity" />
-        <activity android:name=".activities.Func12Activity"></activity>
+        <activity android:name=".activities.Func12Activity" />
+        <activity android:name=".activities.Func13Activity" />
+        <activity android:name=".activities.Func3Activity" />
+        <activity android:name=".activities.ChooseListActivity" />
+        <activity android:name=".activities.Func1Activity" />
+        <activity android:name=".activities.Func4Activity"></activity>
     </application>
 
 </manifest>

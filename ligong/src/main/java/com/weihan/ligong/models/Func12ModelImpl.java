@@ -4,7 +4,7 @@ import com.weihan.ligong.BaseMVP.IBaseModel;
 import com.weihan.ligong.LiGongApp;
 import com.weihan.ligong.entities.BinContentInfo;
 import com.weihan.ligong.entities.Polymorph;
-import com.weihan.ligong.entities.WarehouseTransferMultiFromAddon;
+import com.weihan.ligong.entities.WarehouseTransferMultiAddon;
 import com.weihan.ligong.utils.TextUtils;
 
 import java.util.ArrayList;
@@ -15,17 +15,16 @@ public class Func12ModelImpl implements IBaseModel {
     private Func12ModelImpl() {
     }
 
-    public static List<Polymorph<WarehouseTransferMultiFromAddon, BinContentInfo>> createPolymorphList(List<BinContentInfo> datas) {
-        List<Polymorph<WarehouseTransferMultiFromAddon, BinContentInfo>> polymorphs = new ArrayList<>();
+    public static List<Polymorph<WarehouseTransferMultiAddon, BinContentInfo>> createPolymorphList(List<BinContentInfo> datas) {
+        List<Polymorph<WarehouseTransferMultiAddon, BinContentInfo>> polymorphs = new ArrayList<>();
         for (BinContentInfo info : datas) {
 
             String quantity = info.getQuantity_Base();
             if (quantity == null || quantity.isEmpty() || !TextUtils.isIntString(quantity))
                 continue;
-            ;
             if (Integer.valueOf(quantity) == 0) continue;
 
-            WarehouseTransferMultiFromAddon addon = new WarehouseTransferMultiFromAddon();
+            WarehouseTransferMultiAddon addon = new WarehouseTransferMultiAddon();
             addon.setItemNo(info.getItem_No());
             addon.setTerminalID(LiGongApp.userInfo.getUserid());
             addon.setQuantity(quantity);

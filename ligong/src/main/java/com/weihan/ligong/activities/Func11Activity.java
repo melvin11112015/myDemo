@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.weihan.ligong.BaseMVP.BaseActivity;
 import com.weihan.ligong.R;
 import com.weihan.ligong.entities.BinContentInfo;
@@ -28,7 +26,7 @@ public class Func11Activity extends BaseActivity<Func11PresenterImpl> implements
     Button buttonItemNo, buttonBincode;
     RecyclerView recyclerView;
 
-    private BinContentListAdapter adapter;
+    private Func11PresenterImpl.BinContentListAdapter adapter;
     private List<BinContentInfo> datas = new ArrayList<>();
 
     @Override
@@ -61,7 +59,7 @@ public class Func11Activity extends BaseActivity<Func11PresenterImpl> implements
         buttonBincode.setOnClickListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new BinContentListAdapter(datas);
+        adapter = new Func11PresenterImpl.BinContentListAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
         recyclerView.setAdapter(adapter);
     }
@@ -106,19 +104,4 @@ public class Func11Activity extends BaseActivity<Func11PresenterImpl> implements
         return super.onOptionsItemSelected(item);
     }
 
-    private static class BinContentListAdapter extends BaseQuickAdapter<BinContentInfo, BaseViewHolder> {
-
-        public BinContentListAdapter(List<BinContentInfo> datas) {
-            super(R.layout.item_func11, datas);
-        }
-
-        @Override
-        protected void convert(final BaseViewHolder helper, BinContentInfo item) {
-            helper.setText(R.id.tv_item_func11_mcn, item.getItem_No());
-            helper.setText(R.id.tv_item_func11_binname, item.getLocation_Code());
-            helper.setText(R.id.tv_item_func11_bincode, item.getBin_Code());
-            helper.setText(R.id.tv_item_func11_quantity, item.getQuantity_Base());
-            helper.setText(R.id.tv_item_func11_name, item.getItem_No());
-        }
-    }
 }

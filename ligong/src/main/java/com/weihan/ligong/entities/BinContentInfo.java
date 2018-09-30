@@ -39,6 +39,43 @@ public class BinContentInfo {
     private String Lot_No_Filter;
     private String Serial_No_Filter;
     private String ETag;
+    private boolean Temp_Receipt, Store_Issue, Temp_Ship;
+
+    public boolean isFixed() {
+        return Fixed;
+    }
+
+    public boolean isDefault() {
+        return Default;
+    }
+
+    public boolean isDedicated() {
+        return Dedicated;
+    }
+
+    public boolean isTemp_Receipt() {
+        return Temp_Receipt;
+    }
+
+    public void setTemp_Receipt(boolean temp_Receipt) {
+        Temp_Receipt = temp_Receipt;
+    }
+
+    public boolean isStore_Issue() {
+        return Store_Issue;
+    }
+
+    public void setStore_Issue(boolean store_Issue) {
+        Store_Issue = store_Issue;
+    }
+
+    public boolean isTemp_Ship() {
+        return Temp_Ship;
+    }
+
+    public void setTemp_Ship(boolean temp_Ship) {
+        Temp_Ship = temp_Ship;
+    }
 
     public String getOdata_etag() {
         return odata_etag;

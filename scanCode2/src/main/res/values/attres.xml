@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ActionSheets">
+        <attr name="actionSheetStyle" format="reference" />
+    </declare-styleable>
+    
+    <declare-styleable name="HeaderView">
+        <attr name="title" format="string" />
+        <!-- 标题 -->
+        <attr name="showBack" format="boolean" />
+        <!-- 用户判断是否显示返回控件，默认显示，设置为false不显示，true则否 -->
+        <attr name="otherContent" format="string" />
+        <!-- 右边的textView内容 -->
+        <attr name="showOther" format="boolean" />
+        <!-- 用户判断是否显示右边的控件，默认不显示，设置为true为显示，false则否 -->
+    </declare-styleable>
+    <declare-styleable name="SwipeListView">
+        <attr name="swipeOpenOnLongPress" format="boolean" />
+        <attr name="swipeAnimationTime" format="integer" />
+        <attr name="swipeOffsetLeft" format="dimension" />
+        <attr name="swipeOffsetRight" format="dimension" />
+        <attr name="swipeCloseAllItemsWhenMoveList" format="boolean" />
+        <attr name="swipeFrontView" format="reference" />
+        <attr name="swipeBackView" format="reference" />
+        <attr name="swipeMode" format="enum">
+            <enum name="none" value="0" />
+            <enum name="both" value="1" />
+            <enum name="right" value="2" />
+            <enum name="left" value="3" />
+        </attr>
+        <attr name="swipeActionLeft" format="enum">
+            <enum name="reveal" value="0" />
+            <enum name="dismiss" value="1" />
+            <enum name="choice" value="2" />
+        </attr>
+        <attr name="swipeActionRight" format="enum">
+            <enum name="reveal" value="0" />
+            <enum name="dismiss" value="1" />
+            <enum name="choice" value="2" />
+        </attr>
+        <attr name="swipeDrawableChecked" format="reference" />
+        <attr name="swipeDrawableUnchecked" format="reference" />
+        <attr name="swipeIsDropDownStyle" format="boolean" />
+        <attr name="swipeIsOnBottomStyle" format="boolean" />
+        <attr name="swipeIsAutoLoadOnBottom" format="boolean" />
+    </declare-styleable>
+
+</resources>

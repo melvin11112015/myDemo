@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.scancode"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <com.scancode.widget.HeaderView
+        android:id="@+id/headerview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:showOther="true"
+        app:otherContent="修改"
+        app:title="链接地址" />
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        >
+        
+    <EditText 
+        android:id="@+id/ip_et"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:hint="请输入ip地址"
+        />
+    <EditText
+        android:layout_marginTop="15dp" 
+        android:id="@+id/port_et"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:hint="请输入端口"
+        />
+    	
+    </LinearLayout>
+
+</LinearLayout>

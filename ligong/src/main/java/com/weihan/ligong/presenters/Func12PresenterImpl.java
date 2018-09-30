@@ -4,7 +4,7 @@ import com.common.utils.ToastUtils;
 import com.weihan.ligong.BaseMVP.BasePresenter;
 import com.weihan.ligong.entities.BinContentInfo;
 import com.weihan.ligong.entities.Polymorph;
-import com.weihan.ligong.entities.WarehouseTransferMultiFromAddon;
+import com.weihan.ligong.entities.WarehouseTransferMultiAddon;
 import com.weihan.ligong.models.AllFuncModelImpl;
 import com.weihan.ligong.models.Func12ModelImpl;
 import com.weihan.ligong.mvpviews.Func12MvpView;
@@ -31,22 +31,20 @@ public class Func12PresenterImpl extends BasePresenter<Func12MvpView> {
         }
     };
 
-    private AllFuncModelImpl.PolyChangeListener<WarehouseTransferMultiFromAddon, BinContentInfo> listener
-            = new AllFuncModelImpl.PolyChangeListener<WarehouseTransferMultiFromAddon, BinContentInfo>() {
+    private AllFuncModelImpl.PolyChangeListener<WarehouseTransferMultiAddon, BinContentInfo> listener
+            = new AllFuncModelImpl.PolyChangeListener<WarehouseTransferMultiAddon, BinContentInfo>() {
 
-        private StringBuilder stringBuilder = new StringBuilder();
         private Random random = new Random();
 
         @Override
         public void onPolyChanged(boolean isFinished, String msg) {
             getView().notifyAdapter();
-            if (msg != null) stringBuilder.append("错误:").append(msg).append('\n');
-            if (isFinished) ToastUtils.showToastLong("提交完成\n" + stringBuilder.toString());
+            allFuncModel.buildingResultMsg(isFinished, msg);
         }
 
         @Override
-        public void goCommitting(Polymorph<WarehouseTransferMultiFromAddon, BinContentInfo> poly) {
-            WarehouseTransferMultiFromAddon addon = poly.getAddonEntity();
+        public void goCommitting(Polymorph<WarehouseTransferMultiAddon, BinContentInfo> poly) {
+            WarehouseTransferMultiAddon addon = poly.getAddonEntity();
             addon.setCreationDate(AllFuncModelImpl.getCurrentDatetime());
             addon.setSubmitDate(AllFuncModelImpl.getCurrentDatetime());
             addon.setLineNo(Math.abs(random.nextInt()));
@@ -67,8 +65,8 @@ public class Func12PresenterImpl extends BasePresenter<Func12MvpView> {
     }
 
 
-    public void submitDatas(List<Polymorph<WarehouseTransferMultiFromAddon, BinContentInfo>> datas) {
-        ToastUtils.show("提交中");
+    public void submitDatas(List<Polymorph<WarehouseTransferMultiAddon, BinContentInfo>> datas) {
+        if (!AllFuncModelImpl.checkEmptyList(datas)) return;
         allFuncModel.processList(datas, listener);
     }
 

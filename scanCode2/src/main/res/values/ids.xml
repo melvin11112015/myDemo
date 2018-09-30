@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="nav_header_bar">false</item>    
+	<item type="id" name="title_btn_left">false</item>    
+	<item type="id" name="title_btn_right">false</item>    
+	<item type="id" name="segment_route">false</item>    
+	<item type="id" name="radio_bus">false</item>    
+	<item type="id" name="radio_car">false</item>    
+	<item type="id" name="radio_walk">false</item>
+	
+	<item type="id" name="iv_topbar_left_back">false</item>
+	<item type="id" name="ll_right_btn">false</item>
+	<item type="id" name="iv_topbar_right_options">false</item>
+	<item type="id" name="iv_topbar_right_search">false</item>
+	<item type="id" name="iv_topbar_middle_car">false</item>
+	<item type="id" name="iv_topbar_middle_bus">false</item>
+	<item type="id" name="iv_topbar_middle_foot">false</item>
+	<item type="id" name="imagebtn_navsearch_switch">false</item>
+	<item type="id" name="EditText_navsearch_start">false</item>
+	<item type="id" name="EditText_navsearch_end">false</item>
+	<item type="id" name="SerialTextView">false</item>
+	<item type="id" name="TextView01">false</item>
+	<item type="id" name="TextView02">false</item>
+	<item type="id" name="imageView1">false</item>
+	<item type="id" name="LinearLayout01">false</item>
+	<item type="id" name="RelativeLayout01">false</item>
+	<item type="id" name="ItemTitle">false</item>
+	<item type="id" name="ItemTimeArrive">false</item>
+	<item type="id" name="ItemTime">false</item>
+	<item type="id" name="ItemDistance">false</item>
+	<item type="id" name="ItemWalk">false</item>
+	<item type="id" name="time_capsule">false</item>
+	<item type="id" name="taxi_info_id">false</item>
+	<item type="id" name="navresult_taxi_btn">false</item>
+	<item type="id" name="vertical_line">false</item>
+	<item type="id" name="navresult_taxi">false</item>
+	<item type="id" name="ll_buslinedetail_back">false</item>
+	<item type="id" name="btn_buslinedetail_back">false</item>
+	<item type="id" name="divider1">false</item>
+	<item type="id" name="tv_route_title">false</item>
+	<item type="id" name="tv_route_info">false</item>
+	<item type="id" name="tv_route_arrivaltime">false</item>
+	<item type="id" name="tv_route_time">false</item>
+	<item type="id" name="tv_route_distance">false</item>
+	<item type="id" name="tv_route_walk">false</item>
+	<item type="id" name="btn_showmap">false</item>
+	<item type="id" name="divider">false</item>
+
+	<item type="id" name="frmTest1Head">false</item>	
+	<item type="id" name="frmTest1EditSearch">false</item>
+	<item type="id" name="rgAutoUpdate">false</item>
+	<item type="id" name="rbAutoUpdate_Yes">false</item>
+	<item type="id" name="rbAutoUpdate_No">false</item>
+
+	<!-- 二维码 -->
+	  <!-- Messages IDs -->
+	  <item type="id" name="auto_focus"/>
+	  <item type="id" name="decode"/>
+	  <item type="id" name="decode_failed"/>
+	  <item type="id" name="decode_succeeded"/>
+	  <item type="id" name="encode_failed"/>
+	  <item type="id" name="encode_succeeded"/>
+	  <item type="id" name="launch_product_query"/>
+	  <item type="id" name="quit"/>
+	  <item type="id" name="restart_preview"/>
+	  <item type="id" name="return_scan_result"/>
+	  <item type="id" name="search_book_contents_failed"/>
+	  <item type="id" name="search_book_contents_succeeded"/>
+</resources>

@@ -159,7 +159,7 @@ public class Func8Activity extends BaseFuncActivity<Func8PresenterImpl> implemen
             WarehouseTransferSingleAddon addon = datas.get(0).getAddonEntity();
             /*
             String realbincode0 = info.getLocation_Code()+info.getBin_Code();
-            etFromBincode.setText(realbincode0);
+            etToBincode.setText(realbincode0);
             String realbincode1 = addon.getToLocationCode()+addon.getToBinCode();
             etToBincode.setText(realbincode1);
             */

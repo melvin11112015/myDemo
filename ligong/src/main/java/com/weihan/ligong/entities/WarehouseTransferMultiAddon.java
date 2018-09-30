@@ -1,6 +1,6 @@
 package com.weihan.ligong.entities;
 
-public class WarehouseTransferMultiFromAddon {
+public class WarehouseTransferMultiAddon {
     private String ItemNo, Quantity, FromLocationCode, FromBinCode, ToLocationCode, ToBinCode, SubmitDate, TerminalID, CreationDate;
     private long LineNo;
 

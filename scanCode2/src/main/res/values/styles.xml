@@ -1,0 +1,50 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+   <style name="AppBaseTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+   <style name="AppTheme" parent="android:Theme.Holo.Light.NoActionBar">
+    </style>
+
+     <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
+    
+     <style name="drop_down_list_footer_progress_bar_style">
+        <item name="android:minHeight">36dp</item>
+        <item name="android:maxHeight">36dp</item>
+    </style>
+
+    <style name="drop_down_list_header_font_style">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+    
+    <style name="drop_down_list_footer_font_style">
+        <item name="android:textColor">#A2A3A2</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+    
+    <!-- 主界面 子界面的内容项内容 -->
+    <style name="item_content">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#ff999999</item>
+    </style>
+</resources>
