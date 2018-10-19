@@ -10,8 +10,7 @@
     <string name="error_invalid_password">密码过短</string>
     <string name="error_sign_in">登录失败,请检查用户账号、密码和网络环境</string>
     <string name="error_field_required">此处为必填项</string>
-    <string name="permission_rationale">"未获得指定权限"
-    </string>
+    <string name="permission_rationale">"未获得指定权限"</string>
     <string name="success_sign_in">登录成功</string>
     <string name="text_materialCodeLength">物料长度</string>
     <string name="text_poCodeLength">采购单号长度</string>
@@ -28,6 +27,7 @@
     <string name="text_commit_fail">提交失败</string>
     <string name="text_committed">已提交</string>
     <string name="toast_reach_upper_limit">数量超出限制</string>
+    <string name="toast_no_record">没有任何记录</string>
     <string name="text_clear">清空</string>
     <string name="text_delete_confirmation">确认删除？</string>
     <string name="text_check">查询</string>

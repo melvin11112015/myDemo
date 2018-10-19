@@ -83,6 +83,11 @@ public class Func11Activity extends BaseActivity<Func11PresenterImpl> implements
     }
 
     @Override
+    public void exitActivity() {
+
+    }
+
+    @Override
     public void fillRecycler(List<BinContentInfo> datas) {
         this.datas.clear();
         this.datas.addAll(datas);

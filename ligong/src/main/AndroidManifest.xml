@@ -36,7 +36,8 @@
         <activity android:name=".activities.Func3Activity" />
         <activity android:name=".activities.ChooseListActivity" />
         <activity android:name=".activities.Func1Activity" />
-        <activity android:name=".activities.Func4Activity"></activity>
+        <activity android:name=".activities.Func4Activity" />
+        <activity android:name=".activities.Func6Activity"></activity>
     </application>
 
 </manifest>

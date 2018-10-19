@@ -7,6 +7,7 @@ import com.weihan.ligong.entities.ConsumptionPickAddon;
 import com.weihan.ligong.entities.GenericResult;
 import com.weihan.ligong.entities.InvPickingInfo;
 import com.weihan.ligong.entities.OutstandingPurchLineInfo;
+import com.weihan.ligong.entities.ProdOutputAddon;
 import com.weihan.ligong.entities.UserLogin;
 import com.weihan.ligong.entities.WarehousePutAwayAddon;
 import com.weihan.ligong.entities.WarehouseReceiptAddon;
@@ -167,6 +168,13 @@ public class ApiTool {
         getRetrofit()
                 .create(ApiService.class)
                 .addConsumptionPickConfirm_Buffer(addon)
+                .enqueue(callback);
+    }
+
+    public static void addProdOutputBuffer(ProdOutputAddon addon, Callback<Map<String, Object>> callback) {
+        getRetrofit()
+                .create(ApiService.class)
+                .addProdOutputBuffer(addon)
                 .enqueue(callback);
     }
 }

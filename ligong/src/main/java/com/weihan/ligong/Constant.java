@@ -15,7 +15,9 @@ public class Constant {
     public static final String KEY_SPREF_FUNC1_DATA = "func1data";
     public static final String KEY_SPREF_FUNC3_DATA = "func3data";
     public static final String KEY_SPREF_FUNC4_DATA = "func4data";
+    public static final String KEY_SPREF_FUNC6_DATA = "func6data";
     public static final String KEY_SPREF_FUNC8_DATA = "func8data";
+    public static final String KEY_SPREF_FUNC9_DATA = "func9data";
     public static final String KEY_SPREF_FUNC12_DATA = "func12data";
     public static final String KEY_SPREF_FUNC13_DATA = "func13data";
     public static final int RESULT_SUCCESS = 111;

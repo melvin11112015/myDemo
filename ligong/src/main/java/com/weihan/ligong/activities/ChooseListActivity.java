@@ -34,7 +34,7 @@ public class ChooseListActivity extends BaseActivity<Func11PresenterImpl> implem
         findView();
         initWidget();
 
-        presenter.acquireDatas0(getIntent().getStringExtra(KEY_CODE));
+        presenter.acquireBincontentWithStoreIssue(getIntent().getStringExtra(KEY_CODE));
     }
 
 
@@ -54,6 +54,11 @@ public class ChooseListActivity extends BaseActivity<Func11PresenterImpl> implem
     @Override
     public void clearDatas() {
 
+    }
+
+    @Override
+    public void exitActivity() {
+        finish();
     }
 
     @Override

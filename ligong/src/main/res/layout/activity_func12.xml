@@ -6,7 +6,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context=".activities.func12Activity">
+    tools:context=".activities.Func12Activity">
 
     <LinearLayout
         android:layout_width="match_parent"

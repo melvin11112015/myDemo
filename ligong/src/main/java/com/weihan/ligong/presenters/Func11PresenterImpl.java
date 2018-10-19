@@ -6,6 +6,7 @@ import com.common.utils.ToastUtils;
 import com.weihan.ligong.BaseMVP.BasePresenter;
 import com.weihan.ligong.R;
 import com.weihan.ligong.entities.BinContentInfo;
+import com.weihan.ligong.models.Func9ModelImpl;
 import com.weihan.ligong.mvpviews.Func11MvpView;
 import com.weihan.ligong.net.ApiTool;
 import com.weihan.ligong.net.GenericOdataCallback;
@@ -29,6 +30,26 @@ public class Func11PresenterImpl extends BasePresenter<Func11MvpView> {
         }
     };
 
+    private GenericOdataCallback<BinContentInfo> callback2 = new GenericOdataCallback<BinContentInfo>() {
+        @Override
+        public void onDataAvailable(List<BinContentInfo> datas) {
+
+            List<BinContentInfo> tempList = Func9ModelImpl.filtStoreIssueItem(datas);
+
+            if (tempList.isEmpty()) {
+                getView().exitActivity();
+                ToastUtils.show(R.string.toast_no_record);
+            } else
+                getView().fillRecycler(tempList);
+        }
+
+        @Override
+        public void onDataUnAvailable(String msg, int errorCode) {
+            ToastUtils.showToastLong(msg);
+            getView().exitActivity();
+        }
+    };
+
 
     public void acquireDatas0(String itemNo) {
 
@@ -39,6 +60,17 @@ public class Func11PresenterImpl extends BasePresenter<Func11MvpView> {
         String filter = "Item_No eq '" + itemNo + "'";
 
         ApiTool.callBinContent(filter, callback1);
+    }
+
+    public void acquireBincontentWithStoreIssue(String itemNo) {
+
+        if (itemNo.isEmpty()) {
+            ToastUtils.showToastLong("物料条码不能为空");
+            return;
+        }
+        String filter = "Item_No eq '" + itemNo + "'";
+
+        ApiTool.callBinContent(filter, callback2);
     }
 
     public void acquireDatas1(String binCode) {
@@ -67,6 +99,5 @@ public class Func11PresenterImpl extends BasePresenter<Func11MvpView> {
             helper.setText(R.id.tv_item_func11_name, item.getItem_No());
         }
     }
-
 
 }

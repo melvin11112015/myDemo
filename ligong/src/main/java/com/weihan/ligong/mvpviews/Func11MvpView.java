@@ -11,4 +11,6 @@ public interface Func11MvpView extends BaseFuncMvpView {
 
     void clearDatas();
 
+    void exitActivity();
+
 }

@@ -2,6 +2,7 @@ package com.weihan.ligong.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,8 +19,8 @@ import com.weihan.ligong.R;
 import com.weihan.ligong.entities.ConsumptionPickAddon;
 import com.weihan.ligong.entities.InvPickingInfo;
 import com.weihan.ligong.entities.Polymorph;
-import com.weihan.ligong.models.Func1ModelImpl;
 import com.weihan.ligong.mvpviews.Func1MvpView;
+import com.weihan.ligong.presenters.Func1PresenterImpl;
 import com.weihan.ligong.presenters.Func4PresenterImpl;
 import com.weihan.ligong.utils.AdapterHelper;
 
@@ -35,7 +36,7 @@ public class Func4Activity extends BaseFuncActivity<Func4PresenterImpl> implemen
     Button btCheck, btSubmit;
     TextView tvCode;
 
-    private Func1ModelImpl.InvPickingAdapter adapter;
+    private Func1PresenterImpl.InvPickingAdapter adapter;
     private List<Polymorph<ConsumptionPickAddon, InvPickingInfo>> datas = new ArrayList<>();
 
     @Override
@@ -101,12 +102,12 @@ public class Func4Activity extends BaseFuncActivity<Func4PresenterImpl> implemen
         if (!datas.isEmpty()) tvCode.setText(datas.get(0).getInfoEntity().getInv_Document_No());
         this.datas.clear();
         this.datas.addAll(datas);
-        adapter.notifyDataSetChanged();
+        //adapter.notifyDataSetChanged();
     }
 
     @Override
     public void notifyAdapter() {
-        adapter.notifyDataSetChanged();
+        //adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -114,8 +115,8 @@ public class Func4Activity extends BaseFuncActivity<Func4PresenterImpl> implemen
         btCheck.setOnClickListener(this);
         btSubmit.setOnClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        adapter = new Func1ModelImpl.InvPickingAdapter(datas);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        adapter = new Func1PresenterImpl.InvPickingAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override

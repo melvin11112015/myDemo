@@ -5,6 +5,7 @@ import com.weihan.ligong.entities.ConsumptionPickAddon;
 import com.weihan.ligong.entities.GenericResult;
 import com.weihan.ligong.entities.InvPickingInfo;
 import com.weihan.ligong.entities.OutstandingPurchLineInfo;
+import com.weihan.ligong.entities.ProdOutputAddon;
 import com.weihan.ligong.entities.WarehousePutAwayAddon;
 import com.weihan.ligong.entities.WarehouseReceiptAddon;
 import com.weihan.ligong.entities.WarehouseTransferMultiAddon;
@@ -55,4 +56,7 @@ public interface ApiService {
 
     @POST("ConsumptionPickConfirm_Buffer" + PARAM_JSON)
     Call<Map<String, Object>> addConsumptionPickConfirm_Buffer(@Body ConsumptionPickAddon addon);
+
+    @POST("ProdOutputBuffer" + PARAM_JSON)
+    Call<Map<String, Object>> addProdOutputBuffer(@Body ProdOutputAddon addon);
 }

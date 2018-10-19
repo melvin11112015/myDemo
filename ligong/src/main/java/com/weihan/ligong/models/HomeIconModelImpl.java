@@ -9,6 +9,7 @@ import com.weihan.ligong.activities.Func13Activity;
 import com.weihan.ligong.activities.Func1Activity;
 import com.weihan.ligong.activities.Func3Activity;
 import com.weihan.ligong.activities.Func4Activity;
+import com.weihan.ligong.activities.Func6Activity;
 import com.weihan.ligong.activities.Func8Activity;
 import com.weihan.ligong.activities.SettingsActivity;
 
@@ -139,6 +140,9 @@ public class HomeIconModelImpl implements IBaseModel {
                 break;
             case 4:
                 callback.onClassFound(Func4Activity.class);
+                break;
+            case 6:
+                callback.onClassFound(Func6Activity.class);
                 break;
             case 8:
                 callback.onClassFound(Func8Activity.class);
