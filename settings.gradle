@@ -1,1 +1,1 @@
-include ':idataScanner', ':ligong', ':scanCode2'
+include ':idataScanner', ':WeihanScanner', ':scanCode2'
