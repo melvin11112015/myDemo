@@ -1,18 +1,15 @@
 package com.weihan.scanner.activities;
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.common.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.weihan.scanner.BaseMVP.BaseFuncActivity;
@@ -24,7 +21,6 @@ import com.weihan.scanner.entities.WarehouseTransferMultiAddon;
 import com.weihan.scanner.mvpviews.Func12MvpView;
 import com.weihan.scanner.presenters.Func12PresenterImpl;
 import com.weihan.scanner.utils.AdapterHelper;
-import com.weihan.scanner.utils.TextUtils;
 import com.weihan.scanner.utils.ViewHelper;
 
 import java.util.ArrayList;
@@ -38,7 +34,7 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
     Button buttonCheck, buttonSubmit;
     RecyclerView recyclerView;
 
-    private BinContentListAdapter adapter;
+    private Func12PresenterImpl.BinContentListAdapter adapter;
     private List<Polymorph<WarehouseTransferMultiAddon, BinContentInfo>> datas = new ArrayList<>();
 
     @Override
@@ -56,7 +52,7 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
         buttonSubmit.setOnClickListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new BinContentListAdapter(datas);
+        adapter = new Func12PresenterImpl.BinContentListAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -67,8 +63,18 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
             }
         });
         recyclerView.setAdapter(adapter);
-
+        etItemno.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    doChecking();
+                    return true;
+                }
+                return false;
+            }
+        });
         loadPref();
+        ViewHelper.initEdittextInputState(this, etFromBincode);
     }
 
     @Override
@@ -88,12 +94,15 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
     @Override
     public void onClick(View view) {
         if (view == buttonCheck) {
-            presenter.acquireDatas(etItemno.getText().toString(), etFromBincode.getText().toString());
+            doChecking();
         } else if (view == buttonSubmit) {
             etFromBincode.requestFocus();
             presenter.submitDatas(datas);
         }
+    }
 
+    private void doChecking() {
+        presenter.acquireDatas(etItemno.getText().toString(), etFromBincode.getText().toString());
     }
 
     @Override
@@ -143,59 +152,5 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
         adapter.notifyDataSetChanged();
     }
 
-    private static class BinContentListAdapter extends BaseQuickAdapter<Polymorph<WarehouseTransferMultiAddon, BinContentInfo>, BaseViewHolder> {
 
-        public BinContentListAdapter(@Nullable List<Polymorph<WarehouseTransferMultiAddon, BinContentInfo>> datas) {
-            super(R.layout.item_func12, datas);
-        }
-
-        @Override
-        protected void convert(final BaseViewHolder helper, Polymorph<WarehouseTransferMultiAddon, BinContentInfo> item) {
-            helper.setText(R.id.tv_item_func12_mcn, item.getInfoEntity().getItem_No());
-            helper.setText(R.id.tv_item_func12_from_binname, item.getInfoEntity().getLocation_Code());
-            helper.setText(R.id.tv_item_func12_from_bincode, item.getInfoEntity().getBin_Code());
-            helper.setText(R.id.tv_item_func12_quantity0, item.getInfoEntity().getQuantity_Base());
-            helper.setText(R.id.et_item_func12_quantity1, item.getAddonEntity().getQuantity());
-            EditText et = helper.getView(R.id.et_item_func12_quantity1);
-            ViewHelper.setIntOnlyInputFilterForEditText(et);
-
-            final Polymorph<WarehouseTransferMultiAddon, BinContentInfo> polymorphItem = item;
-
-            View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean isFocused) {
-                    if (!isFocused) {
-                        //((EditText)view).setText( polymorphItem.getAddonEntity().getQuantity());
-                        String s = ((EditText) view).getText().toString();
-                        if (TextUtils.isIntString(s) && Integer.valueOf(s) <= Integer.valueOf(polymorphItem.getInfoEntity().getQuantity_Base())) {
-                            polymorphItem.getAddonEntity().setQuantity(s);
-                        } else {
-                            ((EditText) view).setText(polymorphItem.getAddonEntity().getQuantity());
-                            ToastUtils.show(R.string.toast_reach_upper_limit);
-                        }
-                    }
-                }
-            };
-            et.setOnFocusChangeListener(focusChangeListener);
-
-            helper.addOnClickListener(R.id.tv_item_func12_delete);
-            switch (item.getState()) {
-                case FAILURE:
-                    helper.setBackgroundColor(R.id.view_item_func12_state, Color.RED);
-                    helper.setTextColor(R.id.tv_item_func12_state, Color.RED);
-                    helper.setText(R.id.tv_item_func12_state, R.string.text_commit_fail);
-                    break;
-                case COMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func12_state, Color.GREEN);
-                    helper.setTextColor(R.id.tv_item_func12_state, Color.GREEN);
-                    helper.setText(R.id.tv_item_func12_state, R.string.text_committed);
-                    break;
-                case UNCOMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func12_state, Color.argb(0Xff, 0xff, 0x90, 0x40));
-                    helper.setTextColor(R.id.tv_item_func12_state, Color.WHITE);
-                    helper.setText(R.id.tv_item_func12_state, "");
-                    break;
-            }
-        }
-    }
 }

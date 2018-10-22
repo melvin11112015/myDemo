@@ -1,6 +1,5 @@
 package com.weihan.scanner.activities;
 
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,39 +15,39 @@ import com.google.gson.reflect.TypeToken;
 import com.weihan.scanner.BaseMVP.BaseFuncActivity;
 import com.weihan.scanner.Constant;
 import com.weihan.scanner.R;
+import com.weihan.scanner.entities.PhysicalInvtAddon;
 import com.weihan.scanner.entities.Polymorph;
-import com.weihan.scanner.entities.ProdOutputAddon;
 import com.weihan.scanner.mvpviews.Func6MvpView;
-import com.weihan.scanner.presenters.Func6PresenterImpl;
+import com.weihan.scanner.presenters.Func2PresenterImpl;
 import com.weihan.scanner.utils.AdapterHelper;
 import com.weihan.scanner.utils.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.weihan.scanner.Constant.KEY_SPREF_FUNC6_DATA;
+import static com.weihan.scanner.Constant.KEY_SPREF_FUNC2_DATA;
 
-public class Func6Activity extends BaseFuncActivity<Func6PresenterImpl> implements Func6MvpView, View.OnClickListener {
+public class Func2Activity extends BaseFuncActivity<Func2PresenterImpl> implements Func6MvpView, View.OnClickListener {
 
     RecyclerView recyclerView;
     EditText etImportCode, etItemno;
     Button btSave, btSubmit;
 
-    private Func6PresenterImpl.ProdOutputAdapter adapter;
-    private List<Polymorph<ProdOutputAddon, ProdOutputAddon>> datas = new ArrayList<>();
+    private Func2PresenterImpl.PhysicalInvtAdapter adapter;
+    private List<Polymorph<PhysicalInvtAddon, PhysicalInvtAddon>> datas = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_func6);
+        setContentView(R.layout.activity_func2);
 
         findView();
         initWidget();
     }
 
     @Override
-    protected Func6PresenterImpl buildPresenter() {
-        return new Func6PresenterImpl();
+    protected Func2PresenterImpl buildPresenter() {
+        return new Func2PresenterImpl();
     }
 
     @Override
@@ -61,17 +60,17 @@ public class Func6Activity extends BaseFuncActivity<Func6PresenterImpl> implemen
         else
             prefJson = new Gson().toJson(datas);
 
-        editor.putString(KEY_SPREF_FUNC6_DATA, prefJson);
+        editor.putString(KEY_SPREF_FUNC2_DATA, prefJson);
         editor.apply();
     }
 
     @Override
     protected void loadPref() {
         sharedPreferences = getSharedPreferences(Constant.SHAREDPREF_NAME, MODE_PRIVATE);
-        String prefJson = sharedPreferences.getString(KEY_SPREF_FUNC6_DATA, "");
+        String prefJson = sharedPreferences.getString(KEY_SPREF_FUNC2_DATA, "");
         if (!prefJson.isEmpty()) {
-            List<Polymorph<ProdOutputAddon, ProdOutputAddon>> tmpList = new Gson()
-                    .fromJson(prefJson, new TypeToken<List<Polymorph<ProdOutputAddon, ProdOutputAddon>>>() {
+            List<Polymorph<PhysicalInvtAddon, PhysicalInvtAddon>> tmpList = new Gson()
+                    .fromJson(prefJson, new TypeToken<List<Polymorph<PhysicalInvtAddon, PhysicalInvtAddon>>>() {
                     }.getType());
             datas.clear();
             datas.addAll(tmpList);
@@ -99,12 +98,12 @@ public class Func6Activity extends BaseFuncActivity<Func6PresenterImpl> implemen
         btSubmit.setOnClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        adapter = new Func6PresenterImpl.ProdOutputAdapter(datas);
+        adapter = new Func2PresenterImpl.PhysicalInvtAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.tv_item_func6_delete) {
+                if (view.getId() == R.id.tv_item_func2_delete) {
                     buildDeleteDialog(adapter, position);
                 }
             }
@@ -126,11 +125,11 @@ public class Func6Activity extends BaseFuncActivity<Func6PresenterImpl> implemen
 
     @Override
     public void findView() {
-        recyclerView = findViewById(R.id.recycler_func6);
-        btSave = findViewById(R.id.button_func6_save);
-        btSubmit = findViewById(R.id.button_func6_submit);
-        etImportCode = findViewById(R.id.et_func6_importcode);
-        etItemno = findViewById(R.id.et_func6_itemno);
+        recyclerView = findViewById(R.id.recycler_func2);
+        btSave = findViewById(R.id.button_func2_save);
+        btSubmit = findViewById(R.id.button_func2_submit);
+        etImportCode = findViewById(R.id.et_func2_bincode);
+        etItemno = findViewById(R.id.et_func2_itemno);
     }
 
     @Override

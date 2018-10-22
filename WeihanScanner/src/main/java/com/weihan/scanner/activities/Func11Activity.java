@@ -4,6 +4,7 @@ package com.weihan.scanner.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.weihan.scanner.entities.BinContentInfo;
 import com.weihan.scanner.mvpviews.Func11MvpView;
 import com.weihan.scanner.presenters.Func11PresenterImpl;
 import com.weihan.scanner.utils.AdapterHelper;
+import com.weihan.scanner.utils.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,15 +64,47 @@ public class Func11Activity extends BaseActivity<Func11PresenterImpl> implements
         adapter = new Func11PresenterImpl.BinContentListAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
         recyclerView.setAdapter(adapter);
+
+        etItemNo.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    doChecking1();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        etBincode.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    doChecking2();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        ViewHelper.initEdittextInputState(this, etBincode);
     }
 
     @Override
     public void onClick(View view) {
         if (view == buttonItemNo) {
-            presenter.acquireDatas0(etItemNo.getText().toString());
+            doChecking1();
         } else if (view == buttonBincode) {
-            presenter.acquireDatas1(etBincode.getText().toString());
+            doChecking2();
         }
+    }
+
+    private void doChecking1() {
+        presenter.acquireDatas0(etItemNo.getText().toString());
+    }
+
+    private void doChecking2() {
+        presenter.acquireDatas1(etBincode.getText().toString());
     }
 
 

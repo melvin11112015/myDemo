@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -93,22 +94,51 @@ public class Func8Activity extends BaseFuncActivity<Func8PresenterImpl> implemen
         });
         recyclerView.setAdapter(adapter);
 
-        ViewHelper.setIntOnlyInputFilterForEditText(etQuantity);
 
+        ViewHelper.setIntOnlyInputFilterForEditText(etQuantity);
+        etItemno.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    doChecking();
+                    //return true;
+                }
+                return false;
+            }
+        });
+        etQuantity.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    doMoving();
+                    return true;
+                }
+                return false;
+            }
+        });
         loadPref();
+        ViewHelper.initEdittextInputState(this, etFromBincode);
+    }
+
+    private void doChecking() {
+        presenter.acquireDatas(etItemno.getText().toString(), etFromBincode.getText().toString());
+    }
+
+    private void doMoving() {
+        presenter.inputAddonData(adapter.getSelectedPosition(),
+                datas,
+                etQuantity.getText().toString(),
+                etToBincode.getText().toString());
     }
 
     @Override
     public void onClick(View view) {
         if (view == buttonCheck) {
-            presenter.acquireDatas(etItemno.getText().toString(), etFromBincode.getText().toString());
+            doChecking();
         } else if (view == buttonSubmit) {
             presenter.submitDatas(datas);
         } else if (view == buttonMove) {
-            presenter.inputAddonData(adapter.getSelectedPosition(),
-                    datas,
-                    etQuantity.getText().toString(),
-                    etToBincode.getText().toString());
+            doMoving();
         }
     }
 

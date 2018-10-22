@@ -2,17 +2,15 @@ package com.weihan.scanner.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.common.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -44,7 +42,7 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
     RecyclerView recyclerView;
 
     private List<Polymorph<OutputPutAwayAddon, OutputPutAwayAddon>> datas = new ArrayList<>();
-    private OutputPutAwayListAdapter adapter;
+    private Func9PresenterImpl.OutputPutAwayListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +65,7 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
         buttonRecommand.setOnClickListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new OutputPutAwayListAdapter(datas);
+        adapter = new Func9PresenterImpl.OutputPutAwayListAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -78,8 +76,28 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
             }
         });
         recyclerView.setAdapter(adapter);
-
+        etItemno.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    doRecommanding();
+                    //return true;
+                }
+                return false;
+            }
+        });
+        etBincode.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    doAdding();
+                    return true;
+                }
+                return false;
+            }
+        });
         loadPref();
+        ViewHelper.initEdittextInputState(this, etItemno);
     }
 
     @Override
@@ -95,21 +113,29 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
     @Override
     public void onClick(View view) {
         if (view == buttonAdd) {
-            presenter.attemptToAddPoly(datas, etItemno.getText().toString(), etBincode.getText().toString(), "1");
+            doAdding();
         } else if (view == buttonSubmit) {
             etItemno.requestFocus();
             presenter.submitDatas(datas);
         } else if (view == buttonRecommand) {
-            String itemno = etItemno.getText().toString();
-            if (itemno.isEmpty()) {
-                ToastUtils.show("物料条码不能为空");
-                return;
-            }
-            Intent intent = new Intent(Func9Activity.this, ChooseListActivity.class);
-            intent.putExtra(KEY_CODE, itemno);
-            intent.putExtra(KEY_TITLE, "选择推荐库位");
-            startActivityForResult(intent, REQUEST_RECOMMAND);
+            doRecommanding();
         }
+    }
+
+    private void doAdding() {
+        presenter.attemptToAddPoly(datas, etItemno.getText().toString(), etBincode.getText().toString(), "1");
+    }
+
+    private void doRecommanding() {
+        String itemno = etItemno.getText().toString();
+        if (itemno.isEmpty()) {
+            ToastUtils.show("物料条码不能为空");
+            return;
+        }
+        Intent intent = new Intent(Func9Activity.this, ChooseListActivity.class);
+        intent.putExtra(KEY_CODE, itemno);
+        intent.putExtra(KEY_TITLE, "选择推荐库位");
+        startActivityForResult(intent, REQUEST_RECOMMAND);
     }
 
     @Override
@@ -181,58 +207,6 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
         adapter.notifyDataSetChanged();
     }
 
-    private static class OutputPutAwayListAdapter extends BaseQuickAdapter<Polymorph<OutputPutAwayAddon, OutputPutAwayAddon>, BaseViewHolder> {
 
-        public OutputPutAwayListAdapter(@Nullable List<Polymorph<OutputPutAwayAddon, OutputPutAwayAddon>> datas) {
-            super(R.layout.item_func9, datas);
-        }
-
-        @Override
-        protected void convert(final BaseViewHolder helper, Polymorph<OutputPutAwayAddon, OutputPutAwayAddon> item) {
-            helper.setText(R.id.tv_item_func9_mcn, item.getAddonEntity().getItemNo());
-            helper.setText(R.id.tv_item_func9_bincode, item.getAddonEntity().getBinCode());
-            helper.setText(R.id.et_item_func9_quantity1, item.getAddonEntity().getQuantity());
-            EditText et = helper.getView(R.id.et_item_func9_quantity1);
-            ViewHelper.setIntOnlyInputFilterForEditText(et);
-
-            final Polymorph<OutputPutAwayAddon, OutputPutAwayAddon> polymorphItem = item;
-
-            View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean isFocused) {
-                    if (!isFocused) {
-                        //((EditText)view).setText( polymorphItem.getAddonEntity().getQuantity());
-                        String s = ((EditText) view).getText().toString();
-                        //if (TextUtils.isIntString(s) && Integer.valueOf(s) <= Integer.valueOf(polymorphItem.getInfoEntity().getQuantity_Base())) {
-                        polymorphItem.getAddonEntity().setQuantity(s);
-                       /* } else {
-                            ((EditText) view).setText(polymorphItem.getAddonEntity().getQuantity());
-                            ToastUtils.show(R.string.toast_reach_upper_limit);
-                        }*/
-                    }
-                }
-            };
-            et.setOnFocusChangeListener(focusChangeListener);
-
-            helper.addOnClickListener(R.id.tv_item_func9_delete);
-            switch (item.getState()) {
-                case FAILURE:
-                    helper.setBackgroundColor(R.id.view_item_func9_state, Color.RED);
-                    helper.setTextColor(R.id.tv_item_func9_state, Color.RED);
-                    helper.setText(R.id.tv_item_func9_state, R.string.text_commit_fail);
-                    break;
-                case COMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func9_state, Color.GREEN);
-                    helper.setTextColor(R.id.tv_item_func9_state, Color.GREEN);
-                    helper.setText(R.id.tv_item_func9_state, R.string.text_committed);
-                    break;
-                case UNCOMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func9_state, Color.argb(0Xff, 0xff, 0x90, 0x40));
-                    helper.setTextColor(R.id.tv_item_func9_state, Color.WHITE);
-                    helper.setText(R.id.tv_item_func9_state, "");
-                    break;
-            }
-        }
-    }
 
 }

@@ -7,6 +7,7 @@ import com.weihan.scanner.entities.InvPickingInfo;
 import com.weihan.scanner.entities.OutputPutAwayAddon;
 import com.weihan.scanner.entities.OutstandingPurchLineInfo;
 import com.weihan.scanner.entities.OutstandingSalesLineInfo;
+import com.weihan.scanner.entities.PhysicalInvtAddon;
 import com.weihan.scanner.entities.ProdOutputAddon;
 import com.weihan.scanner.entities.WarehousePutAwayAddon;
 import com.weihan.scanner.entities.WarehouseReceiptAddon;
@@ -72,4 +73,7 @@ public interface ApiService {
 
     @POST("WarehouseShptConfirmBuffer" + PARAM_JSON)
     Call<Map<String, Object>> addWarehouseShptConfirmBuffer(@Body WarehouseShipmentAddon addon);
+
+    @POST("PhysicalInvtBuffer" + PARAM_JSON)
+    Call<Map<String, Object>> addPhysicalInvtBuffer(@Body PhysicalInvtAddon addon);
 }

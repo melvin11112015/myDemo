@@ -29,6 +29,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/shape_rectangle_border"
+            android:selectAllOnFocus="true"
             android:ems="10"
             android:hint="@string/text_barcode"
             android:inputType="text" />
@@ -56,6 +57,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/shape_rectangle_border"
+            android:selectAllOnFocus="true"
             android:ems="10"
             android:hint="@string/text_barcode"
             android:inputType="text" />
@@ -83,6 +85,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/shape_rectangle_border"
+            android:selectAllOnFocus="true"
             android:ems="10"
             android:hint="@string/text_barcode"
             android:inputType="text" />
@@ -110,6 +113,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/shape_rectangle_border"
+            android:selectAllOnFocus="true"
             android:ems="10"
             android:hint="@string/text_quantity"
             android:inputType="text" />

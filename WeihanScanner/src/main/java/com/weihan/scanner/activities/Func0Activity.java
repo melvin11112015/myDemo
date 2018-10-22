@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ import com.weihan.scanner.mvpviews.Func0MvpView;
 import com.weihan.scanner.presenters.Func0PresenterImpl;
 import com.weihan.scanner.utils.AdapterHelper;
 import com.weihan.scanner.utils.TextUtils;
+import com.weihan.scanner.utils.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +88,23 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
         });
         recyclerView.setAdapter(adapter);
 
+        etCheck.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    doChecking();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         loadPref();
+        ViewHelper.initEdittextInputState(this, etCheck);
+    }
+
+    private void doChecking() {
+        presenter.acquireDatas(etCheck.getText().toString());
     }
 
 
@@ -101,12 +119,13 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
     @Override
     public void onClick(View view) {
         if (view == btCheck) {
-            presenter.acquireDatas(etCheck.getText().toString());
+            doChecking();
         } else if (view == btSubmit) {
             etCheck.requestFocus();
             presenter.submitDatas(datas);
         }
     }
+
 
     @Override
     public void notifyAdapter() {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ import com.weihan.scanner.mvpviews.Func1MvpView;
 import com.weihan.scanner.presenters.Func1PresenterImpl;
 import com.weihan.scanner.presenters.Func4PresenterImpl;
 import com.weihan.scanner.utils.AdapterHelper;
+import com.weihan.scanner.utils.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,11 +58,15 @@ public class Func4Activity extends BaseFuncActivity<Func4PresenterImpl> implemen
     @Override
     public void onClick(View view) {
         if (view == btCheck) {
-            presenter.acquireDatas(etCheck.getText().toString());
+            doChecking();
         } else if (view == btSubmit) {
             etCheck.requestFocus();
             presenter.submitDatas(datas);
         }
+    }
+
+    private void doChecking() {
+        presenter.acquireDatas(etCheck.getText().toString());
     }
 
     @Override
@@ -127,8 +133,18 @@ public class Func4Activity extends BaseFuncActivity<Func4PresenterImpl> implemen
             }
         });
         recyclerView.setAdapter(adapter);
-
+        etCheck.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    doChecking();
+                    return true;
+                }
+                return false;
+            }
+        });
         loadPref();
+        ViewHelper.initEdittextInputState(this, etCheck);
     }
 
     @Override

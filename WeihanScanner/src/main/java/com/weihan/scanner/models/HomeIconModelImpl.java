@@ -8,6 +8,7 @@ import com.weihan.scanner.activities.Func11Activity;
 import com.weihan.scanner.activities.Func12Activity;
 import com.weihan.scanner.activities.Func13Activity;
 import com.weihan.scanner.activities.Func1Activity;
+import com.weihan.scanner.activities.Func2Activity;
 import com.weihan.scanner.activities.Func3Activity;
 import com.weihan.scanner.activities.Func4Activity;
 import com.weihan.scanner.activities.Func6Activity;
@@ -137,6 +138,9 @@ public class HomeIconModelImpl implements IBaseModel {
                 break;
             case 1:
                 callback.onClassFound(Func1Activity.class);
+                break;
+            case 2:
+                callback.onClassFound(Func2Activity.class);
                 break;
             case 3:
                 callback.onClassFound(Func3Activity.class);

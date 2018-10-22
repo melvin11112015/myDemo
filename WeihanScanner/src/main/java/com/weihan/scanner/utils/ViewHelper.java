@@ -1,7 +1,9 @@
 package com.weihan.scanner.utils;
 
+import android.content.Context;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 public class ViewHelper {
@@ -47,6 +49,17 @@ public class ViewHelper {
             @Override
             public void run() {
                 editText.requestFocus();
+            }
+        }, 200);
+    }
+
+    public static void initEdittextInputState(Context context, final EditText editText) {
+        final InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        editText.postDelayed(new Runnable() {//给他个延迟时间
+            @Override
+            public void run() {
+                editText.requestFocus();
+                if (imm != null) imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
             }
         }, 200);
     }

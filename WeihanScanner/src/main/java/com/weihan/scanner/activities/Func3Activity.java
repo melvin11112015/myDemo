@@ -2,17 +2,15 @@ package com.weihan.scanner.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.common.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,7 +23,6 @@ import com.weihan.scanner.entities.WarehousePutAwayAddon;
 import com.weihan.scanner.mvpviews.Func3MvpView;
 import com.weihan.scanner.presenters.Func3PresenterImpl;
 import com.weihan.scanner.utils.AdapterHelper;
-import com.weihan.scanner.utils.TextUtils;
 import com.weihan.scanner.utils.ViewHelper;
 
 import java.util.ArrayList;
@@ -44,7 +41,7 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
     RecyclerView recyclerView;
 
     private List<Polymorph<WarehousePutAwayAddon, BinContentInfo>> datas = new ArrayList<>();
-    private BinContentListAdapter adapter;
+    private Func3PresenterImpl.BinContentListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +64,7 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
         buttonRecommand.setOnClickListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new BinContentListAdapter(datas);
+        adapter = new Func3PresenterImpl.BinContentListAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -78,8 +75,18 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
             }
         });
         recyclerView.setAdapter(adapter);
-
+        etBincode.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    doAdding();
+                    return true;
+                }
+                return false;
+            }
+        });
         loadPref();
+        ViewHelper.initEdittextInputState(this, etItemno);
     }
 
     @Override
@@ -95,7 +102,7 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
     @Override
     public void onClick(View view) {
         if (view == buttonAdd) {
-            presenter.acquireDatas(etItemno.getText().toString(), etBincode.getText().toString());
+            doAdding();
         } else if (view == buttonSubmit) {
             etItemno.requestFocus();
             presenter.submitDatas(datas);
@@ -110,6 +117,10 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
             intent.putExtra(KEY_TITLE, "选择推荐库位");
             startActivityForResult(intent, REQUEST_RECOMMAND);
         }
+    }
+
+    private void doAdding() {
+        presenter.acquireDatas(etItemno.getText().toString(), etBincode.getText().toString());
     }
 
     @Override
@@ -168,60 +179,6 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
         adapter.notifyDataSetChanged();
     }
 
-    private static class BinContentListAdapter extends BaseQuickAdapter<Polymorph<WarehousePutAwayAddon, BinContentInfo>, BaseViewHolder> {
 
-        public BinContentListAdapter(@Nullable List<Polymorph<WarehousePutAwayAddon, BinContentInfo>> datas) {
-            super(R.layout.item_func3, datas);
-        }
-
-        @Override
-        protected void convert(final BaseViewHolder helper, Polymorph<WarehousePutAwayAddon, BinContentInfo> item) {
-            helper.setText(R.id.tv_item_func3_mcn, item.getInfoEntity().getItem_No());
-            helper.setText(R.id.tv_item_func3_to_binname, item.getAddonEntity().getLocationCode());
-            helper.setText(R.id.tv_item_func3_to_bincode, item.getAddonEntity().getBinCode());
-            helper.setText(R.id.tv_item_func3_quantity0, item.getInfoEntity().getQuantity_Base());
-            helper.setText(R.id.et_item_func3_quantity1, item.getAddonEntity().getQuantity());
-            EditText et = helper.getView(R.id.et_item_func3_quantity1);
-            ViewHelper.setIntOnlyInputFilterForEditText(et);
-
-            final Polymorph<WarehousePutAwayAddon, BinContentInfo> polymorphItem = item;
-
-            View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean isFocused) {
-                    if (!isFocused) {
-                        //((EditText)view).setText( polymorphItem.getAddonEntity().getQuantity());
-                        String s = ((EditText) view).getText().toString();
-                        if (TextUtils.isIntString(s) && Integer.valueOf(s) <= Integer.valueOf(polymorphItem.getInfoEntity().getQuantity_Base())) {
-                            polymorphItem.getAddonEntity().setQuantity(s);
-                        } else {
-                            ((EditText) view).setText(polymorphItem.getAddonEntity().getQuantity());
-                            ToastUtils.show(R.string.toast_reach_upper_limit);
-                        }
-                    }
-                }
-            };
-            et.setOnFocusChangeListener(focusChangeListener);
-
-            helper.addOnClickListener(R.id.tv_item_func3_delete);
-            switch (item.getState()) {
-                case FAILURE:
-                    helper.setBackgroundColor(R.id.view_item_func3_state, Color.RED);
-                    helper.setTextColor(R.id.tv_item_func3_state, Color.RED);
-                    helper.setText(R.id.tv_item_func3_state, R.string.text_commit_fail);
-                    break;
-                case COMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func3_state, Color.GREEN);
-                    helper.setTextColor(R.id.tv_item_func3_state, Color.GREEN);
-                    helper.setText(R.id.tv_item_func3_state, R.string.text_committed);
-                    break;
-                case UNCOMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func3_state, Color.argb(0Xff, 0xff, 0x90, 0x40));
-                    helper.setTextColor(R.id.tv_item_func3_state, Color.WHITE);
-                    helper.setText(R.id.tv_item_func3_state, "");
-                    break;
-            }
-        }
-    }
 
 }

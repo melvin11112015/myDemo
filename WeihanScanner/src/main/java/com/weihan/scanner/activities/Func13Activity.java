@@ -1,18 +1,15 @@
 package com.weihan.scanner.activities;
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.common.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.weihan.scanner.BaseMVP.BaseFuncActivity;
@@ -24,7 +21,6 @@ import com.weihan.scanner.entities.WhseTransferMultiInfo;
 import com.weihan.scanner.mvpviews.Func13MvpView;
 import com.weihan.scanner.presenters.Func13PresenterImpl;
 import com.weihan.scanner.utils.AdapterHelper;
-import com.weihan.scanner.utils.TextUtils;
 import com.weihan.scanner.utils.ViewHelper;
 
 import java.util.ArrayList;
@@ -39,7 +35,7 @@ public class Func13Activity extends BaseFuncActivity<Func13PresenterImpl> implem
     RecyclerView recyclerView;
 
     private List<Polymorph<WarehouseTransferMultiAddon, WhseTransferMultiInfo>> datas = new ArrayList<>();
-    private WhseTransferMultiListAdapter adapter;
+    private Func13PresenterImpl.WhseTransferMultiListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +57,7 @@ public class Func13Activity extends BaseFuncActivity<Func13PresenterImpl> implem
         buttonSubmit.setOnClickListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new WhseTransferMultiListAdapter(datas);
+        adapter = new Func13PresenterImpl.WhseTransferMultiListAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -72,8 +68,18 @@ public class Func13Activity extends BaseFuncActivity<Func13PresenterImpl> implem
             }
         });
         recyclerView.setAdapter(adapter);
-
+        etItemno.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    doChecking();
+                    return true;
+                }
+                return false;
+            }
+        });
         loadPref();
+        ViewHelper.initEdittextInputState(this, etToBincode);
     }
 
     @Override
@@ -88,11 +94,15 @@ public class Func13Activity extends BaseFuncActivity<Func13PresenterImpl> implem
     @Override
     public void onClick(View view) {
         if (view == buttonCheck) {
-            presenter.acquireDatas(etItemno.getText().toString(), etToBincode.getText().toString());
+            doChecking();
         } else if (view == buttonSubmit) {
             etToBincode.requestFocus();
             presenter.submitDatas(datas);
         }
+    }
+
+    private void doChecking() {
+        presenter.acquireDatas(etItemno.getText().toString(), etToBincode.getText().toString());
     }
 
     @Override
@@ -142,60 +152,6 @@ public class Func13Activity extends BaseFuncActivity<Func13PresenterImpl> implem
         adapter.notifyDataSetChanged();
     }
 
-    private static class WhseTransferMultiListAdapter extends BaseQuickAdapter<Polymorph<WarehouseTransferMultiAddon, WhseTransferMultiInfo>, BaseViewHolder> {
 
-        public WhseTransferMultiListAdapter(@Nullable List<Polymorph<WarehouseTransferMultiAddon, WhseTransferMultiInfo>> datas) {
-            super(R.layout.item_func13, datas);
-        }
-
-        @Override
-        protected void convert(final BaseViewHolder helper, Polymorph<WarehouseTransferMultiAddon, WhseTransferMultiInfo> item) {
-            helper.setText(R.id.tv_item_func13_mcn, item.getInfoEntity().getItemNo());
-            helper.setText(R.id.tv_item_func13_to_binname, item.getAddonEntity().getToLocationCode());
-            helper.setText(R.id.tv_item_func13_to_bincode, item.getAddonEntity().getToBinCode());
-            helper.setText(R.id.tv_item_func13_quantity0, item.getInfoEntity().getQuantity());
-            helper.setText(R.id.et_item_func13_quantity1, item.getAddonEntity().getQuantity());
-            EditText et = helper.getView(R.id.et_item_func13_quantity1);
-            ViewHelper.setIntOnlyInputFilterForEditText(et);
-
-            final Polymorph<WarehouseTransferMultiAddon, WhseTransferMultiInfo> polymorphItem = item;
-
-            View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean isFocused) {
-                    if (!isFocused) {
-                        //((EditText)view).setText( polymorphItem.getAddonEntity().getQuantity());
-                        String s = ((EditText) view).getText().toString();
-                        if (TextUtils.isIntString(s) && Integer.valueOf(s) <= Integer.valueOf(polymorphItem.getInfoEntity().getQuantity())) {
-                            polymorphItem.getAddonEntity().setQuantity(s);
-                        } else {
-                            ((EditText) view).setText(polymorphItem.getAddonEntity().getQuantity());
-                            ToastUtils.show(R.string.toast_reach_upper_limit);
-                        }
-                    }
-                }
-            };
-            et.setOnFocusChangeListener(focusChangeListener);
-
-            helper.addOnClickListener(R.id.tv_item_func13_delete);
-            switch (item.getState()) {
-                case FAILURE:
-                    helper.setBackgroundColor(R.id.view_item_func13_state, Color.RED);
-                    helper.setTextColor(R.id.tv_item_func13_state, Color.RED);
-                    helper.setText(R.id.tv_item_func13_state, R.string.text_commit_fail);
-                    break;
-                case COMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func13_state, Color.GREEN);
-                    helper.setTextColor(R.id.tv_item_func13_state, Color.GREEN);
-                    helper.setText(R.id.tv_item_func13_state, R.string.text_committed);
-                    break;
-                case UNCOMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func13_state, Color.argb(0Xff, 0xff, 0x90, 0x40));
-                    helper.setTextColor(R.id.tv_item_func13_state, Color.WHITE);
-                    helper.setText(R.id.tv_item_func13_state, "");
-                    break;
-            }
-        }
-    }
 
 }

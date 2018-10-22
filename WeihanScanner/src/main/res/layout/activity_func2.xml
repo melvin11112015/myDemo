@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:orientation="vertical"
-    tools:context=".activities.Func12Activity">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,19 +18,19 @@
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:layout_weight="4"
-            android:text="从库位" />
+            android:text="库位条码" />
 
         <EditText
-            android:id="@+id/et_func12_from_bincode"
+            android:id="@+id/et_func2_bincode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/shape_rectangle_border"
-            android:selectAllOnFocus="true"
             android:ems="10"
             android:hint="@string/text_barcode"
-            android:inputType="text" />
+            android:inputType="text"
+            android:selectAllOnFocus="true" />
 
     </LinearLayout>
 
@@ -51,16 +49,16 @@
             android:text="物料条码" />
 
         <EditText
-            android:id="@+id/et_func12_itemno"
+            android:id="@+id/et_func2_itemno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/shape_rectangle_border"
-            android:selectAllOnFocus="true"
             android:ems="10"
             android:hint="@string/text_barcode"
-            android:inputType="text" />
+            android:inputType="text"
+            android:selectAllOnFocus="true" />
 
     </LinearLayout>
 
@@ -72,14 +70,14 @@
         android:padding="5dp">
 
         <Button
-            android:id="@+id/button_func12_check"
+            android:id="@+id/button_func2_save"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_gravity="right"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:background="@color/colorPrimary"
-            android:text="@string/text_check"
+            android:text="@string/text_save"
             android:textColor="@android:color/background_light"
             android:textStyle="bold"
             android:visibility="visible" />
@@ -87,7 +85,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_func12"
+        android:id="@+id/recycler_func2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -98,7 +96,7 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/button_func12_submit"
+            android:id="@+id/button_func2_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

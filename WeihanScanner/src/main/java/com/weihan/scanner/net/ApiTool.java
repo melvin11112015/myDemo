@@ -9,6 +9,7 @@ import com.weihan.scanner.entities.InvPickingInfo;
 import com.weihan.scanner.entities.OutputPutAwayAddon;
 import com.weihan.scanner.entities.OutstandingPurchLineInfo;
 import com.weihan.scanner.entities.OutstandingSalesLineInfo;
+import com.weihan.scanner.entities.PhysicalInvtAddon;
 import com.weihan.scanner.entities.ProdOutputAddon;
 import com.weihan.scanner.entities.UserLogin;
 import com.weihan.scanner.entities.WarehousePutAwayAddon;
@@ -206,6 +207,13 @@ public class ApiTool {
         getRetrofit()
                 .create(ApiService.class)
                 .addWarehouseShptConfirmBuffer(addon)
+                .enqueue(callback);
+    }
+
+    public static void addPhysicalInvtBuffer(PhysicalInvtAddon addon, Callback<Map<String, Object>> callback) {
+        getRetrofit()
+                .create(ApiService.class)
+                .addPhysicalInvtBuffer(addon)
                 .enqueue(callback);
     }
 }
