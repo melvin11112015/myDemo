@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/la_item_func1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#223366"
+    android:background="#FFAAAA"
     android:divider="?android:attr/listDivider"
     android:orientation="horizontal"
     android:paddingBottom="2dp"
@@ -12,43 +13,40 @@
     android:showDividers="middle">
 
     <TextView
+        android:id="@+id/tv_item_func1_wbcode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:gravity="center"
         android:singleLine="true"
-        android:text="物料"
-        android:textColor="@android:color/background_light"
+        android:text="6666"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/tv_item_func1_count3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:gravity="center"
         android:singleLine="true"
-        android:text="名称"
-        android:textColor="@color/colorBackgroundGrey"
+        android:text="3333"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold" />
 
-    <TextView
+    <EditText
+        android:id="@+id/et_item_func1_count1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
+        android:layout_weight="3"
+        android:background="@drawable/shape_rectangle_border"
+        android:hint="@string/hint_input_quantity"
+        android:imeOptions="actionDone"
+        android:inputType="number|numberSigned|numberDecimal"
         android:singleLine="true"
-        android:text="到货数"
-        android:textColor="@color/colorBackgroundGrey"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:singleLine="true"
-        android:text="实际到货数"
-        android:textColor="@color/colorBackgroundGrey"
+        android:text="4444"
+        android:textColor="#0000FF"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
 </LinearLayout>

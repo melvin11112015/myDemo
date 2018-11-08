@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.weihan.scanner.BaseMVP.BaseFuncActivity;
@@ -69,14 +68,7 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new Func0PresenterImpl.PurchaseListAdapter2(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.tv_item_func0_delete) {
-                    buildDeleteDialog(adapter, position);
-                }
-            }
-        });
+
         recyclerView.setAdapter(adapter);
 
         etCheck.setOnKeyListener(new View.OnKeyListener() {

@@ -1,7 +1,11 @@
 package com.weihan.scanner.models;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.support.annotation.IdRes;
+import android.view.View;
 
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.common.utils.ToastUtils;
 import com.weihan.scanner.WApp;
 import com.weihan.scanner.entities.Polymorph;
@@ -123,6 +127,23 @@ public class AllFuncModelImpl {
             poly.setState(Polymorph.State.FAILURE);
             taskCount--;
             listener.onPolyChanged(taskCount <= 0, msg);
+        }
+    }
+
+    public static void setPolyAdapterItemStateColor(@IdRes int viewId, Polymorph.State state, BaseViewHolder helper, View enableView) {
+        switch (state) {
+            case FAILURE:
+                helper.setBackgroundColor(viewId, Color.argb(0Xff, 0xff, 0xcc, 0xcc));
+                enableView.setEnabled(true);
+                break;
+            case COMMITTED:
+                helper.setBackgroundColor(viewId, Color.argb(0Xff, 0xcc, 0xff, 0xcc));
+                enableView.setEnabled(false);
+                break;
+            case UNCOMMITTED:
+                helper.setBackgroundColor(viewId, Color.argb(0Xff, 0xff, 0xff, 0xff));
+                enableView.setEnabled(true);
+                break;
         }
     }
 }

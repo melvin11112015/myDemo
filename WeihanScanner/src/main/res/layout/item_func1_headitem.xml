@@ -23,9 +23,8 @@
             app:srcCompat="@android:drawable/ic_media_play" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="3"
             android:gravity="center_vertical"
             android:text="@string/text_material_colon" />
 
@@ -35,6 +34,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center_vertical"
+            android:singleLine="true"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp" />
 
@@ -43,8 +43,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/melvin_button_orange"
-            android:padding="3dp"
-            android:text="库位领料"
+            android:paddingBottom="3dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:paddingTop="3dp"
+            android:text="领料"
             android:textColor="@color/colorBackgroundGrey"
             android:textStyle="bold" />
     </LinearLayout>
@@ -56,31 +59,23 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:text="物料名称:" />
+            android:text="@string/text_name_colon" />
 
         <TextView
             android:id="@+id/tv_item_func1_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:singleLine="true"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_item_func1_count0_tag"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="3"
             android:text="@string/text_pick_quantity_colon" />
 
         <TextView
@@ -88,6 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:singleLine="true"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp" />
     </LinearLayout>

@@ -125,7 +125,7 @@ public class Func1PresenterImpl extends BasePresenter<Func1MvpView> {
             double quantityBase = 0.0;
             if (TextUtils.isNumeric(quantityBaseStr))
                 quantityBase = Double.valueOf(quantityBaseStr);
-            ConsumptionPickAdapter adapter = new ConsumptionPickAdapter(item.getAddonEntity(), quantityBase);
+            ConsumptionPickAdapter2 adapter = new ConsumptionPickAdapter2(item.getAddonEntity(), quantityBase);
             adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
                 @Override
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -229,6 +229,58 @@ public class Func1PresenterImpl extends BasePresenter<Func1MvpView> {
                     et.setEnabled(true);
                     break;
             }
+        }
+    }
+
+    public static class ConsumptionPickAdapter2 extends BaseQuickAdapter<Polymorph<ConsumptionPickAddon, BinContentInfo>, BaseViewHolder> {
+
+        private double maxQuantity;
+
+        public ConsumptionPickAdapter2(@Nullable List<Polymorph<ConsumptionPickAddon, BinContentInfo>> datas, double maxQuantity) {
+            super(R.layout.item_func1b_subitem, datas);
+            this.maxQuantity = maxQuantity;
+        }
+
+        private double getTotalQuantity(Polymorph<ConsumptionPickAddon, BinContentInfo> notCountingItem, double addend) {
+            if (addend > maxQuantity) return addend;
+
+            double totalQuantity = addend;
+            for (Polymorph<ConsumptionPickAddon, BinContentInfo> polymorph : getData())
+                if (polymorph != notCountingItem)
+                    totalQuantity += Double.valueOf(polymorph.getAddonEntity().getQuantity());
+            return totalQuantity;
+        }
+
+        @Override
+        protected void convert(final BaseViewHolder helper, Polymorph<ConsumptionPickAddon, BinContentInfo> item) {
+
+            helper.setText(R.id.tv_item_func1_count3, item.getInfoEntity().getQuantity_Base());
+            helper.setText(R.id.et_item_func1_count1, item.getAddonEntity().getQuantity());
+            helper.setText(R.id.tv_item_func1_wbcode, item.getAddonEntity().getLocationCode() + item.getAddonEntity().getBinCode());
+
+            EditText et = helper.getView(R.id.et_item_func1_count1);
+
+            final Polymorph<ConsumptionPickAddon, BinContentInfo> polymorphItem = item;
+
+            View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean isFocused) {
+                    if (!isFocused) {
+                        String s = ((EditText) view).getText().toString();
+                        if (TextUtils.isNumeric(s) &&
+                                Double.valueOf(s) <= Double.valueOf(polymorphItem.getInfoEntity().getQuantity_Base()) &&
+                                getTotalQuantity(polymorphItem, Double.valueOf(s)) <= maxQuantity) {
+                            polymorphItem.getAddonEntity().setQuantity(s);
+                        } else {
+                            ((EditText) view).setText("0");
+                            ToastUtils.show(R.string.toast_reach_upper_limit);
+                        }
+                    }
+                }
+            };
+            et.setOnFocusChangeListener(focusChangeListener);
+
+            AllFuncModelImpl.setPolyAdapterItemStateColor(R.id.la_item_func1, item.getState(), helper, et);
         }
     }
 

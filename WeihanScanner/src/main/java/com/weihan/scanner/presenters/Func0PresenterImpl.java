@@ -1,13 +1,11 @@
 package com.weihan.scanner.presenters;
 
-import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseItemDraggableAdapter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.common.utils.ToastUtils;
 import com.weihan.scanner.BaseMVP.BasePresenter;
@@ -78,64 +76,6 @@ public class Func0PresenterImpl extends BasePresenter<Func0MvpView> {
         allFuncModel.processList(datas, listener);
     }
 
-    public static class PurchaseListAdapter extends BaseQuickAdapter<Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo>, BaseViewHolder> {
-
-        public PurchaseListAdapter(@Nullable List<Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo>> datas) {
-            super(R.layout.item_func0, datas);
-        }
-
-        @Override
-        protected void convert(final BaseViewHolder helper, Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo> item) {
-            helper.setText(R.id.tv_item_func0_mcn, item.getInfoEntity().getNo());
-            helper.setText(R.id.tv_item_func0_name, item.getInfoEntity().getDescription());
-            helper.setText(R.id.tv_item_func0_count0, item.getInfoEntity().getOutstanding_Quantity());
-            helper.setText(R.id.et_item_func0_count1, item.getAddonEntity().getQuantity());
-            EditText et = helper.getView(R.id.et_item_func0_count1);
-
-            final Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo> polymorphItem = item;
-
-            View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean isFocused) {
-                    if (!isFocused) {
-                        String s = ((EditText) view).getText().toString();
-                        if (TextUtils.isNumeric(s)
-                                && Double.valueOf(s) <= Double.valueOf(polymorphItem.getInfoEntity().getOutstanding_Quantity())
-                                ) {
-                            polymorphItem.getAddonEntity().setQuantity(s);
-                        } else {
-                            ((EditText) view).setText(polymorphItem.getAddonEntity().getQuantity());
-                            ToastUtils.show(R.string.toast_reach_upper_limit);
-                        }
-                    }
-                }
-            };
-            et.setOnFocusChangeListener(focusChangeListener);
-
-            helper.addOnClickListener(R.id.tv_item_func0_delete);
-            switch (item.getState()) {
-                case FAILURE:
-                    helper.setBackgroundColor(R.id.view_item_func0_state, Color.RED);
-                    helper.setTextColor(R.id.tv_item_func0_state, Color.RED);
-                    helper.setText(R.id.tv_item_func0_state, R.string.text_commit_fail);
-                    et.setEnabled(true);
-                    break;
-                case COMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func0_state, Color.GREEN);
-                    helper.setTextColor(R.id.tv_item_func0_state, Color.GREEN);
-                    helper.setText(R.id.tv_item_func0_state, R.string.text_committed);
-                    et.setEnabled(false);
-                    break;
-                case UNCOMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func0_state, Color.argb(0Xff, 0xff, 0x90, 0x40));
-                    helper.setTextColor(R.id.tv_item_func0_state, Color.WHITE);
-                    helper.setText(R.id.tv_item_func0_state, "");
-                    et.setEnabled(true);
-                    break;
-            }
-        }
-    }
-
     public static class PurchaseListAdapter2 extends BaseItemDraggableAdapter<Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo>, BaseViewHolder> {
 
         public PurchaseListAdapter2(@Nullable List<Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo>> datas) {
@@ -147,7 +87,7 @@ public class Func0PresenterImpl extends BasePresenter<Func0MvpView> {
             super.onAttachedToRecyclerView(recyclerView);
 
             AdapterHelper.initDraggableAdapter(recyclerView, this);
-            AdapterHelper.addAdapterHeaderAndItemDivider(recyclerView, this, R.layout.item_func0b_headitem);
+            AdapterHelper.addAdapterHeaderAndItemDivider(recyclerView, this, R.layout.item_func0b_header);
         }
 
         @Override
@@ -178,21 +118,7 @@ public class Func0PresenterImpl extends BasePresenter<Func0MvpView> {
             };
             et.setOnFocusChangeListener(focusChangeListener);
 
-
-            switch (item.getState()) {
-                case FAILURE:
-                    helper.setBackgroundColor(R.id.la_item_func0, Color.argb(0Xff, 0xff, 0xcc, 0xcc));
-                    et.setEnabled(true);
-                    break;
-                case COMMITTED:
-                    helper.setBackgroundColor(R.id.la_item_func0, Color.argb(0Xff, 0xcc, 0xff, 0xcc));
-                    et.setEnabled(false);
-                    break;
-                case UNCOMMITTED:
-                    helper.setBackgroundColor(R.id.la_item_func0, Color.argb(0Xff, 0xff, 0xff, 0xff));
-                    et.setEnabled(true);
-                    break;
-            }
+            AllFuncModelImpl.setPolyAdapterItemStateColor(R.id.la_item_func0, item.getState(), helper, et);
 
         }
     }

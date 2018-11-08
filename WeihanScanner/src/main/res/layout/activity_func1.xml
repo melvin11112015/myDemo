@@ -13,17 +13,37 @@
         android:orientation="horizontal"
         android:padding="5dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="@string/text_invpicking"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_func1_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
         <EditText
             android:id="@+id/et_func1_barcode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:background="@drawable/shape_rectangle_border"
-            android:selectAllOnFocus="true"
             android:ems="10"
             android:hint="@string/text_barcode"
-            android:inputType="text" />
+            android:inputType="text"
+            android:selectAllOnFocus="true" />
 
         <Button
             android:id="@+id/button_func1_check"
@@ -39,31 +59,6 @@
             android:visibility="visible" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:text="@string/text_invpicking"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_func1_code"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:textColor="@android:color/holo_red_dark"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_func1"
         android:layout_width="match_parent"
@@ -74,7 +69,7 @@
     <Button
         android:id="@+id/button_func1_submit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_button_submit"
         android:background="@android:color/holo_green_dark"
         android:text="@string/text_submit"
         android:textColor="@android:color/background_light" />

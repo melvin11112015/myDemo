@@ -53,4 +53,5 @@
     <string name="title_recommand_bin">选择推荐库位</string>
     <string name="text_pick_quantity_colon">领料数:</string>
     <string name="canvas_swipe_remove">向右划动删除记录</string>
+    <string name="text_name_colon">名称:</string>
 </resources>
