@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:layout_weight="4"
-            android:text="至库位" />
+            android:text="@string/text_to_bin" />
 
         <EditText
             android:id="@+id/et_func13_to_bincode"
@@ -48,7 +48,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:layout_weight="4"
-            android:text="物料条码" />
+            android:text="@string/text_material_barcode" />
 
         <EditText
             android:id="@+id/et_func13_itemno"

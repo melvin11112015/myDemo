@@ -14,12 +14,14 @@ public class Func9ModelImpl implements IBaseModel {
     private Func9ModelImpl() {
     }
 
-    public static Polymorph<OutputPutAwayAddon, OutputPutAwayAddon> createPoly(String itemno, String bincode, String quantity) {
+    public static Polymorph<OutputPutAwayAddon, OutputPutAwayAddon> createPoly(String itemno, String bincode, String locationcode, String quantity) {
 
         OutputPutAwayAddon addon = new OutputPutAwayAddon();
 
+        addon.setPutAwayNo(WApp.barcodeSettings.getMachineCode() + WApp.userInfo.getUserid() + AllFuncModelImpl.getTempInt());
         addon.setItemNo(itemno);
         addon.setBinCode(bincode);
+        addon.setLocationCode(locationcode);
         addon.setTerminalID(WApp.userInfo.getUserid());
         addon.setCreationDate(AllFuncModelImpl.getCurrentDatetime());
         addon.setQuantity(quantity);

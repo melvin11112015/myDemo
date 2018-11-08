@@ -20,15 +20,17 @@ public class Func0ModelImpl implements IBaseModel {
         for (OutstandingPurchLineInfo info : datas) {
 
             String quantity = info.getOutstanding_Quantity();
-            if (quantity == null || quantity.isEmpty() || !TextUtils.isIntString(quantity))
+            if (quantity == null || quantity.isEmpty() || !TextUtils.isNumeric(quantity))
                 continue;
-            if (Integer.valueOf(quantity) == 0) continue;
+            if (Double.valueOf(quantity) == 0) continue;
 
             WarehouseReceiptAddon addon = new WarehouseReceiptAddon();
             addon.setItemNo(info.getNo());
+            addon.setLineNo(info.getLine_No());
             addon.setPurchOrderNo(info.getDocument_No());
             addon.setTerminalID(WApp.userInfo.getUserid());
             addon.setQuantity(quantity);
+            addon.setCreationDate(AllFuncModelImpl.getCurrentDatetime());
             polymorphs.add(new Polymorph<>(addon, info, Polymorph.State.UNCOMMITTED));
         }
         return polymorphs;

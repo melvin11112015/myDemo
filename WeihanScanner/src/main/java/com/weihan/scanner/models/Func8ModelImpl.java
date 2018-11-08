@@ -20,14 +20,15 @@ public class Func8ModelImpl implements IBaseModel {
         for (BinContentInfo info : datas) {
 
             String quantity = info.getQuantity_Base();
-            if (quantity == null || quantity.isEmpty() || !TextUtils.isIntString(quantity))
+            if (quantity == null || quantity.isEmpty() || !TextUtils.isNumeric(quantity))
                 continue;
             ;
-            if (Integer.valueOf(quantity) == 0) continue;
+            if (Double.valueOf(quantity) == 0) continue;
 
             WarehouseTransferSingleAddon addon = new WarehouseTransferSingleAddon();
             addon.setItemNo(info.getItem_No());
             addon.setTerminalID(WApp.userInfo.getUserid());
+            addon.setTransferNo(WApp.barcodeSettings.getMachineCode() + WApp.userInfo.getUserid() + AllFuncModelImpl.getTempInt());
             addon.setQuantity("");
             addon.setToBinCode("");
             addon.setToLocationCode("");

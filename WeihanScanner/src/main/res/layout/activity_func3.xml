@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="2"
-            android:text="物料条码" />
+            android:text="@string/text_material_barcode" />
 
         <EditText
             android:id="@+id/et_func3_itemno"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="2"
-            android:text="库位条码" />
+            android:text="@string/text_bincode_barcode" />
 
         <EditText
             android:id="@+id/et_func3_bincode"
@@ -76,7 +76,7 @@
             android:layout_marginRight="4dp"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:text="推荐库位"
+            android:text="@string/text_recommand_bin"
             android:textColor="@android:color/background_light"
             android:textStyle="bold"
             android:visibility="visible" />
@@ -90,7 +90,7 @@
             android:layout_marginRight="4dp"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:text="@string/text_check"
+            android:text="@string/text_save"
             android:textColor="@android:color/background_light"
             android:textStyle="bold"
             android:visibility="visible" />

@@ -4,121 +4,112 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@drawable/melvin_card_shadow"
-    android:orientation="horizontal"
-    android:paddingBottom="@dimen/dp_10"
-    android:paddingTop="@dimen/dp_10">
+    android:orientation="horizontal">
 
     <View
-        android:id="@+id/view_item_func7_state"
+        android:id="@+id/view_item_func1_state"
         android:layout_width="3dp"
         android:layout_height="15dp"
-        android:layout_margin="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="13dp"
         android:background="@color/colorAccent" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
         android:layout_weight="1"
         android:orientation="vertical">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="物料编号:"
-                android:textSize="12sp" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="从仓库:" />
 
             <TextView
-                android:id="@+id/tv_item_func7_mcn"
+                android:id="@+id/tv_item_func1_location"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="1111111111111"
+                android:gravity="center_vertical"
                 android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/text_from_bin_colon" />
+
+            <TextView
+                android:id="@+id/tv_item_func1_bincode"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimary" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="物料名称:"
-                android:textSize="12sp" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="库存数:" />
 
             <TextView
-                android:id="@+id/tv_item_func7_name"
+                android:id="@+id/tv_item_func1_count3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="哈哈"
-                android:textColor="@color/colorPrimary" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="数量:"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_item_func7_count0"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="7777"
-                android:textColor="@color/colorPrimary" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="确认数:"
-                android:textSize="12sp" />
+                android:id="@+id/tv_item_func1_count1_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical" />
 
             <EditText
-                android:id="@+id/et_item_func7_count1"
+                android:id="@+id/et_item_func1_count1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@null"
-                android:hint="请输入数量"
+                android:background="@drawable/shape_rectangle_border"
+                android:gravity="center_vertical"
+                android:hint="@string/hint_input_quantity"
                 android:imeOptions="actionDone"
+                android:inputType="number|numberSigned|numberDecimal"
                 android:singleLine="true"
-                android:textColor="#0000FF"
-                android:textSize="14sp" />
+                android:textColor="#0000FF" />
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_item_func7_delete"
+            android:id="@+id/tv_subitem_func1_delete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="X"
@@ -128,11 +119,11 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_item_func7_state"
+            android:id="@+id/tv_item_func1_state"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="1"
-            android:gravity="bottom|right"
+            android:gravity="bottom|center_horizontal"
             android:text="未提交"
             android:textColor="@color/colorAccent"
             android:textSize="10sp" />

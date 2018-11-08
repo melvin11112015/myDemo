@@ -1,13 +1,9 @@
 package com.weihan.scanner.activities;
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -15,8 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.common.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.weihan.scanner.BaseMVP.BaseFuncActivity;
@@ -28,7 +22,6 @@ import com.weihan.scanner.entities.WarehouseReceiptAddon;
 import com.weihan.scanner.mvpviews.Func0MvpView;
 import com.weihan.scanner.presenters.Func0PresenterImpl;
 import com.weihan.scanner.utils.AdapterHelper;
-import com.weihan.scanner.utils.TextUtils;
 import com.weihan.scanner.utils.ViewHelper;
 
 import java.util.ArrayList;
@@ -43,7 +36,7 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
     Button btCheck, btSubmit;
     TextView tvCode;
 
-    private PurchaseListAdapter adapter;
+    private Func0PresenterImpl.PurchaseListAdapter2 adapter;
     private List<Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo>> datas = new ArrayList<>();
 
     @Override
@@ -54,7 +47,6 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
         findView();
         initWidget();
     }
-
 
     @Override
     protected Func0PresenterImpl buildPresenter() {
@@ -75,8 +67,7 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
         btCheck.setOnClickListener(this);
         btSubmit.setOnClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        adapter = new PurchaseListAdapter(datas);
+        adapter = new Func0PresenterImpl.PurchaseListAdapter2(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -107,10 +98,12 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
         presenter.acquireDatas(etCheck.getText().toString());
     }
 
-
     @Override
     public void fillRecycler(List<Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo>> datas) {
-        if (!datas.isEmpty()) tvCode.setText(datas.get(0).getInfoEntity().getDocument_No());
+        if (!datas.isEmpty()) {
+            tvCode.setText(datas.get(0).getInfoEntity().getDocument_No());
+            etCheck.setText(datas.get(0).getInfoEntity().getDocument_No());
+        }
         this.datas.clear();
         this.datas.addAll(datas);
         adapter.notifyDataSetChanged();
@@ -126,7 +119,6 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
         }
     }
 
-
     @Override
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
@@ -136,6 +128,7 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
     protected void clearDatas() {
         savePref(true);
         tvCode.setText("");
+        etCheck.setText("");
         datas.clear();
         notifyAdapter();
     }
@@ -166,70 +159,5 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
         editor.apply();
     }
 
-    private static class PurchaseListAdapter extends BaseQuickAdapter<Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo>, BaseViewHolder> {
 
-        InputFilter[] filters = new InputFilter[]{new InputFilter() {
-            @Override
-            public CharSequence filter(CharSequence charSequence, int i, int i1, Spanned spanned, int i2, int i3) {
-                if (!TextUtils.isIntString(charSequence.toString()))
-                    return "";
-                else
-                    return null;
-            }
-        }};
-
-
-        public PurchaseListAdapter(@Nullable List<Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo>> datas) {
-            super(R.layout.item_func0, datas);
-        }
-
-        @Override
-        protected void convert(final BaseViewHolder helper, Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo> item) {
-            helper.setText(R.id.tv_item_func0_mcn, item.getInfoEntity().getNo());
-            helper.setText(R.id.tv_item_func0_name, item.getInfoEntity().getDescription());
-            helper.setText(R.id.tv_item_func0_count0, item.getInfoEntity().getOutstanding_Quantity());
-            helper.setText(R.id.et_item_func0_count1, item.getAddonEntity().getQuantity());
-            EditText et = helper.getView(R.id.et_item_func0_count1);
-
-            et.setFilters(filters);
-
-            final Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo> polymorphItem = item;
-
-            View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean isFocused) {
-                    if (!isFocused) {
-                        //((EditText)view).setText( polymorphItem.getAddonEntity().getQuantity());
-                        String s = ((EditText) view).getText().toString();
-                        if (TextUtils.isIntString(s) && Integer.valueOf(s) <= Integer.valueOf(polymorphItem.getInfoEntity().getOutstanding_Quantity())) {
-                            polymorphItem.getAddonEntity().setQuantity(s);
-                        } else {
-                            ((EditText) view).setText(polymorphItem.getAddonEntity().getQuantity());
-                            ToastUtils.show(R.string.toast_reach_upper_limit);
-                        }
-                    }
-                }
-            };
-            et.setOnFocusChangeListener(focusChangeListener);
-
-            helper.addOnClickListener(R.id.tv_item_func0_delete);
-            switch (item.getState()) {
-                case FAILURE:
-                    helper.setBackgroundColor(R.id.view_item_func0_state, Color.RED);
-                    helper.setTextColor(R.id.tv_item_func0_state, Color.RED);
-                    helper.setText(R.id.tv_item_func0_state, R.string.text_commit_fail);
-                    break;
-                case COMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func0_state, Color.GREEN);
-                    helper.setTextColor(R.id.tv_item_func0_state, Color.GREEN);
-                    helper.setText(R.id.tv_item_func0_state, R.string.text_committed);
-                    break;
-                case UNCOMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func0_state, Color.argb(0Xff, 0xff, 0x90, 0x40));
-                    helper.setTextColor(R.id.tv_item_func0_state, Color.WHITE);
-                    helper.setText(R.id.tv_item_func0_state, "");
-                    break;
-            }
-        }
-    }
 }

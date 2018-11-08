@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.weihan.scanner.R;
+
 import static com.weihan.scanner.Constant.KEY_TITLE;
 
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity {
@@ -22,6 +24,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         if (this instanceof IBaseView) presenter.attachView((IBaseView) this);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            actionBar.setIcon(R.drawable.weihanlogo2);
             actionBar.setDisplayHomeAsUpEnabled(true);
             String title = getIntent().getStringExtra(KEY_TITLE);
             if (title != null) actionBar.setTitle(title);

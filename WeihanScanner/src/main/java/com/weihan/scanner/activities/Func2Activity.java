@@ -30,7 +30,7 @@ import static com.weihan.scanner.Constant.KEY_SPREF_FUNC2_DATA;
 public class Func2Activity extends BaseFuncActivity<Func2PresenterImpl> implements Func6MvpView, View.OnClickListener {
 
     RecyclerView recyclerView;
-    EditText etImportCode, etItemno;
+    EditText etWBCode, etItemno;
     Button btSave, btSubmit;
 
     private Func2PresenterImpl.PhysicalInvtAdapter adapter;
@@ -82,7 +82,7 @@ public class Func2Activity extends BaseFuncActivity<Func2PresenterImpl> implemen
     protected void clearDatas() {
         savePref(true);
         etItemno.setText("");
-        etImportCode.setText("");
+        etWBCode.setText("");
         datas.clear();
         notifyAdapter();
     }
@@ -120,7 +120,7 @@ public class Func2Activity extends BaseFuncActivity<Func2PresenterImpl> implemen
             }
         });
         loadPref();
-        ViewHelper.initEdittextInputState(this, etImportCode);
+        ViewHelper.initEdittextInputState(this, etWBCode);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class Func2Activity extends BaseFuncActivity<Func2PresenterImpl> implemen
         recyclerView = findViewById(R.id.recycler_func2);
         btSave = findViewById(R.id.button_func2_save);
         btSubmit = findViewById(R.id.button_func2_submit);
-        etImportCode = findViewById(R.id.et_func2_bincode);
+        etWBCode = findViewById(R.id.et_func2_bincode);
         etItemno = findViewById(R.id.et_func2_itemno);
     }
 
@@ -143,6 +143,6 @@ public class Func2Activity extends BaseFuncActivity<Func2PresenterImpl> implemen
     }
 
     private void doAdding() {
-        presenter.attemptToAddPoly(datas, etImportCode.getText().toString(), etItemno.getText().toString());
+        presenter.attemptToAddPoly(datas, etWBCode.getText().toString(), etItemno.getText().toString());
     }
 }

@@ -34,7 +34,7 @@ import static com.weihan.scanner.Constant.KEY_SPREF_FUNC8_DATA;
 
 public class Func8Activity extends BaseFuncActivity<Func8PresenterImpl> implements Func8MvpView, View.OnClickListener {
 
-    EditText etFromBincode, etItemno, etToBincode, etQuantity;
+    EditText etFromWBcode, etItemno, etToWBcode, etQuantity;
     Button buttonMove, buttonCheck, buttonSubmit;
     RecyclerView recyclerView;
 
@@ -58,9 +58,9 @@ public class Func8Activity extends BaseFuncActivity<Func8PresenterImpl> implemen
 
     @Override
     public void findView() {
-        etFromBincode = findViewById(R.id.et_func8_from_bincode);
+        etFromWBcode = findViewById(R.id.et_func8_from_bincode);
         etItemno = findViewById(R.id.et_func8_itemno);
-        etToBincode = findViewById(R.id.et_func8_to_bincode);
+        etToWBcode = findViewById(R.id.et_func8_to_bincode);
         etQuantity = findViewById(R.id.et_func8_quantity);
         buttonCheck = findViewById(R.id.button_func8_check);
         buttonMove = findViewById(R.id.button_func8_move);
@@ -94,8 +94,6 @@ public class Func8Activity extends BaseFuncActivity<Func8PresenterImpl> implemen
         });
         recyclerView.setAdapter(adapter);
 
-
-        ViewHelper.setIntOnlyInputFilterForEditText(etQuantity);
         etItemno.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
@@ -117,18 +115,18 @@ public class Func8Activity extends BaseFuncActivity<Func8PresenterImpl> implemen
             }
         });
         loadPref();
-        ViewHelper.initEdittextInputState(this, etFromBincode);
+        ViewHelper.initEdittextInputState(this, etFromWBcode);
     }
 
     private void doChecking() {
-        presenter.acquireDatas(etItemno.getText().toString(), etFromBincode.getText().toString());
+        presenter.acquireDatas(etItemno.getText().toString(), etFromWBcode.getText().toString());
     }
 
     private void doMoving() {
         presenter.inputAddonData(adapter.getSelectedPosition(),
                 datas,
                 etQuantity.getText().toString(),
-                etToBincode.getText().toString());
+                etToWBcode.getText().toString());
     }
 
     @Override
@@ -172,8 +170,8 @@ public class Func8Activity extends BaseFuncActivity<Func8PresenterImpl> implemen
     @Override
     protected void clearDatas() {
         savePref(true);
-        etToBincode.setText("");
-        etFromBincode.setText("");
+        etToWBcode.setText("");
+        etFromWBcode.setText("");
         etItemno.setText("");
         etQuantity.setText("");
         datas.clear();
@@ -187,14 +185,8 @@ public class Func8Activity extends BaseFuncActivity<Func8PresenterImpl> implemen
             BinContentInfo info = datas.get(0).getInfoEntity();
             etItemno.setText(info.getItem_No());
             WarehouseTransferSingleAddon addon = datas.get(0).getAddonEntity();
-            /*
-            String realbincode0 = info.getLocation_Code()+info.getBin_Code();
-            etToBincode.setText(realbincode0);
-            String realbincode1 = addon.getToLocationCode()+addon.getToBinCode();
-            etToBincode.setText(realbincode1);
-            */
-            etFromBincode.setText(info.getBin_Code());
-            etToBincode.setText(addon.getToBinCode());
+            etFromWBcode.setText(info.getBin_Code());
+            etToWBcode.setText(addon.getToBinCode());
             adapter.setSelectedPosition(0);
         } else {
             adapter.setSelectedPosition(-1);

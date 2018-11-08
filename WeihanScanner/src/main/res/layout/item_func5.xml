@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/dp_10">
 
     <View
-        android:id="@+id/view_item_func1_state"
+        android:id="@+id/view_item_func5_state"
         android:layout_width="3dp"
         android:layout_height="15dp"
         android:layout_margin="3dp"
@@ -24,18 +24,40 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="物料编号:"
+                android:text="@string/text_material_colon"
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/tv_item_func1_mcn"
+                android:id="@+id/tv_item_func5_itemno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="@string/text_warehouse_colon"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_item_func5_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -52,36 +74,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="物料名称:"
+                android:text="@string/text_bin_colon"
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/tv_item_func1_name"
+                android:id="@+id/tv_item_func5_bin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="哈哈"
-                android:textColor="@color/colorPrimary" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="数量:"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_item_func1_count0"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="7777"
+                android:text="1111111111111"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
@@ -94,53 +95,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="领料数:"
+                android:text="@string/text_bin_colon"
                 android:textSize="12sp" />
 
-            <EditText
-                android:id="@+id/et_item_func1_count1"
+            <TextView
+                android:id="@+id/tv_item_func5_count0"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@null"
-                android:hint="请输入数量"
+                android:text="1111111111111"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="@string/text_quantity_colon"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/et_item_func5_count1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/shape_rectangle_border"
+                android:hint="@string/hint_input_quantity"
                 android:imeOptions="actionDone"
+                android:inputType="number|numberSigned|numberDecimal"
                 android:singleLine="true"
+                android:text="1"
                 android:textColor="#0000FF"
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="辅助数量:         "
-                android:textSize="12sp" />
-
-            <EditText
-                android:id="@+id/et_item_func1_count2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:hint="请输入数量"
-                android:imeOptions="actionDone"
-                android:textColor="#0000FF"
-                android:textSize="14sp" />
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_item_func1_delete"
+            android:id="@+id/tv_item_func5_delete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="X"
@@ -150,9 +152,9 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_item_func1_state"
+            android:id="@+id/tv_item_func5_state"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:ems="1"
             android:gravity="bottom|right"
             android:text="未提交"

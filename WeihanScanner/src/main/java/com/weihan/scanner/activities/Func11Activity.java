@@ -24,8 +24,8 @@ import java.util.List;
 
 public class Func11Activity extends BaseActivity<Func11PresenterImpl> implements Func11MvpView, View.OnClickListener {
 
-    EditText etItemNo, etBincode;
-    Button buttonItemNo, buttonBincode;
+    EditText etItemNo, etWBcode;
+    Button buttonCheck;
     RecyclerView recyclerView;
 
     private Func11PresenterImpl.BinContentListAdapter adapter;
@@ -48,70 +48,55 @@ public class Func11Activity extends BaseActivity<Func11PresenterImpl> implements
     @Override
     public void findView() {
         etItemNo = findViewById(R.id.et_func11_itemno);
-        etBincode = findViewById(R.id.et_func11_bincode);
+        etWBcode = findViewById(R.id.et_func11_bincode);
         recyclerView = findViewById(R.id.recycler_func11);
-        buttonItemNo = findViewById(R.id.button_func11_check0);
-        buttonBincode = findViewById(R.id.button_func11_check1);
+        buttonCheck = findViewById(R.id.button_func11_check1);
     }
 
     @Override
     public void initWidget() {
 
-        buttonItemNo.setOnClickListener(this);
-        buttonBincode.setOnClickListener(this);
+        buttonCheck.setOnClickListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new Func11PresenterImpl.BinContentListAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
         recyclerView.setAdapter(adapter);
 
-        etItemNo.setOnKeyListener(new View.OnKeyListener() {
+        View.OnKeyListener onKeyListener = new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
-                    doChecking1();
+                    doChecking();
                     return true;
                 }
                 return false;
             }
-        });
+        };
 
-        etBincode.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
-                    doChecking2();
-                    return true;
-                }
-                return false;
-            }
-        });
+        etItemNo.setOnKeyListener(onKeyListener);
+        etWBcode.setOnKeyListener(onKeyListener);
 
-        ViewHelper.initEdittextInputState(this, etBincode);
+        ViewHelper.initEdittextInputState(this, etWBcode);
     }
 
     @Override
     public void onClick(View view) {
-        if (view == buttonItemNo) {
-            doChecking1();
-        } else if (view == buttonBincode) {
-            doChecking2();
+        if (view == buttonCheck) {
+            doChecking();
         }
     }
 
-    private void doChecking1() {
-        presenter.acquireDatas0(etItemNo.getText().toString());
+    private void doChecking() {
+        presenter.acquireDatas(etItemNo.getText().toString().trim(), etWBcode.getText().toString().trim());
     }
 
-    private void doChecking2() {
-        presenter.acquireDatas1(etBincode.getText().toString());
-    }
 
 
     @Override
     public void clearDatas() {
         etItemNo.setText("");
-        etBincode.setText("");
+        etWBcode.setText("");
         datas.clear();
         adapter.notifyDataSetChanged();
     }

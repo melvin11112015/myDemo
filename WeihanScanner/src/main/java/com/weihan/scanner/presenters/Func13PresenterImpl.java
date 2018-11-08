@@ -19,10 +19,8 @@ import com.weihan.scanner.mvpviews.Func13MvpView;
 import com.weihan.scanner.net.ApiTool;
 import com.weihan.scanner.net.GenericOdataCallback;
 import com.weihan.scanner.utils.TextUtils;
-import com.weihan.scanner.utils.ViewHelper;
 
 import java.util.List;
-import java.util.Random;
 
 public class Func13PresenterImpl extends BasePresenter<Func13MvpView> {
 
@@ -30,12 +28,10 @@ public class Func13PresenterImpl extends BasePresenter<Func13MvpView> {
     private AllFuncModelImpl.PolyChangeListener<WarehouseTransferMultiAddon, WhseTransferMultiInfo> listener
             = new AllFuncModelImpl.PolyChangeListener<WarehouseTransferMultiAddon, WhseTransferMultiInfo>() {
 
-        private Random random = new Random();
-
         @Override
         public void onPolyChanged(boolean isFinished, String msg) {
+            allFuncModel.onAllCommitted(isFinished, msg);
             getView().notifyAdapter();
-            allFuncModel.buildingResultMsg(isFinished, msg);
         }
 
         @Override
@@ -43,17 +39,17 @@ public class Func13PresenterImpl extends BasePresenter<Func13MvpView> {
             WarehouseTransferMultiAddon addon = poly.getAddonEntity();
             addon.setCreationDate(AllFuncModelImpl.getCurrentDatetime());
             addon.setSubmitDate(AllFuncModelImpl.getCurrentDatetime());
-            addon.setLineNo(Math.abs(random.nextInt()));
-            ApiTool.addWhseTransferMultiFromBuffer(addon, allFuncModel.new AllFuncOdataCallback(poly, listener));
+            addon.setLineNo(AllFuncModelImpl.getTempInt());
+            ApiTool.addWhseTransferMultiFromBuffer(addon, allFuncModel.new AllFuncOdataCallback(poly, this));
         }
 
     };
-    private String binCode;
+    private String WBcode;
     private GenericOdataCallback<WhseTransferMultiInfo> callback1 = new GenericOdataCallback<WhseTransferMultiInfo>() {
         @Override
         public void onDataAvailable(List<WhseTransferMultiInfo> datas) {
 
-            getView().fillRecycler(Func13ModelImpl.createPolymorphList(datas, binCode));
+            getView().fillRecycler(Func13ModelImpl.createPolymorphList(datas, WBcode));
         }
 
         @Override
@@ -62,15 +58,15 @@ public class Func13PresenterImpl extends BasePresenter<Func13MvpView> {
         }
     };
 
-    public void acquireDatas(String itemNo, String binCode) {
+    public void acquireDatas(String itemNo, String WBcode) {
 
-        if (itemNo.isEmpty() || binCode.isEmpty()) {
+        if (itemNo.isEmpty() || WBcode.isEmpty()) {
             ToastUtils.showToastLong("物料条码和从仓库条码不能为空");
             return;
         }
         String filter = "ItemNo eq '" + itemNo + "'";
 
-        this.binCode = binCode;
+        this.WBcode = WBcode;
 
         ApiTool.callWhseTransferMultiList(filter, callback1);
     }
@@ -95,7 +91,6 @@ public class Func13PresenterImpl extends BasePresenter<Func13MvpView> {
             helper.setText(R.id.tv_item_func13_quantity0, item.getInfoEntity().getQuantity());
             helper.setText(R.id.et_item_func13_quantity1, item.getAddonEntity().getQuantity());
             EditText et = helper.getView(R.id.et_item_func13_quantity1);
-            ViewHelper.setIntOnlyInputFilterForEditText(et);
 
             final Polymorph<WarehouseTransferMultiAddon, WhseTransferMultiInfo> polymorphItem = item;
 
@@ -105,7 +100,7 @@ public class Func13PresenterImpl extends BasePresenter<Func13MvpView> {
                     if (!isFocused) {
                         //((EditText)view).setText( polymorphItem.getAddonEntity().getQuantity());
                         String s = ((EditText) view).getText().toString();
-                        if (TextUtils.isIntString(s) && Integer.valueOf(s) <= Integer.valueOf(polymorphItem.getInfoEntity().getQuantity())) {
+                        if (TextUtils.isNumeric(s) && Double.valueOf(s) <= Double.valueOf(polymorphItem.getInfoEntity().getQuantity())) {
                             polymorphItem.getAddonEntity().setQuantity(s);
                         } else {
                             ((EditText) view).setText(polymorphItem.getAddonEntity().getQuantity());
@@ -122,16 +117,19 @@ public class Func13PresenterImpl extends BasePresenter<Func13MvpView> {
                     helper.setBackgroundColor(R.id.view_item_func13_state, Color.RED);
                     helper.setTextColor(R.id.tv_item_func13_state, Color.RED);
                     helper.setText(R.id.tv_item_func13_state, R.string.text_commit_fail);
+                    et.setEnabled(true);
                     break;
                 case COMMITTED:
                     helper.setBackgroundColor(R.id.view_item_func13_state, Color.GREEN);
                     helper.setTextColor(R.id.tv_item_func13_state, Color.GREEN);
                     helper.setText(R.id.tv_item_func13_state, R.string.text_committed);
+                    et.setEnabled(false);
                     break;
                 case UNCOMMITTED:
                     helper.setBackgroundColor(R.id.view_item_func13_state, Color.argb(0Xff, 0xff, 0x90, 0x40));
                     helper.setTextColor(R.id.tv_item_func13_state, Color.WHITE);
                     helper.setText(R.id.tv_item_func13_state, "");
+                    et.setEnabled(true);
                     break;
             }
         }

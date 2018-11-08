@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center"
-            android:text="发货单号"
+            android:text="@string/text_shipment_list_code"
             android:textStyle="bold" />
 
         <TextView

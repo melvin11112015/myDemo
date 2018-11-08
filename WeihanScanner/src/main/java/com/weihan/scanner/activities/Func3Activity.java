@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.weihan.scanner.Constant.KEY_CODE;
+import static com.weihan.scanner.Constant.KEY_CODE2;
 import static com.weihan.scanner.Constant.KEY_SPREF_FUNC3_DATA;
 import static com.weihan.scanner.Constant.KEY_TITLE;
 import static com.weihan.scanner.Constant.REQUEST_RECOMMAND;
@@ -36,12 +37,12 @@ import static com.weihan.scanner.Constant.RESULT_SUCCESS;
 
 public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implements Func3MvpView, View.OnClickListener {
 
-    EditText etItemno, etBincode;
+    EditText etItemno, etWBcode;
     Button buttonAdd, buttonSubmit, buttonRecommand;
     RecyclerView recyclerView;
 
     private List<Polymorph<WarehousePutAwayAddon, BinContentInfo>> datas = new ArrayList<>();
-    private Func3PresenterImpl.BinContentListAdapter adapter;
+    private Func3PresenterImpl.WarehousePutAwayListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
         buttonRecommand.setOnClickListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new Func3PresenterImpl.BinContentListAdapter(datas);
+        adapter = new Func3PresenterImpl.WarehousePutAwayListAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -75,7 +76,17 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
             }
         });
         recyclerView.setAdapter(adapter);
-        etBincode.setOnKeyListener(new View.OnKeyListener() {
+        etItemno.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    doRecommanding();
+                    //return true;
+                }
+                return false;
+            }
+        });
+        etWBcode.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
@@ -92,7 +103,7 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
     @Override
     public void findView() {
         etItemno = findViewById(R.id.et_func3_itemno);
-        etBincode = findViewById(R.id.et_func3_bincode);
+        etWBcode = findViewById(R.id.et_func3_bincode);
         buttonAdd = findViewById(R.id.button_func3_add);
         buttonSubmit = findViewById(R.id.button_func3_submit);
         buttonRecommand = findViewById(R.id.button_func3_recommand);
@@ -107,28 +118,36 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
             etItemno.requestFocus();
             presenter.submitDatas(datas);
         } else if (view == buttonRecommand) {
-            String itemno = etItemno.getText().toString();
-            if (itemno.isEmpty()) {
-                ToastUtils.show("物料条码不能为空");
-                return;
-            }
-            Intent intent = new Intent(Func3Activity.this, ChooseListActivity.class);
-            intent.putExtra(KEY_CODE, itemno);
-            intent.putExtra(KEY_TITLE, "选择推荐库位");
-            startActivityForResult(intent, REQUEST_RECOMMAND);
+            doRecommanding();
         }
     }
 
     private void doAdding() {
-        presenter.acquireDatas(etItemno.getText().toString(), etBincode.getText().toString());
+        presenter.attemptToAddPoly(datas, etItemno.getText().toString(), etWBcode.getText().toString());
+    }
+
+    private void doRecommanding() {
+        String itemno = etItemno.getText().toString();
+        if (itemno.isEmpty()) {
+            ToastUtils.show("物料条码不能为空");
+            return;
+        }
+        Intent intent = new Intent(Func3Activity.this, ChooseListActivity.class);
+        intent.putExtra(KEY_CODE, itemno);
+        intent.putExtra(KEY_TITLE, getString(R.string.text_recommand_bin));
+        startActivityForResult(intent, REQUEST_RECOMMAND);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_RECOMMAND && resultCode == RESULT_SUCCESS) {
-            String code = data.getStringExtra(KEY_CODE);
-            if (code != null) etBincode.setText(code);
+            String locationCode = data.getStringExtra(KEY_CODE);
+            String binCode = data.getStringExtra(KEY_CODE2);
+            if (locationCode != null && binCode != null) {
+                etWBcode.setText(locationCode + binCode);
+                doAdding();
+            }
         }
     }
 
@@ -161,7 +180,7 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
     @Override
     protected void clearDatas() {
         savePref(true);
-        etBincode.setText("");
+        etWBcode.setText("");
         etItemno.setText("");
         datas.clear();
         notifyAdapter();

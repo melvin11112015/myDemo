@@ -5,6 +5,8 @@ package com.weihan.scanner.entities;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 ;
 
 /**
@@ -13,7 +15,7 @@ import com.google.gson.annotations.SerializedName;
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
-public class BinContentInfo {
+public class BinContentInfo implements Serializable {
 
     @SerializedName("odata.etag")
     private String odata_etag;

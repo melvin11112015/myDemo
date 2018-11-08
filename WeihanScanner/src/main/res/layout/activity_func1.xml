@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center"
-            android:text="领料单"
+            android:text="@string/text_invpicking"
             android:textStyle="bold" />
 
         <TextView

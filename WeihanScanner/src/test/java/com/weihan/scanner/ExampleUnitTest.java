@@ -1,10 +1,11 @@
 package com.weihan.scanner;
 
-import com.weihan.scanner.net.ApiTool;
+import com.google.gson.Gson;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import java.util.regex.Pattern;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -15,13 +16,18 @@ import static org.junit.Assert.assertTrue;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+        Gson gson = new Gson();
+        System.out.println(gson.toJson(new MyNum()));
     }
 
     @Test
-    public void apiToolTestLogin() throws Exception {
+    public void patternTest() throws Exception {
 
-        assertTrue(ApiTool.login("666", "1111"));
+        assertTrue(Pattern.compile("^(-?\\d+)(\\.\\d+)?$").matcher("-1").matches());
 
+    }
+
+    private class MyNum {
+        double haha = 5.00f;
     }
 }

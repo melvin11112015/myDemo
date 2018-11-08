@@ -9,6 +9,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="@dimen/dp_10"
-        android:text="TextView"
         android:textColor="@color/colorPrimaryDark" />
 </FrameLayout>

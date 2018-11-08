@@ -19,10 +19,8 @@ import com.weihan.scanner.mvpviews.Func12MvpView;
 import com.weihan.scanner.net.ApiTool;
 import com.weihan.scanner.net.GenericOdataCallback;
 import com.weihan.scanner.utils.TextUtils;
-import com.weihan.scanner.utils.ViewHelper;
 
 import java.util.List;
-import java.util.Random;
 
 public class Func12PresenterImpl extends BasePresenter<Func12MvpView> {
 
@@ -31,7 +29,10 @@ public class Func12PresenterImpl extends BasePresenter<Func12MvpView> {
     private GenericOdataCallback<BinContentInfo> callback1 = new GenericOdataCallback<BinContentInfo>() {
         @Override
         public void onDataAvailable(List<BinContentInfo> datas) {
-
+            if (datas.isEmpty()) {
+                ToastUtils.show(R.string.toast_no_record);
+                return;
+            }
             getView().fillRecycler(Func12ModelImpl.createPolymorphList(datas));
         }
 
@@ -44,32 +45,33 @@ public class Func12PresenterImpl extends BasePresenter<Func12MvpView> {
     private AllFuncModelImpl.PolyChangeListener<WarehouseTransferMultiAddon, BinContentInfo> listener
             = new AllFuncModelImpl.PolyChangeListener<WarehouseTransferMultiAddon, BinContentInfo>() {
 
-        private Random random = new Random();
 
         @Override
         public void onPolyChanged(boolean isFinished, String msg) {
+            allFuncModel.onAllCommitted(isFinished, msg);
             getView().notifyAdapter();
-            allFuncModel.buildingResultMsg(isFinished, msg);
         }
 
         @Override
         public void goCommitting(Polymorph<WarehouseTransferMultiAddon, BinContentInfo> poly) {
             WarehouseTransferMultiAddon addon = poly.getAddonEntity();
-            addon.setCreationDate(AllFuncModelImpl.getCurrentDatetime());
             addon.setSubmitDate(AllFuncModelImpl.getCurrentDatetime());
-            addon.setLineNo(Math.abs(random.nextInt()));
-            ApiTool.addWhseTransferMultiFromBuffer(addon, allFuncModel.new AllFuncOdataCallback(poly, listener));
+            addon.setLineNo(AllFuncModelImpl.getTempInt());
+            ApiTool.addWhseTransferMultiFromBuffer(addon, allFuncModel.new AllFuncOdataCallback(poly, this));
         }
 
     };
 
-    public void acquireDatas(String itemNo, String binCode) {
+    public void acquireDatas(String itemNo, String WBcode) {
 
-        if (itemNo.isEmpty() || binCode.isEmpty()) {
+        if (itemNo.isEmpty() || WBcode.isEmpty()) {
             ToastUtils.showToastLong("物料条码和从仓库条码不能为空");
             return;
         }
-        String filter = "Item_No eq '" + itemNo + "' and Bin_Code eq '" + binCode + "'";
+        String bincode = AllFuncModelImpl.convertWBcode(WBcode, AllFuncModelImpl.TYPE_BIN);
+        String locationCode = AllFuncModelImpl.convertWBcode(WBcode, AllFuncModelImpl.TYPE_LOCATION);
+
+        String filter = "Item_No eq '" + itemNo + "' and Bin_Code eq '" + bincode + "' and Location_Code eq '" + locationCode + "' and Quantity_Base ne 0";
 
         ApiTool.callBinContent(filter, callback1);
     }
@@ -94,7 +96,6 @@ public class Func12PresenterImpl extends BasePresenter<Func12MvpView> {
             helper.setText(R.id.tv_item_func12_quantity0, item.getInfoEntity().getQuantity_Base());
             helper.setText(R.id.et_item_func12_quantity1, item.getAddonEntity().getQuantity());
             EditText et = helper.getView(R.id.et_item_func12_quantity1);
-            ViewHelper.setIntOnlyInputFilterForEditText(et);
 
             final Polymorph<WarehouseTransferMultiAddon, BinContentInfo> polymorphItem = item;
 
@@ -121,16 +122,19 @@ public class Func12PresenterImpl extends BasePresenter<Func12MvpView> {
                     helper.setBackgroundColor(R.id.view_item_func12_state, Color.RED);
                     helper.setTextColor(R.id.tv_item_func12_state, Color.RED);
                     helper.setText(R.id.tv_item_func12_state, R.string.text_commit_fail);
+                    et.setEnabled(true);
                     break;
                 case COMMITTED:
                     helper.setBackgroundColor(R.id.view_item_func12_state, Color.GREEN);
                     helper.setTextColor(R.id.tv_item_func12_state, Color.GREEN);
                     helper.setText(R.id.tv_item_func12_state, R.string.text_committed);
+                    et.setEnabled(false);
                     break;
                 case UNCOMMITTED:
                     helper.setBackgroundColor(R.id.view_item_func12_state, Color.argb(0Xff, 0xff, 0x90, 0x40));
                     helper.setTextColor(R.id.tv_item_func12_state, Color.WHITE);
                     helper.setText(R.id.tv_item_func12_state, "");
+                    et.setEnabled(true);
                     break;
             }
         }

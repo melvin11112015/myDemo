@@ -3,7 +3,9 @@ package com.weihan.scanner.presenters;
 import com.google.gson.Gson;
 import com.weihan.scanner.BaseMVP.BasePresenter;
 import com.weihan.scanner.R;
+import com.weihan.scanner.entities.BarcodeSettings;
 import com.weihan.scanner.mvpviews.SettingsMvpView;
+import com.weihan.scanner.net.ApiTool;
 import com.weihan.scanner.utils.TextUtils;
 
 import static com.weihan.scanner.Constant.DEFAULT_MACHINE_CODE;
@@ -67,5 +69,9 @@ public class SettingsPresenterImpl extends BasePresenter<SettingsMvpView> {
             String[] strArrays = gson.fromJson(settingsJson, String[].class);
             getView().showSettingsParam(strArrays[0], strArrays[1], strArrays[2], strArrays[3], strArrays[4], strArrays[5], strArrays[6], strArrays[7], strArrays[8]);
         }
+    }
+
+    public static void applySetting(BarcodeSettings settings) {
+        ApiTool.currentApiUrl = settings.getServerip();
     }
 }

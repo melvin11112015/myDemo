@@ -1,8 +1,16 @@
 package com.weihan.scanner.entities;
 
 public class WarehouseTransferSingleAddon {
-    private String ItemNo, Quantity, FromLocationCode, FromBinCode, ToLocationCode, ToBinCode, SubmitDate, TerminalID, CreationDate;
+    private String TransferNo, ItemNo, Quantity, FromLocationCode, FromBinCode, ToLocationCode, ToBinCode, SubmitDate, TerminalID, CreationDate;
     private long LineNo;
+
+    public String getTransferNo() {
+        return TransferNo;
+    }
+
+    public void setTransferNo(String transferNo) {
+        TransferNo = transferNo;
+    }
 
     public String getCreationDate() {
         return CreationDate;

@@ -33,4 +33,24 @@
     <string name="text_check">查询</string>
     <string name="text_quantity">数量</string>
     <string name="text_add">增加</string>
+    <string name="text_purchase_list">采购单</string>
+    <string name="text_invpicking">领料单</string>
+    <string name="text_bincode_barcode">库位条码</string>
+    <string name="text_material_barcode">物料编码</string>
+    <string name="text_prooutput_list">入库单</string>
+    <string name="text_recommand_bin">推荐库位</string>
+    <string name="text_shipment_list_code">发货单号</string>
+    <string name="text_from_bin">从库位</string>
+    <string name="text_to_bin">至库位</string>
+    <string name="hint_input_quantity">请输入数量</string>
+    <string name="text_quantity_colon">数量:</string>
+    <string name="text_bin_colon">库位:</string>
+    <string name="text_warehouse_colon">仓库:</string>
+    <string name="text_material_colon">物料编码:</string>
+    <string name="text_to_bin_colon">至库位:</string>
+    <string name="text_material_name_colon">物料名称:</string>
+    <string name="text_from_bin_colon">从库位:</string>
+    <string name="title_recommand_bin">选择推荐库位</string>
+    <string name="text_pick_quantity_colon">领料数:</string>
+    <string name="canvas_swipe_remove">向右划动删除记录</string>
 </resources>

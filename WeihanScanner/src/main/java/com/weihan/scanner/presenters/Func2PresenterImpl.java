@@ -21,31 +21,37 @@ import java.util.List;
 public class Func2PresenterImpl extends BasePresenter<Func6MvpView> {
 
     private AllFuncModelImpl allFuncModel = new AllFuncModelImpl();
-
-
     private AllFuncModelImpl.PolyChangeListener<PhysicalInvtAddon, PhysicalInvtAddon> listener
             = new AllFuncModelImpl.PolyChangeListener<PhysicalInvtAddon, PhysicalInvtAddon>() {
 
         @Override
         public void onPolyChanged(boolean isFinished, String msg) {
+            allFuncModel.onAllCommitted(isFinished, msg);
             getView().notifyAdapter();
-            allFuncModel.buildingResultMsg(isFinished, msg);
         }
 
         @Override
         public void goCommitting(Polymorph<PhysicalInvtAddon, PhysicalInvtAddon> poly) {
-            ApiTool.addPhysicalInvtBuffer(poly.getAddonEntity(), allFuncModel.new AllFuncOdataCallback(poly, listener));
+            PhysicalInvtAddon addon = poly.getAddonEntity();
+            addon.setSubmitDate(AllFuncModelImpl.getCurrentDatetime());
+            addon.setLineNo(AllFuncModelImpl.getTempInt());
+            ApiTool.addPhysicalInvtBuffer(addon, allFuncModel.new AllFuncOdataCallback(poly, this));
         }
 
     };
 
-    public void attemptToAddPoly(List<Polymorph<PhysicalInvtAddon, PhysicalInvtAddon>> datas, String bincode, String itemno) {
+    public void attemptToAddPoly(List<Polymorph<PhysicalInvtAddon, PhysicalInvtAddon>> datas, String WBcode, String itemno) {
+
+        String bincode = AllFuncModelImpl.convertWBcode(WBcode, AllFuncModelImpl.TYPE_BIN);
+        String locationCode = AllFuncModelImpl.convertWBcode(WBcode, AllFuncModelImpl.TYPE_LOCATION);
 
         for (Polymorph<PhysicalInvtAddon, PhysicalInvtAddon> polymorph : datas)
-            if (polymorph.getAddonEntity().getBinCode().equals(bincode) && polymorph.getAddonEntity().getItemNo().equals(itemno))
+            if (polymorph.getAddonEntity().getBinCode().equals(bincode) &&
+                    polymorph.getAddonEntity().getLoaction_Code().equals(locationCode) &&
+                    polymorph.getAddonEntity().getItemNo().equals(itemno))
                 return;
 
-        datas.add(Func2ModelImpl.createPoly(bincode, itemno));
+        datas.add(Func2ModelImpl.createPoly(itemno, bincode, locationCode));
 
         getView().notifyAdapter();
     }
@@ -63,7 +69,7 @@ public class Func2PresenterImpl extends BasePresenter<Func6MvpView> {
 
         @Override
         protected void convert(final BaseViewHolder helper, Polymorph<PhysicalInvtAddon, PhysicalInvtAddon> item) {
-            helper.setText(R.id.tv_item_func2_location, item.getAddonEntity().getBinCode());
+            helper.setText(R.id.tv_item_func2_location, item.getAddonEntity().getLoaction_Code());
             helper.setText(R.id.tv_item_func2_bin, item.getAddonEntity().getBinCode());
             helper.setText(R.id.tv_item_func2_itemno, item.getAddonEntity().getItemNo());
             helper.setText(R.id.et_item_func2_count1, item.getAddonEntity().getQuantity());
@@ -77,7 +83,6 @@ public class Func2PresenterImpl extends BasePresenter<Func6MvpView> {
                     if (!isFocused) {
                         String s = ((EditText) view).getText().toString();
                         polymorphItem.getAddonEntity().setQuantity(s);
-
                     }
                 }
             };
@@ -89,16 +94,19 @@ public class Func2PresenterImpl extends BasePresenter<Func6MvpView> {
                     helper.setBackgroundColor(R.id.view_item_func2_state, Color.RED);
                     helper.setTextColor(R.id.tv_item_func2_state, Color.RED);
                     helper.setText(R.id.tv_item_func2_state, R.string.text_commit_fail);
+                    et.setEnabled(true);
                     break;
                 case COMMITTED:
                     helper.setBackgroundColor(R.id.view_item_func2_state, Color.GREEN);
                     helper.setTextColor(R.id.tv_item_func2_state, Color.GREEN);
                     helper.setText(R.id.tv_item_func2_state, R.string.text_committed);
+                    et.setEnabled(false);
                     break;
                 case UNCOMMITTED:
                     helper.setBackgroundColor(R.id.view_item_func2_state, Color.argb(0Xff, 0xff, 0x90, 0x40));
                     helper.setTextColor(R.id.tv_item_func2_state, Color.WHITE);
                     helper.setText(R.id.tv_item_func2_state, "");
+                    et.setEnabled(true);
                     break;
             }
         }

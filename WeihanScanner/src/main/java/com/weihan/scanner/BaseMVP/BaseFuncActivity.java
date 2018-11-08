@@ -55,4 +55,5 @@ public abstract class BaseFuncActivity<T extends BasePresenter> extends BaseActi
                 .create()
                 .show();
     }
+
 }

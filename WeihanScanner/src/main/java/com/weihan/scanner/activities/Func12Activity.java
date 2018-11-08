@@ -30,7 +30,7 @@ import static com.weihan.scanner.Constant.KEY_SPREF_FUNC12_DATA;
 
 public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implements Func12MvpView, View.OnClickListener {
 
-    EditText etFromBincode, etItemno;
+    EditText etFromWBcode, etItemno;
     Button buttonCheck, buttonSubmit;
     RecyclerView recyclerView;
 
@@ -74,12 +74,12 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
             }
         });
         loadPref();
-        ViewHelper.initEdittextInputState(this, etFromBincode);
+        ViewHelper.initEdittextInputState(this, etFromWBcode);
     }
 
     @Override
     public void findView() {
-        etFromBincode = findViewById(R.id.et_func12_from_bincode);
+        etFromWBcode = findViewById(R.id.et_func12_from_bincode);
         etItemno = findViewById(R.id.et_func12_itemno);
         buttonCheck = findViewById(R.id.button_func12_check);
         buttonSubmit = findViewById(R.id.button_func12_submit);
@@ -96,13 +96,13 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
         if (view == buttonCheck) {
             doChecking();
         } else if (view == buttonSubmit) {
-            etFromBincode.requestFocus();
+            etFromWBcode.requestFocus();
             presenter.submitDatas(datas);
         }
     }
 
     private void doChecking() {
-        presenter.acquireDatas(etItemno.getText().toString(), etFromBincode.getText().toString());
+        presenter.acquireDatas(etItemno.getText().toString(), etFromWBcode.getText().toString());
     }
 
     @Override
@@ -134,7 +134,7 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
     @Override
     protected void clearDatas() {
         savePref(true);
-        etFromBincode.setText("");
+        etFromWBcode.setText("");
         etItemno.setText("");
         datas.clear();
         notifyAdapter();

@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:layout_weight="4"
-            android:text="从库位" />
+            android:text="@string/text_from_bin" />
 
         <EditText
             android:id="@+id/et_func8_from_bincode"
@@ -48,7 +48,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:layout_weight="4"
-            android:text="物料条码" />
+            android:text="@string/text_material_barcode" />
 
         <EditText
             android:id="@+id/et_func8_itemno"
@@ -76,7 +76,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:layout_weight="4"
-            android:text="至库位" />
+            android:text="@string/text_to_bin" />
 
         <EditText
             android:id="@+id/et_func8_to_bincode"
@@ -113,10 +113,10 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/shape_rectangle_border"
-            android:selectAllOnFocus="true"
             android:ems="10"
             android:hint="@string/text_quantity"
-            android:inputType="text" />
+            android:inputType="number|numberSigned|numberDecimal"
+            android:selectAllOnFocus="true" />
 
     </LinearLayout>
 

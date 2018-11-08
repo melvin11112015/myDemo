@@ -39,7 +39,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="1111111111111"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
@@ -54,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="物料条码:"
+                android:text="@string/text_material_colon"
                 android:textSize="12sp" />
 
             <TextView
@@ -62,7 +61,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="哈哈"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
@@ -75,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="数量:"
+                android:text="@string/text_quantity_colon"
                 android:textSize="12sp" />
 
             <EditText
@@ -83,12 +81,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@null"
-                android:hint="请输入数量"
+                android:background="@drawable/shape_rectangle_border"
+                android:hint="@string/hint_input_quantity"
                 android:imeOptions="actionDone"
-                android:inputType="number"
+                android:inputType="number|numberSigned|numberDecimal"
                 android:singleLine="true"
-                android:text="1"
                 android:textColor="#0000FF"
                 android:textSize="14sp" />
         </LinearLayout>

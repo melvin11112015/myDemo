@@ -38,7 +38,6 @@
                 android:id="@+id/tv_item_func8_mcn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1111111111111"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
@@ -66,7 +65,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="哈哈"
                     android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
@@ -81,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:text="从库位:"
+                    android:text="@string/text_from_bin_colon"
                     android:textSize="12sp" />
 
                 <TextView
@@ -89,7 +87,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="哈哈"
                     android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
@@ -120,7 +117,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="哈哈"
                     android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
@@ -135,7 +131,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:text="至库位:"
+                    android:text="@string/text_to_bin_colon"
                     android:textSize="12sp" />
 
                 <TextView
@@ -143,7 +139,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="哈哈"
                     android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
@@ -166,7 +161,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:text="数量:"
+                    android:text="@string/text_quantity_colon"
                     android:textSize="12sp" />
 
                 <TextView
@@ -174,7 +169,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="哈哈"
                     android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
@@ -197,7 +191,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="哈哈"
                     android:textColor="@color/colorPrimary" />
 
             </LinearLayout>

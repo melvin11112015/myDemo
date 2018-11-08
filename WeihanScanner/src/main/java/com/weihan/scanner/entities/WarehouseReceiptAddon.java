@@ -2,6 +2,15 @@ package com.weihan.scanner.entities;
 
 public class WarehouseReceiptAddon {
     private String PurchOrderNo, Quantity, TerminalID, ItemNo, CreationDate;
+    private int LineNo;
+
+    public int getLineNo() {
+        return LineNo;
+    }
+
+    public void setLineNo(int lineNo) {
+        LineNo = lineNo;
+    }
 
     public String getCreationDate() {
         return CreationDate;

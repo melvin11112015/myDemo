@@ -17,7 +17,6 @@ import com.google.gson.reflect.TypeToken;
 import com.weihan.scanner.BaseMVP.BaseFuncActivity;
 import com.weihan.scanner.Constant;
 import com.weihan.scanner.R;
-import com.weihan.scanner.entities.BinContentInfo;
 import com.weihan.scanner.entities.OutputPutAwayAddon;
 import com.weihan.scanner.entities.Polymorph;
 import com.weihan.scanner.mvpviews.Func9MvpView;
@@ -29,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.weihan.scanner.Constant.KEY_CODE;
+import static com.weihan.scanner.Constant.KEY_CODE2;
 import static com.weihan.scanner.Constant.KEY_PARAM;
 import static com.weihan.scanner.Constant.KEY_SPREF_FUNC9_DATA;
 import static com.weihan.scanner.Constant.KEY_TITLE;
@@ -134,7 +134,7 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
         }
         Intent intent = new Intent(Func9Activity.this, ChooseListActivity.class);
         intent.putExtra(KEY_CODE, itemno);
-        intent.putExtra(KEY_TITLE, "选择推荐库位");
+        intent.putExtra(KEY_TITLE, getString(R.string.title_recommand_bin));
         startActivityForResult(intent, REQUEST_RECOMMAND);
     }
 
@@ -142,9 +142,10 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_RECOMMAND && resultCode == RESULT_SUCCESS) {
-            String code = data.getStringExtra(KEY_CODE);
             String quantity = data.getStringExtra(KEY_PARAM);
-            if (code != null) etBincode.setText(code);
+            String locationCode = data.getStringExtra(KEY_CODE);
+            String binCode = data.getStringExtra(KEY_CODE2);
+            if (locationCode != null && binCode != null) etBincode.setText(locationCode + binCode);
             if (quantity != null)
                 presenter.attemptToAddPoly(datas, etItemno.getText().toString(), etBincode.getText().toString(), quantity);
             else
@@ -171,10 +172,10 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
         sharedPreferences = getSharedPreferences(Constant.SHAREDPREF_NAME, MODE_PRIVATE);
         String prefJson = sharedPreferences.getString(KEY_SPREF_FUNC9_DATA, "");
         if (!prefJson.isEmpty()) {
-            List<BinContentInfo> tmpList = new Gson()
-                    .fromJson(prefJson, new TypeToken<List<BinContentInfo>>() {
+            List<Polymorph<OutputPutAwayAddon, OutputPutAwayAddon>> tmpList = new Gson()
+                    .fromJson(prefJson, new TypeToken<List<Polymorph<OutputPutAwayAddon, OutputPutAwayAddon>>>() {
                     }.getType());
-            fillChooseListRecycler(tmpList);
+            fillRecycler(tmpList);
         }
     }
 
@@ -185,15 +186,6 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
         etItemno.setText("");
         datas.clear();
         notifyAdapter();
-    }
-
-    @Override
-    public void exitActivity() {
-
-    }
-
-    @Override
-    public void fillChooseListRecycler(List<BinContentInfo> datas) {
     }
 
     @Override

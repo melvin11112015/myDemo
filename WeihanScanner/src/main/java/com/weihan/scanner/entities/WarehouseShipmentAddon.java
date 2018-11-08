@@ -17,7 +17,8 @@ public class WarehouseShipmentAddon {
     private String CreationTime;
     private String CreationID;
     private String ItemNo;
-
+    private String LocationCode;
+    private String BinCode;
     private String Quantity;
 
     private String SubmitDate;
@@ -27,6 +28,22 @@ public class WarehouseShipmentAddon {
     private String ReadedDate;
     private String CreationName;
     private String TerminalID;
+
+    public String getLocationCode() {
+        return LocationCode;
+    }
+
+    public void setLocationCode(String locationCode) {
+        LocationCode = locationCode;
+    }
+
+    public String getBinCode() {
+        return BinCode;
+    }
+
+    public void setBinCode(String binCode) {
+        BinCode = binCode;
+    }
 
     public String getWhseShptNo() {
         return WhseShptNo;

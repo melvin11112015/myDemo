@@ -62,11 +62,10 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tv_item_func3_to_binname"
+                    android:id="@+id/tv_item_func3_to_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="哈哈"
                     android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
@@ -81,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:text="至库位:"
+                    android:text="@string/text_to_bin_colon"
                     android:textSize="12sp" />
 
                 <TextView
@@ -89,7 +88,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="哈哈"
                     android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
@@ -102,53 +100,24 @@
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:gravity="center_vertical"
+                android:text="上架数:"
+                android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:text="数量:"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tv_item_func3_quantity0"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="哈哈"
-                    android:textColor="@color/colorPrimary" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <EditText
+                android:id="@+id/et_item_func3_quantity1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:background="@drawable/shape_rectangle_border"
+                android:gravity="center_vertical"
+                android:inputType="number|numberSigned|numberDecimal"
+                android:textColor="#0000FF"
+                android:textSize="14sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:text="上架数:"
-                    android:textSize="12sp" />
-
-                <EditText
-                    android:id="@+id/et_item_func3_quantity1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:text="哈哈"
-                    android:textColor="#0000FF"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
 
         </LinearLayout>
 

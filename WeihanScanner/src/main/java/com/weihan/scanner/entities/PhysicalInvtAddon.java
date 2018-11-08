@@ -25,6 +25,15 @@ public class PhysicalInvtAddon {
     private String SubmitterID;
     private String CreationName;
     private String TerminalID;
+    private String Loaction_Code;
+
+    public String getLoaction_Code() {
+        return Loaction_Code;
+    }
+
+    public void setLoaction_Code(String loaction_Code) {
+        Loaction_Code = loaction_Code;
+    }
 
     public String getPhysInvtNo() {
         return PhysInvtNo;

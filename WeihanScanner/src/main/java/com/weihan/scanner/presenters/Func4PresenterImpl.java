@@ -1,5 +1,6 @@
 package com.weihan.scanner.presenters;
 
+import com.weihan.scanner.entities.BinContentInfo;
 import com.weihan.scanner.entities.ConsumptionPickAddon;
 import com.weihan.scanner.entities.InvPickingInfo;
 import com.weihan.scanner.entities.Polymorph;
@@ -11,26 +12,32 @@ import java.util.List;
 public class Func4PresenterImpl extends Func1PresenterImpl {
 
     @Override
-    public void submitDatas(List<Polymorph<ConsumptionPickAddon, InvPickingInfo>> datas) {
-        if (!AllFuncModelImpl.checkEmptyList(datas)) return;
-        listener
-                = new AllFuncModelImpl.PolyChangeListener<ConsumptionPickAddon, InvPickingInfo>() {
+    public void submitDatas(List<Polymorph<List<Polymorph<ConsumptionPickAddon, BinContentInfo>>, InvPickingInfo>> polysdata) {
 
-            @Override
-            public void onPolyChanged(boolean isFinished, String msg) {
-                getView().notifyAdapter();
-                allFuncModel.buildingResultMsg(isFinished, msg);
-            }
+        for (Polymorph<List<Polymorph<ConsumptionPickAddon, BinContentInfo>>, InvPickingInfo> polys : polysdata) {
 
-            @Override
-            public void goCommitting(Polymorph<ConsumptionPickAddon, InvPickingInfo> poly) {
-                ConsumptionPickAddon addon = poly.getAddonEntity();
-                addon.setCreationDate(AllFuncModelImpl.getCurrentDatetime());
-                ApiTool.addConsumptionPickConfirm_Buffer(addon, allFuncModel.new AllFuncOdataCallback(poly, listener));
-            }
+            List<Polymorph<ConsumptionPickAddon, BinContentInfo>> datas = polys.getAddonEntity();
 
-        };
-        allFuncModel.processList(datas, listener);
+            if (!AllFuncModelImpl.checkEmptyList(datas)) return;
+
+            listener = new AllFuncModelImpl.PolyChangeListener<ConsumptionPickAddon, BinContentInfo>() {
+
+                @Override
+                public void onPolyChanged(boolean isFinished, String msg) {
+                    allFuncModel.onAllCommitted(isFinished, msg);
+                    getView().notifyAdapter();
+                }
+
+                @Override
+                public void goCommitting(Polymorph<ConsumptionPickAddon, BinContentInfo> poly) {
+                    ConsumptionPickAddon addon = poly.getAddonEntity();
+                    addon.setSubmitDate(AllFuncModelImpl.getCurrentDatetime());
+                    ApiTool.addConsumptionPickConfirm_Buffer(addon, allFuncModel.new AllFuncOdataCallback(poly, this));
+                }
+
+            };
+            allFuncModel.processList(datas, listener);
+        }
     }
 
 }

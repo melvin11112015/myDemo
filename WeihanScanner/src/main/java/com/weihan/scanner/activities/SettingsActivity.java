@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.weihan.scanner.BaseMVP.BaseActivity;
 import com.weihan.scanner.R;
+import com.weihan.scanner.WApp;
 import com.weihan.scanner.mvpviews.SettingsMvpView;
 import com.weihan.scanner.presenters.SettingsPresenterImpl;
 
@@ -65,6 +66,8 @@ public class SettingsActivity extends BaseActivity<SettingsPresenterImpl> implem
         editor.putString(KEY_SPREF_SETTINGS, settingsJson);
         editor.apply();
         Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
+
+        SettingsPresenterImpl.applySetting(WApp.barcodeSettings);
     }
 
     @Override

@@ -8,6 +8,8 @@ import com.weihan.scanner.entities.OutputPutAwayAddon;
 import com.weihan.scanner.entities.OutstandingPurchLineInfo;
 import com.weihan.scanner.entities.OutstandingSalesLineInfo;
 import com.weihan.scanner.entities.PhysicalInvtAddon;
+import com.weihan.scanner.entities.PhysicalInvtCheckAddon;
+import com.weihan.scanner.entities.PhysicalInvtInfo;
 import com.weihan.scanner.entities.ProdOutputAddon;
 import com.weihan.scanner.entities.WarehousePutAwayAddon;
 import com.weihan.scanner.entities.WarehouseReceiptAddon;
@@ -76,4 +78,10 @@ public interface ApiService {
 
     @POST("PhysicalInvtBuffer" + PARAM_JSON)
     Call<Map<String, Object>> addPhysicalInvtBuffer(@Body PhysicalInvtAddon addon);
+
+    @POST("PhysicalInvtCheckBuffer" + PARAM_JSON)
+    Call<Map<String, Object>> addPhysicalInvtCheckBuffer(@Body PhysicalInvtCheckAddon addon);
+
+    @GET("PhysicalInvtInfo" + PARAM_JSON)
+    Call<GenericResult<PhysicalInvtInfo>> getPhysicalInvtInfoList(@Query("$filter") String filter);
 }

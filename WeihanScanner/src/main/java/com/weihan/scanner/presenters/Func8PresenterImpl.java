@@ -2,6 +2,7 @@ package com.weihan.scanner.presenters;
 
 import com.common.utils.ToastUtils;
 import com.weihan.scanner.BaseMVP.BasePresenter;
+import com.weihan.scanner.R;
 import com.weihan.scanner.entities.BinContentInfo;
 import com.weihan.scanner.entities.Polymorph;
 import com.weihan.scanner.entities.WarehouseTransferSingleAddon;
@@ -13,7 +14,6 @@ import com.weihan.scanner.net.GenericOdataCallback;
 import com.weihan.scanner.utils.TextUtils;
 
 import java.util.List;
-import java.util.Random;
 
 public class Func8PresenterImpl extends BasePresenter<Func8MvpView> {
 
@@ -22,7 +22,10 @@ public class Func8PresenterImpl extends BasePresenter<Func8MvpView> {
     private GenericOdataCallback<BinContentInfo> callback1 = new GenericOdataCallback<BinContentInfo>() {
         @Override
         public void onDataAvailable(List<BinContentInfo> datas) {
-
+            if (datas.isEmpty()) {
+                ToastUtils.show(R.string.toast_no_record);
+                return;
+            }
             getView().fillRecycler(Func8ModelImpl.createPolymorphList(datas));
         }
 
@@ -35,12 +38,10 @@ public class Func8PresenterImpl extends BasePresenter<Func8MvpView> {
     private AllFuncModelImpl.PolyChangeListener<WarehouseTransferSingleAddon, BinContentInfo> listener
             = new AllFuncModelImpl.PolyChangeListener<WarehouseTransferSingleAddon, BinContentInfo>() {
 
-        private Random random = new Random();
-
         @Override
         public void onPolyChanged(boolean isFinished, String msg) {
+            allFuncModel.onAllCommitted(isFinished, msg);
             getView().notifyAdapter();
-            allFuncModel.buildingResultMsg(isFinished, msg);
         }
 
         @Override
@@ -48,19 +49,22 @@ public class Func8PresenterImpl extends BasePresenter<Func8MvpView> {
             WarehouseTransferSingleAddon addon = poly.getAddonEntity();
             addon.setCreationDate(AllFuncModelImpl.getCurrentDatetime());
             addon.setSubmitDate(AllFuncModelImpl.getCurrentDatetime());
-            addon.setLineNo(Math.abs(random.nextInt()));
-            ApiTool.addWarehouseTransferSingle(addon, allFuncModel.new AllFuncOdataCallback(poly, listener));
+            addon.setLineNo(AllFuncModelImpl.getTempInt());
+            ApiTool.addWarehouseTransferSingle(addon, allFuncModel.new AllFuncOdataCallback(poly, this));
         }
 
     };
 
-    public void acquireDatas(String itemNo, String binCode) {
+    public void acquireDatas(String itemNo, String WBcode) {
 
-        if (itemNo.isEmpty() || binCode.isEmpty()) {
+        if (itemNo.isEmpty() || WBcode.isEmpty()) {
             ToastUtils.showToastLong("物料条码和从仓库条码不能为空");
             return;
         }
-        String filter = "Item_No eq '" + itemNo + "' and Bin_Code eq '" + binCode + "'";
+        String bincode = AllFuncModelImpl.convertWBcode(WBcode, AllFuncModelImpl.TYPE_BIN);
+        String locationCode = AllFuncModelImpl.convertWBcode(WBcode, AllFuncModelImpl.TYPE_LOCATION);
+
+        String filter = "Item_No eq '" + itemNo + "' and Bin_Code eq '" + bincode + "' and Location_Code eq '" + locationCode + "' and Quantity_Base ne 0";
 
         ApiTool.callBinContent(filter, callback1);
     }
@@ -88,18 +92,8 @@ public class Func8PresenterImpl extends BasePresenter<Func8MvpView> {
             ToastUtils.show("请输入有效数量");
             return;
         }
-        /*
-        if(fullBincode.length()<= BarcodeSettings.getWarehouseCodeLength()){
-            ToastUtils.show("仓库编码长度不正确");
-            return;
-        }
-        */
+
         WarehouseTransferSingleAddon addon = datas.get(position).getAddonEntity();
-        /*String locationCode = fullBincode.substring(0,BarcodeSettings.getWarehouseCodeLength());
-        String bincode = fullBincode.substring(BarcodeSettings.getWarehouseCodeLength(),fullBincode.length());
-        addon.setToBinCode(bincode);
-        addon.setToLocationCode(locationCode);
-        */
         addon.setToBinCode(fullBincode);
         addon.setQuantity(quantity);
         getView().notifyAdapter();

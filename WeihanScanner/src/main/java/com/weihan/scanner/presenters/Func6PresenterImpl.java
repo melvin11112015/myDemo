@@ -21,20 +21,18 @@ import java.util.List;
 public class Func6PresenterImpl extends BasePresenter<Func6MvpView> {
 
     private AllFuncModelImpl allFuncModel = new AllFuncModelImpl();
-
-
     private AllFuncModelImpl.PolyChangeListener<ProdOutputAddon, ProdOutputAddon> listener
             = new AllFuncModelImpl.PolyChangeListener<ProdOutputAddon, ProdOutputAddon>() {
 
         @Override
         public void onPolyChanged(boolean isFinished, String msg) {
+            allFuncModel.onAllCommitted(isFinished, msg);
             getView().notifyAdapter();
-            allFuncModel.buildingResultMsg(isFinished, msg);
         }
 
         @Override
         public void goCommitting(Polymorph<ProdOutputAddon, ProdOutputAddon> poly) {
-            ApiTool.addProdOutputBuffer(poly.getAddonEntity(), allFuncModel.new AllFuncOdataCallback(poly, listener));
+            ApiTool.addProdOutputBuffer(poly.getAddonEntity(), allFuncModel.new AllFuncOdataCallback(poly, this));
         }
 
     };
@@ -88,16 +86,19 @@ public class Func6PresenterImpl extends BasePresenter<Func6MvpView> {
                     helper.setBackgroundColor(R.id.view_item_func6_state, Color.RED);
                     helper.setTextColor(R.id.tv_item_func6_state, Color.RED);
                     helper.setText(R.id.tv_item_func6_state, R.string.text_commit_fail);
+                    et.setEnabled(true);
                     break;
                 case COMMITTED:
                     helper.setBackgroundColor(R.id.view_item_func6_state, Color.GREEN);
                     helper.setTextColor(R.id.tv_item_func6_state, Color.GREEN);
                     helper.setText(R.id.tv_item_func6_state, R.string.text_committed);
+                    et.setEnabled(false);
                     break;
                 case UNCOMMITTED:
                     helper.setBackgroundColor(R.id.view_item_func6_state, Color.argb(0Xff, 0xff, 0x90, 0x40));
                     helper.setTextColor(R.id.tv_item_func6_state, Color.WHITE);
                     helper.setText(R.id.tv_item_func6_state, "");
+                    et.setEnabled(true);
                     break;
             }
         }

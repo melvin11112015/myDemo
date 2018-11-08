@@ -15,14 +15,39 @@ public class Func3ModelImpl implements IBaseModel {
     private Func3ModelImpl() {
     }
 
+    public static Polymorph<WarehousePutAwayAddon, BinContentInfo> createPoly(String itemno, String bincode, String locationCode, String quantity) {
+
+        WarehousePutAwayAddon addon = new WarehousePutAwayAddon();
+
+        addon.setItemNo(itemno);
+        addon.setBinCode(bincode);
+        addon.setLocationCode(locationCode);
+        addon.setTerminalID(WApp.userInfo.getUserid());
+        addon.setCreationDate(AllFuncModelImpl.getCurrentDatetime());
+        addon.setQuantity(quantity);
+
+        return new Polymorph<>(addon, null, Polymorph.State.UNCOMMITTED);
+    }
+
+    public static List<BinContentInfo> filtTempReceiptItem(List<BinContentInfo> datas) {
+        List<BinContentInfo> tempList = new ArrayList<>();
+        for (BinContentInfo info : datas) {
+            String quantity = info.getQuantity_Base();
+            if (quantity == null || quantity.isEmpty() || !TextUtils.isIntString(quantity))
+                continue;
+            if (info.isTemp_Receipt() && Integer.valueOf(quantity) != 0)
+                tempList.add(info);
+        }
+        return tempList;
+    }
     public static List<Polymorph<WarehousePutAwayAddon, BinContentInfo>> createPolymorphList(List<BinContentInfo> datas, String binCode) {
         List<Polymorph<WarehousePutAwayAddon, BinContentInfo>> polymorphs = new ArrayList<>();
         for (BinContentInfo info : datas) {
 
             String quantity = info.getQuantity_Base();
-            if (quantity == null || quantity.isEmpty() || !TextUtils.isIntString(quantity))
+            if (quantity == null || quantity.isEmpty() || !TextUtils.isNumeric(quantity))
                 continue;
-            if (Integer.valueOf(quantity) == 0) continue;
+            if (Double.valueOf(quantity) == 0) continue;
 
             if (!info.isTemp_Receipt()) continue;
 
@@ -35,4 +60,6 @@ public class Func3ModelImpl implements IBaseModel {
         }
         return polymorphs;
     }
+
+
 }

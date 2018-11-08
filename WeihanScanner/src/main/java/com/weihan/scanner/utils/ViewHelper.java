@@ -1,8 +1,6 @@
 package com.weihan.scanner.utils;
 
 import android.content.Context;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -26,18 +24,6 @@ public class ViewHelper {
         return flag;
     }
 
-    public static void setIntOnlyInputFilterForEditText(EditText editText) {
-        InputFilter[] filters = new InputFilter[]{new InputFilter() {
-            @Override
-            public CharSequence filter(CharSequence charSequence, int i, int i1, Spanned spanned, int i2, int i3) {
-                if (!TextUtils.isIntString(charSequence.toString()))
-                    return "";
-                else
-                    return null;
-            }
-        }};
-        editText.setFilters(filters);
-    }
 
     /**
      * Edittext延时获取焦点

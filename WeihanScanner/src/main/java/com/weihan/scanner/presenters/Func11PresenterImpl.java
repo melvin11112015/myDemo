@@ -6,6 +6,7 @@ import com.common.utils.ToastUtils;
 import com.weihan.scanner.BaseMVP.BasePresenter;
 import com.weihan.scanner.R;
 import com.weihan.scanner.entities.BinContentInfo;
+import com.weihan.scanner.models.AllFuncModelImpl;
 import com.weihan.scanner.mvpviews.Func11MvpView;
 import com.weihan.scanner.net.ApiTool;
 import com.weihan.scanner.net.GenericOdataCallback;
@@ -19,7 +20,10 @@ public class Func11PresenterImpl extends BasePresenter<Func11MvpView> {
     private GenericOdataCallback<BinContentInfo> callback1 = new GenericOdataCallback<BinContentInfo>() {
         @Override
         public void onDataAvailable(List<BinContentInfo> datas) {
-
+            if (datas.isEmpty()) {
+                ToastUtils.show(R.string.toast_no_record);
+                return;
+            }
             getView().fillRecycler(datas);
         }
 
@@ -29,31 +33,23 @@ public class Func11PresenterImpl extends BasePresenter<Func11MvpView> {
         }
     };
 
+    public void acquireDatas(String itemNo, String WBcode) {
+        String filter = "";
+        String bincode = AllFuncModelImpl.convertWBcode(WBcode, AllFuncModelImpl.TYPE_BIN);
+        String locationCode = AllFuncModelImpl.convertWBcode(WBcode, AllFuncModelImpl.TYPE_LOCATION);
 
-
-
-    public void acquireDatas0(String itemNo) {
-
-        if (itemNo.isEmpty()) {
-            ToastUtils.showToastLong("物料条码不能为空");
+        if (!WBcode.isEmpty() && !itemNo.isEmpty()) {
+            filter = "Item_No eq '" + itemNo + "' and Bin_Code eq '" + bincode + "' and Location_Code eq '" + locationCode + "' and Quantity_Base ne 0";
+        } else if (!itemNo.isEmpty() && WBcode.isEmpty()) {
+            filter = "Item_No eq '" + itemNo + "' and Quantity_Base ne 0";
+        } else if (!WBcode.isEmpty() && itemNo.isEmpty()) {
+            filter = "Bin_Code eq '" + bincode + "' and Location_Code eq '" + locationCode + "' and Quantity_Base ne 0";
+        } else {
+            ToastUtils.show("请输入库位条码或物料条码");
             return;
         }
-        String filter = "Item_No eq '" + itemNo + "'";
-
         ApiTool.callBinContent(filter, callback1);
-    }
 
-
-
-    public void acquireDatas1(String binCode) {
-
-        if (binCode.isEmpty()) {
-            ToastUtils.showToastLong("仓库条码不能为空");
-            return;
-        }
-        String filter = "Bin_Code eq '" + binCode + "'";
-
-        ApiTool.callBinContent(filter, callback1);
     }
 
     public static class BinContentListAdapter extends BaseQuickAdapter<BinContentInfo, BaseViewHolder> {

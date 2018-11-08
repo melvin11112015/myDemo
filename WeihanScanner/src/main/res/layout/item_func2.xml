@@ -25,15 +25,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="物料条码:"
+                android:text="@string/text_material_colon"
                 android:textSize="12sp" />
 
             <TextView
@@ -41,49 +39,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="哈哈"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="仓库:"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/text_warehouse_colon"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv_item_func2_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="3dp"
                 android:layout_weight="1"
-                android:text="1111111111111"
+                android:gravity="center_vertical"
                 android:textColor="@color/colorPrimary" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="库位:"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/text_bin_colon"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv_item_func2_bin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="3dp"
                 android:layout_weight="1"
-                android:text="1111111111111"
+                android:gravity="center_vertical"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
@@ -96,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="数量:"
+                android:text="@string/text_quantity_colon"
                 android:textSize="12sp" />
 
             <EditText
@@ -104,10 +99,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@null"
-                android:hint="请输入数量"
+                android:background="@drawable/shape_rectangle_border"
+                android:hint="@string/hint_input_quantity"
                 android:imeOptions="actionDone"
-                android:inputType="number"
+                android:inputType="number|numberSigned|numberDecimal"
                 android:singleLine="true"
                 android:text="1"
                 android:textColor="#0000FF"
