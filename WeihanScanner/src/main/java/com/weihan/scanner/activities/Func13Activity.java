@@ -31,7 +31,7 @@ import static com.weihan.scanner.Constant.KEY_SPREF_FUNC13_DATA;
 public class Func13Activity extends BaseFuncActivity<Func13PresenterImpl> implements Func13MvpView, View.OnClickListener {
 
     EditText etToBincode, etItemno;
-    Button buttonCheck, buttonSubmit;
+    Button buttonCheck;
     RecyclerView recyclerView;
 
     private List<Polymorph<WarehouseTransferMultiAddon, WhseTransferMultiInfo>> datas = new ArrayList<>();
@@ -54,7 +54,6 @@ public class Func13Activity extends BaseFuncActivity<Func13PresenterImpl> implem
     @Override
     public void initWidget() {
         buttonCheck.setOnClickListener(this);
-        buttonSubmit.setOnClickListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new Func13PresenterImpl.WhseTransferMultiListAdapter(datas);
@@ -87,7 +86,6 @@ public class Func13Activity extends BaseFuncActivity<Func13PresenterImpl> implem
         etToBincode = findViewById(R.id.et_func13_to_bincode);
         etItemno = findViewById(R.id.et_func13_itemno);
         buttonCheck = findViewById(R.id.button_func13_check);
-        buttonSubmit = findViewById(R.id.button_func13_submit);
         recyclerView = findViewById(R.id.recycler_func13);
     }
 
@@ -95,9 +93,6 @@ public class Func13Activity extends BaseFuncActivity<Func13PresenterImpl> implem
     public void onClick(View view) {
         if (view == buttonCheck) {
             doChecking();
-        } else if (view == buttonSubmit) {
-            etToBincode.requestFocus();
-            presenter.submitDatas(datas);
         }
     }
 
@@ -138,6 +133,12 @@ public class Func13Activity extends BaseFuncActivity<Func13PresenterImpl> implem
         etItemno.setText("");
         datas.clear();
         notifyAdapter();
+    }
+
+    @Override
+    protected void submitDatas() {
+        etToBincode.requestFocus();
+        presenter.submitDatas(datas);
     }
 
     @Override

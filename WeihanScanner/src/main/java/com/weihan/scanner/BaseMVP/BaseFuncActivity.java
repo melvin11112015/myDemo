@@ -26,6 +26,8 @@ public abstract class BaseFuncActivity<T extends BasePresenter> extends BaseActi
 
     protected abstract void clearDatas();
 
+    protected abstract void submitDatas();
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_func, menu);
@@ -34,10 +36,36 @@ public abstract class BaseFuncActivity<T extends BasePresenter> extends BaseActi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_clear) {
-            clearDatas();
+        switch (item.getItemId()) {
+            default:
+                return super.onOptionsItemSelected(item);
+            case R.id.menu_clear:
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.dialog_title_attention)
+                        .setMessage(R.string.dialog_clear_tip)
+                        .setNegativeButton(R.string.text_cancel, null)
+                        .setPositiveButton(R.string.text_clear, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                clearDatas();
+                            }
+                        }).show();
+                return true;
+            case R.id.menu_submit:
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.dialog_title_attention)
+                        .setMessage(R.string.dialog_submit_tip)
+                        .setNegativeButton(R.string.text_cancel, null)
+                        .setPositiveButton(R.string.text_submit, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                submitDatas();
+                            }
+                        }).show();
+                return true;
+
         }
-        return super.onOptionsItemSelected(item);
+
     }
 
     protected void buildDeleteDialog(final BaseQuickAdapter mAdapter, final int deleteIndex) {

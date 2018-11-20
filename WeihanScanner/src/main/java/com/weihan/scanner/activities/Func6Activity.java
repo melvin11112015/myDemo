@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.weihan.scanner.BaseMVP.BaseFuncActivity;
@@ -32,7 +31,7 @@ public class Func6Activity extends BaseFuncActivity<Func6PresenterImpl> implemen
 
     RecyclerView recyclerView;
     EditText etImportCode, etItemno;
-    Button btSave, btSubmit;
+    Button btSave;
 
     private Func6PresenterImpl.ProdOutputAdapter adapter;
     private List<Polymorph<ProdOutputAddon, ProdOutputAddon>> datas = new ArrayList<>();
@@ -89,6 +88,12 @@ public class Func6Activity extends BaseFuncActivity<Func6PresenterImpl> implemen
     }
 
     @Override
+    protected void submitDatas() {
+        etItemno.requestFocus();
+        presenter.submitDatas(datas);
+    }
+
+    @Override
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
     }
@@ -96,19 +101,11 @@ public class Func6Activity extends BaseFuncActivity<Func6PresenterImpl> implemen
     @Override
     public void initWidget() {
         btSave.setOnClickListener(this);
-        btSubmit.setOnClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         adapter = new Func6PresenterImpl.ProdOutputAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.tv_item_func6_delete) {
-                    buildDeleteDialog(adapter, position);
-                }
-            }
-        });
+
         recyclerView.setAdapter(adapter);
         etItemno.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -128,7 +125,6 @@ public class Func6Activity extends BaseFuncActivity<Func6PresenterImpl> implemen
     public void findView() {
         recyclerView = findViewById(R.id.recycler_func6);
         btSave = findViewById(R.id.button_func6_save);
-        btSubmit = findViewById(R.id.button_func6_submit);
         etImportCode = findViewById(R.id.et_func6_importcode);
         etItemno = findViewById(R.id.et_func6_itemno);
     }
@@ -137,9 +133,6 @@ public class Func6Activity extends BaseFuncActivity<Func6PresenterImpl> implemen
     public void onClick(View view) {
         if (view == btSave) {
             doAdding();
-        } else if (view == btSubmit) {
-            etItemno.requestFocus();
-            presenter.submitDatas(datas);
         }
     }
 

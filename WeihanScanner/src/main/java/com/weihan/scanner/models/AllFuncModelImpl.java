@@ -27,6 +27,10 @@ public class AllFuncModelImpl {
     private List datas;
     private StringBuilder stringBuilder = new StringBuilder();
 
+    public int decreaseTaskCount() {
+        return --taskCount;
+    }
+
     @SuppressLint("SimpleDateFormat")
     public static String getCurrentDatetime() {
         Date date = new Date();

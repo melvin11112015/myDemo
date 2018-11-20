@@ -1,13 +1,11 @@
 package com.weihan.scanner.presenters;
 
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 
+import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.common.utils.ToastUtils;
@@ -31,6 +29,7 @@ public class Func7PresenterImpl extends BasePresenter<Func7MvpView> {
 
 
     protected AllFuncModelImpl allFuncModel = new AllFuncModelImpl();
+    protected AllFuncModelImpl.PolyChangeListener<WarehouseShipmentAddon, BinContentInfo> listener;
 
     public void acquireDatas(String lineCode) {
 
@@ -43,14 +42,13 @@ public class Func7PresenterImpl extends BasePresenter<Func7MvpView> {
         ApiTool.callOutstandingSalesLineList(filter, callback1);
     }
 
-    protected AllFuncModelImpl.PolyChangeListener<WarehouseShipmentAddon, BinContentInfo> listener;
+
     private GenericOdataCallback<OutstandingSalesLineInfo> callback1 = new GenericOdataCallback<OutstandingSalesLineInfo>() {
         @Override
         public void onDataAvailable(List<OutstandingSalesLineInfo> datas) {
-            if (datas.isEmpty()) {
+            if (datas.isEmpty())
                 ToastUtils.show(R.string.toast_no_record);
-                return;
-            }
+
             getView().fillRecycler(Func7ModelImpl.createPolymorphList(datas));
         }
 
@@ -104,12 +102,9 @@ public class Func7PresenterImpl extends BasePresenter<Func7MvpView> {
 
     public static class NewOutstandingSalesLineAdapter extends BaseQuickAdapter<Polymorph<List<Polymorph<WarehouseShipmentAddon, BinContentInfo>>, OutstandingSalesLineInfo>, BaseViewHolder> {
 
-        private String tagName = "";
 
-        public NewOutstandingSalesLineAdapter(@Nullable List<Polymorph<List<Polymorph<WarehouseShipmentAddon, BinContentInfo>>, OutstandingSalesLineInfo>> datas,
-                                              String tagName) {
+        public NewOutstandingSalesLineAdapter(@Nullable List<Polymorph<List<Polymorph<WarehouseShipmentAddon, BinContentInfo>>, OutstandingSalesLineInfo>> datas) {
             super(R.layout.item_func7_headitem, datas);
-            this.tagName = tagName;
         }
 
         @Override
@@ -120,25 +115,16 @@ public class Func7PresenterImpl extends BasePresenter<Func7MvpView> {
 
             helper.setText(R.id.tv_item_func7_mcn, info.getNo());
             helper.setText(R.id.tv_item_func7_name, info.getDescription());
-            helper.setText(R.id.tv_item_func7_count0_tag, tagName + "数:");
+            helper.getView(R.id.tv_item_func7_name).setSelected(true);
             helper.setText(R.id.tv_item_func7_count0, quantityBaseStr);
-            helper.setText(R.id.tv_item_func7_listname, tagName + "列表");
-            helper.setText(R.id.tv_item_func7_recommand, "库位" + tagName);
-
 
             RecyclerView recyclerView = helper.getView(R.id.recycler_item_func7);
             recyclerView.setHasFixedSize(true);
             double quantityBase = 0.0;
             if (TextUtils.isNumeric(quantityBaseStr))
                 quantityBase = Double.valueOf(quantityBaseStr);
-            WarehouseShipmentAdapter adapter = new WarehouseShipmentAdapter(item.getAddonEntity(), quantityBase, tagName);
-            adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
-                @Override
-                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                    if (view.getId() == R.id.tv_subitem_func1_delete)
-                        buildDeleteDialog(adapter, position);
-                }
-            });
+            WarehouseShipmentAdapter adapter = new WarehouseShipmentAdapter(item.getAddonEntity(), quantityBase);
+
             AdapterHelper.setAdapterEmpty(mContext, adapter);
             recyclerView.setAdapter(adapter);
 
@@ -147,32 +133,25 @@ public class Func7PresenterImpl extends BasePresenter<Func7MvpView> {
 
         }
 
-        protected void buildDeleteDialog(final BaseQuickAdapter mAdapter, final int deleteIndex) {
-            new AlertDialog
-                    .Builder(mContext)
-                    .setMessage(R.string.text_delete_confirmation)
-                    .setPositiveButton(R.string.text_delete, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            mAdapter.getData().remove(deleteIndex);
-                            mAdapter.notifyItemRemoved(deleteIndex);
-                        }
-                    }).setNegativeButton(R.string.text_cancel, null)
-                    .setCancelable(true)
-                    .create()
-                    .show();
-        }
     }
 
-    public static class WarehouseShipmentAdapter extends BaseQuickAdapter<Polymorph<WarehouseShipmentAddon, BinContentInfo>, BaseViewHolder> {
+    public static class WarehouseShipmentAdapter extends BaseItemDraggableAdapter<Polymorph<WarehouseShipmentAddon, BinContentInfo>, BaseViewHolder> {
 
         private double maxQuantity;
-        private String tagName;
 
-        public WarehouseShipmentAdapter(@Nullable List<Polymorph<WarehouseShipmentAddon, BinContentInfo>> datas, double maxQuantity, String tagName) {
-            super(R.layout.item_func1_subitem, datas);
+
+        public WarehouseShipmentAdapter(@Nullable List<Polymorph<WarehouseShipmentAddon, BinContentInfo>> datas, double maxQuantity) {
+            super(R.layout.item_func1b_subitem, datas);
             this.maxQuantity = maxQuantity;
-            this.tagName = tagName;
+
+        }
+
+        @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+            super.onAttachedToRecyclerView(recyclerView);
+
+            AdapterHelper.initDraggableAdapter(recyclerView, this);
+            AdapterHelper.addAdapterHeaderAndItemDivider(recyclerView, this, R.layout.item_func1b_subitem_header);
         }
 
         private double getTotalQuantity(Polymorph<WarehouseShipmentAddon, BinContentInfo> notCountingItem, double addend) {
@@ -190,9 +169,7 @@ public class Func7PresenterImpl extends BasePresenter<Func7MvpView> {
 
             helper.setText(R.id.tv_item_func1_count3, item.getInfoEntity().getQuantity_Base());
             helper.setText(R.id.et_item_func1_count1, item.getAddonEntity().getQuantity());
-            helper.setText(R.id.tv_item_func1_location, item.getAddonEntity().getLocationCode());
-            helper.setText(R.id.tv_item_func1_bincode, item.getAddonEntity().getBinCode());
-            helper.setText(R.id.tv_item_func1_count1_tag, tagName + "数:");
+            helper.setText(R.id.tv_item_func1_wbcode, item.getAddonEntity().getLocationCode() + item.getAddonEntity().getBinCode());
 
             EditText et = helper.getView(R.id.et_item_func1_count1);
 
@@ -216,27 +193,7 @@ public class Func7PresenterImpl extends BasePresenter<Func7MvpView> {
             };
             et.setOnFocusChangeListener(focusChangeListener);
 
-            helper.addOnClickListener(R.id.tv_subitem_func1_delete);
-            switch (item.getState()) {
-                case FAILURE:
-                    helper.setBackgroundColor(R.id.view_item_func1_state, Color.RED);
-                    helper.setTextColor(R.id.tv_item_func1_state, Color.RED);
-                    helper.setText(R.id.tv_item_func1_state, R.string.text_commit_fail);
-                    et.setEnabled(true);
-                    break;
-                case COMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func1_state, Color.GREEN);
-                    helper.setTextColor(R.id.tv_item_func1_state, Color.GREEN);
-                    helper.setText(R.id.tv_item_func1_state, R.string.text_committed);
-                    et.setEnabled(false);
-                    break;
-                case UNCOMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func1_state, Color.argb(0Xff, 0xff, 0x90, 0x40));
-                    helper.setTextColor(R.id.tv_item_func1_state, Color.WHITE);
-                    helper.setText(R.id.tv_item_func1_state, "");
-                    et.setEnabled(true);
-                    break;
-            }
+            AllFuncModelImpl.setPolyAdapterItemStateColor(R.id.la_item_func1, item.getState(), helper, et);
         }
     }
 

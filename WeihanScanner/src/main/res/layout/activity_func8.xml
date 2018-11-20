@@ -163,18 +163,4 @@
         android:layout_weight="1"
         android:background="@color/colorBackgroundGrey" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/button_func8_submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@android:color/holo_green_dark"
-            android:text="@string/text_submit"
-            android:textColor="@android:color/background_light" />
-    </FrameLayout>
-
 </LinearLayout>

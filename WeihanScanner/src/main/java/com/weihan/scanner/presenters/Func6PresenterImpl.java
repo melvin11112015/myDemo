@@ -1,11 +1,11 @@
 package com.weihan.scanner.presenters;
 
-import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.weihan.scanner.BaseMVP.BasePresenter;
 import com.weihan.scanner.R;
@@ -15,6 +15,7 @@ import com.weihan.scanner.models.AllFuncModelImpl;
 import com.weihan.scanner.models.Func6ModelImpl;
 import com.weihan.scanner.mvpviews.Func6MvpView;
 import com.weihan.scanner.net.ApiTool;
+import com.weihan.scanner.utils.AdapterHelper;
 
 import java.util.List;
 
@@ -53,10 +54,18 @@ public class Func6PresenterImpl extends BasePresenter<Func6MvpView> {
         allFuncModel.processList(datas, listener);
     }
 
-    public static class ProdOutputAdapter extends BaseQuickAdapter<Polymorph<ProdOutputAddon, ProdOutputAddon>, BaseViewHolder> {
+    public static class ProdOutputAdapter extends BaseItemDraggableAdapter<Polymorph<ProdOutputAddon, ProdOutputAddon>, BaseViewHolder> {
 
         public ProdOutputAdapter(@Nullable List<Polymorph<ProdOutputAddon, ProdOutputAddon>> datas) {
-            super(R.layout.item_func6, datas);
+            super(R.layout.item_func6b, datas);
+        }
+
+        @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+            super.onAttachedToRecyclerView(recyclerView);
+
+            AdapterHelper.initDraggableAdapter(recyclerView, this);
+            AdapterHelper.addAdapterHeaderAndItemDivider(recyclerView, this, R.layout.item_func6b_header);
         }
 
         @Override
@@ -80,27 +89,7 @@ public class Func6PresenterImpl extends BasePresenter<Func6MvpView> {
             };
             et.setOnFocusChangeListener(focusChangeListener);
 
-            helper.addOnClickListener(R.id.tv_item_func6_delete);
-            switch (item.getState()) {
-                case FAILURE:
-                    helper.setBackgroundColor(R.id.view_item_func6_state, Color.RED);
-                    helper.setTextColor(R.id.tv_item_func6_state, Color.RED);
-                    helper.setText(R.id.tv_item_func6_state, R.string.text_commit_fail);
-                    et.setEnabled(true);
-                    break;
-                case COMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func6_state, Color.GREEN);
-                    helper.setTextColor(R.id.tv_item_func6_state, Color.GREEN);
-                    helper.setText(R.id.tv_item_func6_state, R.string.text_committed);
-                    et.setEnabled(false);
-                    break;
-                case UNCOMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func6_state, Color.argb(0Xff, 0xff, 0x90, 0x40));
-                    helper.setTextColor(R.id.tv_item_func6_state, Color.WHITE);
-                    helper.setText(R.id.tv_item_func6_state, "");
-                    et.setEnabled(true);
-                    break;
-            }
+            AllFuncModelImpl.setPolyAdapterItemStateColor(R.id.la_item_func6, item.getState(), helper, et);
         }
     }
 

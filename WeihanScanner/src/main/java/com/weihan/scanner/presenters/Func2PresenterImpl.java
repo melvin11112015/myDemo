@@ -1,12 +1,13 @@
 package com.weihan.scanner.presenters;
 
-import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.common.utils.ToastUtils;
 import com.weihan.scanner.BaseMVP.BasePresenter;
 import com.weihan.scanner.R;
 import com.weihan.scanner.entities.PhysicalInvtAddon;
@@ -15,6 +16,7 @@ import com.weihan.scanner.models.AllFuncModelImpl;
 import com.weihan.scanner.models.Func2ModelImpl;
 import com.weihan.scanner.mvpviews.Func6MvpView;
 import com.weihan.scanner.net.ApiTool;
+import com.weihan.scanner.utils.AdapterHelper;
 
 import java.util.List;
 
@@ -42,6 +44,11 @@ public class Func2PresenterImpl extends BasePresenter<Func6MvpView> {
 
     public void attemptToAddPoly(List<Polymorph<PhysicalInvtAddon, PhysicalInvtAddon>> datas, String WBcode, String itemno) {
 
+        if (WBcode.isEmpty() || itemno.isEmpty()) {
+            ToastUtils.show("库位条码和物料编号不能为空");
+            return;
+        }
+
         String bincode = AllFuncModelImpl.convertWBcode(WBcode, AllFuncModelImpl.TYPE_BIN);
         String locationCode = AllFuncModelImpl.convertWBcode(WBcode, AllFuncModelImpl.TYPE_LOCATION);
 
@@ -61,16 +68,23 @@ public class Func2PresenterImpl extends BasePresenter<Func6MvpView> {
         allFuncModel.processList(datas, listener);
     }
 
-    public static class PhysicalInvtAdapter extends BaseQuickAdapter<Polymorph<PhysicalInvtAddon, PhysicalInvtAddon>, BaseViewHolder> {
+    public static class PhysicalInvtAdapter extends BaseItemDraggableAdapter<Polymorph<PhysicalInvtAddon, PhysicalInvtAddon>, BaseViewHolder> {
 
         public PhysicalInvtAdapter(@Nullable List<Polymorph<PhysicalInvtAddon, PhysicalInvtAddon>> datas) {
-            super(R.layout.item_func2, datas);
+            super(R.layout.item_func2b, datas);
+        }
+
+        @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+            super.onAttachedToRecyclerView(recyclerView);
+
+            AdapterHelper.initDraggableAdapter(recyclerView, this);
+            AdapterHelper.addAdapterHeaderAndItemDivider(recyclerView, this, R.layout.item_func2b_header);
         }
 
         @Override
         protected void convert(final BaseViewHolder helper, Polymorph<PhysicalInvtAddon, PhysicalInvtAddon> item) {
-            helper.setText(R.id.tv_item_func2_location, item.getAddonEntity().getLoaction_Code());
-            helper.setText(R.id.tv_item_func2_bin, item.getAddonEntity().getBinCode());
+            helper.setText(R.id.tv_item_func2_wbcode, item.getAddonEntity().getLoaction_Code() + item.getAddonEntity().getBinCode());
             helper.setText(R.id.tv_item_func2_itemno, item.getAddonEntity().getItemNo());
             helper.setText(R.id.et_item_func2_count1, item.getAddonEntity().getQuantity());
             EditText et = helper.getView(R.id.et_item_func2_count1);
@@ -88,27 +102,7 @@ public class Func2PresenterImpl extends BasePresenter<Func6MvpView> {
             };
             et.setOnFocusChangeListener(focusChangeListener);
 
-            helper.addOnClickListener(R.id.tv_item_func2_delete);
-            switch (item.getState()) {
-                case FAILURE:
-                    helper.setBackgroundColor(R.id.view_item_func2_state, Color.RED);
-                    helper.setTextColor(R.id.tv_item_func2_state, Color.RED);
-                    helper.setText(R.id.tv_item_func2_state, R.string.text_commit_fail);
-                    et.setEnabled(true);
-                    break;
-                case COMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func2_state, Color.GREEN);
-                    helper.setTextColor(R.id.tv_item_func2_state, Color.GREEN);
-                    helper.setText(R.id.tv_item_func2_state, R.string.text_committed);
-                    et.setEnabled(false);
-                    break;
-                case UNCOMMITTED:
-                    helper.setBackgroundColor(R.id.view_item_func2_state, Color.argb(0Xff, 0xff, 0x90, 0x40));
-                    helper.setTextColor(R.id.tv_item_func2_state, Color.WHITE);
-                    helper.setText(R.id.tv_item_func2_state, "");
-                    et.setEnabled(true);
-                    break;
-            }
+            AllFuncModelImpl.setPolyAdapterItemStateColor(R.id.la_item_func2, item.getState(), helper, et);
         }
     }
 

@@ -32,7 +32,7 @@
             android:id="@+id/tv_item_func1_mcn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:singleLine="true"
             android:textColor="@color/colorPrimary"
@@ -43,20 +43,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/melvin_button_orange"
-            android:paddingBottom="3dp"
             android:paddingLeft="6dp"
-            android:paddingRight="6dp"
             android:paddingTop="3dp"
+            android:paddingRight="6dp"
+            android:paddingBottom="3dp"
             android:text="领料"
-            android:textColor="@color/colorBackgroundGrey"
+            android:textColor="@android:color/background_light"
             android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
         android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="领料列表"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/text_pick_quantity_colon" />
+
+        <TextView
+            android:id="@+id/tv_item_func1_count0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minEms="3"
+            android:singleLine="true"
+            android:textColor="@color/header_background"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,33 +88,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
+            android:textIsSelectable="true"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/tv_item_func1_count0_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/text_pick_quantity_colon" />
-
-        <TextView
-            android:id="@+id/tv_item_func1_count0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp" />
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:text="领料列表"
-        android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_item_func1"

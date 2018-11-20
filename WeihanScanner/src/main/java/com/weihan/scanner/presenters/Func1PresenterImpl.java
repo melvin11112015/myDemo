@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 
+import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.common.utils.ToastUtils;
@@ -47,10 +48,7 @@ public class Func1PresenterImpl extends BasePresenter<Func1MvpView> {
     private GenericOdataCallback<InvPickingInfo> callback1 = new GenericOdataCallback<InvPickingInfo>() {
         @Override
         public void onDataAvailable(List<InvPickingInfo> datas) {
-            if (datas.isEmpty()) {
-                ToastUtils.show(R.string.toast_no_record);
-                return;
-            }
+            if (datas.isEmpty()) ToastUtils.show(R.string.toast_no_record);
             getView().fillRecycler(Func1ModelImpl.createPolymorphList(datas));
         }
 
@@ -117,7 +115,7 @@ public class Func1PresenterImpl extends BasePresenter<Func1MvpView> {
 
             helper.setText(R.id.tv_item_func1_mcn, info.getItem_No());
             helper.setText(R.id.tv_item_func1_name, info.getDescription());
-            helper.setText(R.id.tv_item_func1_count0_tag, R.string.text_pick_quantity_colon);
+            helper.getView(R.id.tv_item_func1_name).setSelected(true);
             helper.setText(R.id.tv_item_func1_count0, quantityBaseStr);
 
             RecyclerView recyclerView = helper.getView(R.id.recycler_item_func1);
@@ -126,13 +124,7 @@ public class Func1PresenterImpl extends BasePresenter<Func1MvpView> {
             if (TextUtils.isNumeric(quantityBaseStr))
                 quantityBase = Double.valueOf(quantityBaseStr);
             ConsumptionPickAdapter2 adapter = new ConsumptionPickAdapter2(item.getAddonEntity(), quantityBase);
-            adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
-                @Override
-                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                    if (view.getId() == R.id.tv_subitem_func1_delete)
-                        buildDeleteDialog(adapter, position);
-                }
-            });
+
             AdapterHelper.setAdapterEmpty(mContext, adapter);
             recyclerView.setAdapter(adapter);
 
@@ -232,13 +224,21 @@ public class Func1PresenterImpl extends BasePresenter<Func1MvpView> {
         }
     }
 
-    public static class ConsumptionPickAdapter2 extends BaseQuickAdapter<Polymorph<ConsumptionPickAddon, BinContentInfo>, BaseViewHolder> {
+    public static class ConsumptionPickAdapter2 extends BaseItemDraggableAdapter<Polymorph<ConsumptionPickAddon, BinContentInfo>, BaseViewHolder> {
 
         private double maxQuantity;
 
         public ConsumptionPickAdapter2(@Nullable List<Polymorph<ConsumptionPickAddon, BinContentInfo>> datas, double maxQuantity) {
             super(R.layout.item_func1b_subitem, datas);
             this.maxQuantity = maxQuantity;
+        }
+
+        @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+            super.onAttachedToRecyclerView(recyclerView);
+
+            AdapterHelper.initDraggableAdapter(recyclerView, this);
+            AdapterHelper.addAdapterHeaderAndItemDivider(recyclerView, this, R.layout.item_func1b_subitem_header);
         }
 
         private double getTotalQuantity(Polymorph<ConsumptionPickAddon, BinContentInfo> notCountingItem, double addend) {

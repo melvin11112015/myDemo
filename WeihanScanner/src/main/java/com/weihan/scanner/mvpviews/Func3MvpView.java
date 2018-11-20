@@ -11,6 +11,8 @@ public interface Func3MvpView extends BaseFuncMvpView {
 
     void fillRecycler(List<Polymorph<WarehousePutAwayAddon, BinContentInfo>> datas);
 
+    void fillRecyclerWithRecommandInfo(List<BinContentInfo> datasRecommandInfo);
+
     void notifyAdapter();
 
 }

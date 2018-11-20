@@ -23,11 +23,19 @@ public class AdapterHelper {
     public static void setAdapterEmpty(Context context, BaseQuickAdapter adapter) {
         View view = LayoutInflater.from(context).inflate(R.layout.item2_tv, null);
         TextView tv = view.findViewById(R.id.tv2_item);
-        tv.setText("没有任何记录");
+        tv.setText(R.string.toast_no_record);
+        adapter.setEmptyView(view);
+    }
+
+    public static void setAdapterEmpty(Context context, BaseQuickAdapter adapter, String showText) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item2_tv, null);
+        TextView tv = view.findViewById(R.id.tv2_item);
+        tv.setText(showText);
         adapter.setEmptyView(view);
     }
 
     public static void addAdapterHeaderAndItemDivider(RecyclerView recyclerView, BaseQuickAdapter adapter, @LayoutRes int layoutResId) {
+        if (adapter.getHeaderLayoutCount() > 0) return; //避免重复添加
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         View headerview = LayoutInflater.from(recyclerView.getContext()).inflate(layoutResId, null);
         adapter.addHeaderView(headerview);

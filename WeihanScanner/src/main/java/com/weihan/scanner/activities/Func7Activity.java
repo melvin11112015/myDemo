@@ -43,7 +43,7 @@ public class Func7Activity extends BaseFuncActivity<Func7PresenterImpl> implemen
 
     RecyclerView recyclerView;
     EditText etCheck;
-    Button btCheck, btSubmit;
+    Button btCheck;
     TextView tvCode;
 
     private Func7PresenterImpl.NewOutstandingSalesLineAdapter adapter;
@@ -67,9 +67,6 @@ public class Func7Activity extends BaseFuncActivity<Func7PresenterImpl> implemen
     public void onClick(View view) {
         if (view == btCheck) {
             doChecking();
-        } else if (view == btSubmit) {
-            etCheck.requestFocus();
-            presenter.submitDatas(datas);
         }
     }
 
@@ -115,13 +112,22 @@ public class Func7Activity extends BaseFuncActivity<Func7PresenterImpl> implemen
     }
 
     @Override
+    protected void submitDatas() {
+        etCheck.requestFocus();
+        presenter.submitDatas(datas);
+    }
+
+    @Override
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void fillRecycler(List<Polymorph<List<Polymorph<WarehouseShipmentAddon, BinContentInfo>>, OutstandingSalesLineInfo>> datas) {
-        if (!datas.isEmpty()) tvCode.setText(datas.get(0).getInfoEntity().getDocument_No());
+        if (!datas.isEmpty()) {
+            tvCode.setText(datas.get(0).getInfoEntity().getDocument_No());
+            etCheck.setText(datas.get(0).getInfoEntity().getDocument_No());
+        }
         this.datas.clear();
         this.datas.addAll(datas);
         adapter.notifyDataSetChanged();
@@ -157,10 +163,9 @@ public class Func7Activity extends BaseFuncActivity<Func7PresenterImpl> implemen
     @Override
     public void initWidget() {
         btCheck.setOnClickListener(this);
-        btSubmit.setOnClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        adapter = new Func7PresenterImpl.NewOutstandingSalesLineAdapter(datas, "发货");
+        adapter = new Func7PresenterImpl.NewOutstandingSalesLineAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -191,7 +196,6 @@ public class Func7Activity extends BaseFuncActivity<Func7PresenterImpl> implemen
     public void findView() {
         recyclerView = findViewById(R.id.recycler_func7);
         btCheck = findViewById(R.id.button_func7_check);
-        btSubmit = findViewById(R.id.button_func7_submit);
         etCheck = findViewById(R.id.et_func7_barcode);
         tvCode = findViewById(R.id.tv_func7_code);
     }

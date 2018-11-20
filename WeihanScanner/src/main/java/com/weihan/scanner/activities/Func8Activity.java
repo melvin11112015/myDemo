@@ -35,7 +35,7 @@ import static com.weihan.scanner.Constant.KEY_SPREF_FUNC8_DATA;
 public class Func8Activity extends BaseFuncActivity<Func8PresenterImpl> implements Func8MvpView, View.OnClickListener {
 
     EditText etFromWBcode, etItemno, etToWBcode, etQuantity;
-    Button buttonMove, buttonCheck, buttonSubmit;
+    Button buttonMove, buttonCheck;
     RecyclerView recyclerView;
 
     private BinContentListAdapter adapter;
@@ -64,14 +64,12 @@ public class Func8Activity extends BaseFuncActivity<Func8PresenterImpl> implemen
         etQuantity = findViewById(R.id.et_func8_quantity);
         buttonCheck = findViewById(R.id.button_func8_check);
         buttonMove = findViewById(R.id.button_func8_move);
-        buttonSubmit = findViewById(R.id.button_func8_submit);
         recyclerView = findViewById(R.id.recycler_func8);
     }
 
     @Override
     public void initWidget() {
         buttonCheck.setOnClickListener(this);
-        buttonSubmit.setOnClickListener(this);
         buttonMove.setOnClickListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -133,8 +131,6 @@ public class Func8Activity extends BaseFuncActivity<Func8PresenterImpl> implemen
     public void onClick(View view) {
         if (view == buttonCheck) {
             doChecking();
-        } else if (view == buttonSubmit) {
-            presenter.submitDatas(datas);
         } else if (view == buttonMove) {
             doMoving();
         }
@@ -176,6 +172,11 @@ public class Func8Activity extends BaseFuncActivity<Func8PresenterImpl> implemen
         etQuantity.setText("");
         datas.clear();
         notifyAdapter();
+    }
+
+    @Override
+    protected void submitDatas() {
+        presenter.submitDatas(datas);
     }
 
 

@@ -95,7 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="@string/text_bin_colon"
+                android:text="@string/text_quantity_colon"
                 android:textSize="12sp" />
 
             <TextView

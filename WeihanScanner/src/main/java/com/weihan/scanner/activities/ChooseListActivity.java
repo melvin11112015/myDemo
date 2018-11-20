@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.weihan.scanner.BaseMVP.BaseActivity;
 import com.weihan.scanner.R;
 import com.weihan.scanner.entities.BinContentInfo;
@@ -64,7 +63,8 @@ public class ChooseListActivity extends BaseActivity<ChooseListPresenterImpl> im
         adapter.notifyDataSetChanged();
         BinContentInfo firstItem = datas.get(0);
         String WBcode = firstItem.getLocation_Code() + firstItem.getBin_Code();
-        etSelect.setText(WBcode);
+        //自动选中第一条记录，暂不需要
+        //etSelect.setText(WBcode);
     }
 
     @Override
@@ -104,6 +104,8 @@ public class ChooseListActivity extends BaseActivity<ChooseListPresenterImpl> im
         recyclerView.setLayoutManager(new LinearLayoutManager(ChooseListActivity.this));
         //recyclerView.addItemDecoration(new DividerItemDecoration(ChooseListActivity.this, DividerItemDecoration.VERTICAL));
         adapter = new Func11PresenterImpl.BinContentListAdapter(datas);
+        /*
+        //点击记录时自动选中，暂不需要
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -111,6 +113,7 @@ public class ChooseListActivity extends BaseActivity<ChooseListPresenterImpl> im
                 foundItem(info);
             }
         });
+        */
         recyclerView.setAdapter(adapter);
     }
 

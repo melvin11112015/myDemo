@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.weihan.scanner.entities.BinContentInfo;
 import com.weihan.scanner.entities.ConsumptionPickAddon;
+import com.weihan.scanner.entities.ConsumptionPickConfirmAddon;
 import com.weihan.scanner.entities.GenericResult;
 import com.weihan.scanner.entities.InvPickingInfo;
 import com.weihan.scanner.entities.OutputPutAwayAddon;
@@ -170,7 +171,7 @@ public class ApiTool {
                 .enqueue(callback);
     }
 
-    public static void addConsumptionPickConfirm_Buffer(ConsumptionPickAddon addon, Callback<Map<String, Object>> callback) {
+    public static void addConsumptionPickConfirm_Buffer(ConsumptionPickConfirmAddon addon, Callback<Map<String, Object>> callback) {
         getRetrofit()
                 .create(ApiService.class)
                 .addConsumptionPickConfirm_Buffer(addon)

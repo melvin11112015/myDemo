@@ -32,7 +32,7 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
 
     RecyclerView recyclerView;
     EditText etCheck;
-    Button btCheck, btSubmit;
+    Button btCheck;
     TextView tvCode;
 
     private Func0PresenterImpl.PurchaseListAdapter2 adapter;
@@ -56,7 +56,6 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
     public void findView() {
         recyclerView = findViewById(R.id.recycler_func0);
         btCheck = findViewById(R.id.button_func0_check);
-        btSubmit = findViewById(R.id.button_func0_submit);
         etCheck = findViewById(R.id.et_func0_barcode);
         tvCode = findViewById(R.id.tv_func0_code);
     }
@@ -64,7 +63,6 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
     @Override
     public void initWidget() {
         btCheck.setOnClickListener(this);
-        btSubmit.setOnClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new Func0PresenterImpl.PurchaseListAdapter2(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
@@ -105,9 +103,6 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
     public void onClick(View view) {
         if (view == btCheck) {
             doChecking();
-        } else if (view == btSubmit) {
-            etCheck.requestFocus();
-            presenter.submitDatas(datas);
         }
     }
 
@@ -123,6 +118,12 @@ public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implemen
         etCheck.setText("");
         datas.clear();
         notifyAdapter();
+    }
+
+    @Override
+    protected void submitDatas() {
+        etCheck.requestFocus();
+        presenter.submitDatas(datas);
     }
 
     @Override

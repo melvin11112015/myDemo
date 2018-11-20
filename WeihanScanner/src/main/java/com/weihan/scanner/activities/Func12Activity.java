@@ -31,7 +31,7 @@ import static com.weihan.scanner.Constant.KEY_SPREF_FUNC12_DATA;
 public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implements Func12MvpView, View.OnClickListener {
 
     EditText etFromWBcode, etItemno;
-    Button buttonCheck, buttonSubmit;
+    Button buttonCheck;
     RecyclerView recyclerView;
 
     private Func12PresenterImpl.BinContentListAdapter adapter;
@@ -49,7 +49,6 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
     @Override
     public void initWidget() {
         buttonCheck.setOnClickListener(this);
-        buttonSubmit.setOnClickListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new Func12PresenterImpl.BinContentListAdapter(datas);
@@ -82,7 +81,6 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
         etFromWBcode = findViewById(R.id.et_func12_from_bincode);
         etItemno = findViewById(R.id.et_func12_itemno);
         buttonCheck = findViewById(R.id.button_func12_check);
-        buttonSubmit = findViewById(R.id.button_func12_submit);
         recyclerView = findViewById(R.id.recycler_func12);
     }
 
@@ -95,9 +93,6 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
     public void onClick(View view) {
         if (view == buttonCheck) {
             doChecking();
-        } else if (view == buttonSubmit) {
-            etFromWBcode.requestFocus();
-            presenter.submitDatas(datas);
         }
     }
 
@@ -138,6 +133,12 @@ public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implem
         etItemno.setText("");
         datas.clear();
         notifyAdapter();
+    }
+
+    @Override
+    protected void submitDatas() {
+        etFromWBcode.requestFocus();
+        presenter.submitDatas(datas);
     }
 
     @Override

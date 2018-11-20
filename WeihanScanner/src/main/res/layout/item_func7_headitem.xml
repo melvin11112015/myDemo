@@ -23,9 +23,8 @@
             app:srcCompat="@android:drawable/ic_media_play" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="3"
             android:gravity="center_vertical"
             android:text="@string/text_material_colon" />
 
@@ -33,7 +32,7 @@
             android:id="@+id/tv_item_func7_mcn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp" />
@@ -43,62 +42,60 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/melvin_button_orange"
-            android:padding="3dp"
-            android:text="库位发货"
-            android:textColor="@color/colorBackgroundGrey"
+            android:paddingLeft="6dp"
+            android:paddingTop="3dp"
+            android:paddingRight="6dp"
+            android:paddingBottom="3dp"
+            android:text="发货"
+            android:textColor="@android:color/background_light"
             android:textStyle="bold" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:text="物料名称:" />
+            android:layout_weight="1"
+            android:text="发货列表"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="发货数:" />
+
+        <TextView
+            android:id="@+id/tv_item_func7_count0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minEms="3"
+            android:singleLine="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/text_name_colon" />
 
         <TextView
             android:id="@+id/tv_item_func7_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
             android:textColor="@color/colorPrimary"
+            android:textIsSelectable="true"
             android:textSize="16sp" />
+
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_item_func7_count0_tag"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3" />
-
-        <TextView
-            android:id="@+id/tv_item_func7_count0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_item_func7_listname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:text="发货列表"
-        android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_item_func7"

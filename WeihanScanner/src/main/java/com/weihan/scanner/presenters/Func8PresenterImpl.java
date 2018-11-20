@@ -22,10 +22,9 @@ public class Func8PresenterImpl extends BasePresenter<Func8MvpView> {
     private GenericOdataCallback<BinContentInfo> callback1 = new GenericOdataCallback<BinContentInfo>() {
         @Override
         public void onDataAvailable(List<BinContentInfo> datas) {
-            if (datas.isEmpty()) {
+            if (datas.isEmpty())
                 ToastUtils.show(R.string.toast_no_record);
-                return;
-            }
+
             getView().fillRecycler(Func8ModelImpl.createPolymorphList(datas));
         }
 

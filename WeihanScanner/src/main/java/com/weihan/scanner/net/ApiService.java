@@ -2,6 +2,7 @@ package com.weihan.scanner.net;
 
 import com.weihan.scanner.entities.BinContentInfo;
 import com.weihan.scanner.entities.ConsumptionPickAddon;
+import com.weihan.scanner.entities.ConsumptionPickConfirmAddon;
 import com.weihan.scanner.entities.GenericResult;
 import com.weihan.scanner.entities.InvPickingInfo;
 import com.weihan.scanner.entities.OutputPutAwayAddon;
@@ -59,7 +60,7 @@ public interface ApiService {
     Call<Map<String, Object>> addConsumptionPickBuffer(@Body ConsumptionPickAddon addon);
 
     @POST("ConsumptionPickConfirm_Buffer" + PARAM_JSON)
-    Call<Map<String, Object>> addConsumptionPickConfirm_Buffer(@Body ConsumptionPickAddon addon);
+    Call<Map<String, Object>> addConsumptionPickConfirm_Buffer(@Body ConsumptionPickConfirmAddon addon);
 
     @POST("ProdOutputBuffer" + PARAM_JSON)
     Call<Map<String, Object>> addProdOutputBuffer(@Body ProdOutputAddon addon);

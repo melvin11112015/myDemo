@@ -29,10 +29,9 @@ public class Func12PresenterImpl extends BasePresenter<Func12MvpView> {
     private GenericOdataCallback<BinContentInfo> callback1 = new GenericOdataCallback<BinContentInfo>() {
         @Override
         public void onDataAvailable(List<BinContentInfo> datas) {
-            if (datas.isEmpty()) {
+            if (datas.isEmpty())
                 ToastUtils.show(R.string.toast_no_record);
-                return;
-            }
+
             getView().fillRecycler(Func12ModelImpl.createPolymorphList(datas));
         }
 

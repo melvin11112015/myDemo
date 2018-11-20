@@ -43,7 +43,7 @@ public class Func1Activity extends BaseFuncActivity<Func1PresenterImpl> implemen
 
     RecyclerView recyclerView;
     EditText etCheck;
-    Button btCheck, btSubmit;
+    Button btCheck;
     TextView tvCode;
 
     private Func1PresenterImpl.NewInvPickingAdapter adapter;
@@ -67,9 +67,6 @@ public class Func1Activity extends BaseFuncActivity<Func1PresenterImpl> implemen
     public void onClick(View view) {
         if (view == btCheck) {
             doChecking();
-        } else if (view == btSubmit) {
-            etCheck.requestFocus();
-            presenter.submitDatas(datas);
         }
     }
 
@@ -102,6 +99,8 @@ public class Func1Activity extends BaseFuncActivity<Func1PresenterImpl> implemen
                     .fromJson(prefJson, new TypeToken<List<Polymorph<List<Polymorph<ConsumptionPickAddon, BinContentInfo>>, InvPickingInfo>>>() {
                     }.getType());
             fillRecycler(tmpList);
+            if (!tmpList.isEmpty())
+                etCheck.setText(tmpList.get(0).getInfoEntity().getInv_Document_No());
         }
     }
 
@@ -112,6 +111,12 @@ public class Func1Activity extends BaseFuncActivity<Func1PresenterImpl> implemen
         etCheck.setText("");
         datas.clear();
         notifyAdapter();
+    }
+
+    @Override
+    protected void submitDatas() {
+        etCheck.requestFocus();
+        presenter.submitDatas(datas);
     }
 
     @Override
@@ -157,7 +162,6 @@ public class Func1Activity extends BaseFuncActivity<Func1PresenterImpl> implemen
     @Override
     public void initWidget() {
         btCheck.setOnClickListener(this);
-        btSubmit.setOnClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         adapter = new Func1PresenterImpl.NewInvPickingAdapter(datas);
@@ -191,7 +195,6 @@ public class Func1Activity extends BaseFuncActivity<Func1PresenterImpl> implemen
     public void findView() {
         recyclerView = findViewById(R.id.recycler_func1);
         btCheck = findViewById(R.id.button_func1_check);
-        btSubmit = findViewById(R.id.button_func1_submit);
         etCheck = findViewById(R.id.et_func1_barcode);
         tvCode = findViewById(R.id.tv_func1_code);
     }

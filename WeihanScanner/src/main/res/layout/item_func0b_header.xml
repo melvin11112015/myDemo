@@ -5,10 +5,10 @@
     android:background="@color/header_background"
     android:divider="?android:attr/listDivider"
     android:orientation="horizontal"
-    android:paddingBottom="2dp"
     android:paddingLeft="5dp"
-    android:paddingRight="5dp"
     android:paddingTop="2dp"
+    android:paddingRight="5dp"
+    android:paddingBottom="2dp"
     android:showDividers="middle">
 
     <TextView
@@ -17,7 +17,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:singleLine="true"
-        android:text="物料"
+        android:text="@string/text_material"
         android:textColor="@android:color/background_light"
         android:textStyle="bold" />
 
@@ -27,7 +27,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:singleLine="true"
-        android:text="名称"
+        android:text="@string/text_name"
         android:textColor="@color/colorBackgroundGrey"
         android:textStyle="bold" />
 
@@ -37,7 +37,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:singleLine="true"
-        android:text="到货数"
+        android:text="剩余到货数"
         android:textColor="@color/colorBackgroundGrey"
         android:textStyle="bold" />
 

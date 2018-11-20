@@ -9,7 +9,7 @@ android {
         applicationId "com.weihan.scanner"
         minSdkVersion 18
         targetSdkVersion 27
-        versionCode 8
+        versionCode 9
         versionName "0.08"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

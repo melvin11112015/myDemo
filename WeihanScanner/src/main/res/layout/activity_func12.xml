@@ -9,73 +9,80 @@
     tools:context=".activities.Func12Activity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="5dp"
-            android:layout_weight="4"
-            android:text="@string/text_from_bin" />
-
-        <EditText
-            android:id="@+id/et_func12_from_bincode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@drawable/shape_rectangle_border"
-            android:selectAllOnFocus="true"
-            android:ems="10"
-            android:hint="@string/text_barcode"
-            android:inputType="text" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="5dp"
-            android:layout_weight="4"
-            android:text="@string/text_material_barcode" />
-
-        <EditText
-            android:id="@+id/et_func12_itemno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@drawable/shape_rectangle_border"
-            android:selectAllOnFocus="true"
-            android:ems="10"
-            android:hint="@string/text_barcode"
-            android:inputType="text" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:orientation="horizontal"
         android:padding="5dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="3"
+                    android:text="@string/text_from_bin" />
+
+                <EditText
+                    android:id="@+id/et_func12_from_bincode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_rectangle_border"
+                    android:ems="10"
+                    android:hint="@string/text_barcode"
+                    android:inputType="text"
+                    android:selectAllOnFocus="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="3"
+                    android:text="@string/text_material_barcode" />
+
+                <EditText
+                    android:id="@+id/et_func12_itemno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_rectangle_border"
+                    android:ems="10"
+                    android:hint="@string/text_barcode"
+                    android:inputType="text"
+                    android:selectAllOnFocus="true" />
+
+            </LinearLayout>
+        </LinearLayout>
+
         <Button
             android:id="@+id/button_func12_check"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="30dp"
-            android:layout_gravity="right"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:background="@color/colorPrimary"
@@ -92,19 +99,5 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@color/colorBackgroundGrey" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/button_func12_submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@android:color/holo_green_dark"
-            android:text="@string/text_submit"
-            android:textColor="@android:color/background_light" />
-    </FrameLayout>
 
 </LinearLayout>

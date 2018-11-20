@@ -30,10 +30,8 @@ public class Func0PresenterImpl extends BasePresenter<Func0MvpView> {
     private GenericOdataCallback<OutstandingPurchLineInfo> callback1 = new GenericOdataCallback<OutstandingPurchLineInfo>() {
         @Override
         public void onDataAvailable(List<OutstandingPurchLineInfo> datas) {
-            if (datas.isEmpty()) {
-                ToastUtils.show(R.string.toast_no_record);
-                return;
-            }
+            if (datas.isEmpty()) ToastUtils.show(R.string.toast_no_record);
+
             getView().fillRecycler(Func0ModelImpl.createPolymorphList(datas));
         }
 
@@ -93,7 +91,9 @@ public class Func0PresenterImpl extends BasePresenter<Func0MvpView> {
         @Override
         protected void convert(final BaseViewHolder helper, Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo> item) {
             helper.setText(R.id.tv_item_func0_mcn, item.getInfoEntity().getNo());
+            helper.getView(R.id.tv_item_func0_mcn).setSelected(true);
             helper.setText(R.id.tv_item_func0_name, item.getInfoEntity().getDescription());
+            helper.getView(R.id.tv_item_func0_name).setSelected(true);
             helper.setText(R.id.tv_item_func0_count0, item.getInfoEntity().getOutstanding_Quantity());
             helper.setText(R.id.et_item_func0_count1, item.getAddonEntity().getQuantity());
             EditText et = helper.getView(R.id.et_item_func0_count1);

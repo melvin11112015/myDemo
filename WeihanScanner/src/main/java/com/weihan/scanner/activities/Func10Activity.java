@@ -1,6 +1,5 @@
 package com.weihan.scanner.activities;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,43 +10,35 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.common.utils.ToastUtils;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.weihan.scanner.BaseMVP.BaseFuncActivity;
 import com.weihan.scanner.Constant;
 import com.weihan.scanner.R;
-import com.weihan.scanner.entities.BinContentInfo;
 import com.weihan.scanner.entities.OutstandingSalesLineInfo;
 import com.weihan.scanner.entities.Polymorph;
 import com.weihan.scanner.entities.WarehouseShipmentAddon;
-import com.weihan.scanner.mvpviews.Func7MvpView;
+import com.weihan.scanner.mvpviews.Func10MvpView;
 import com.weihan.scanner.presenters.Func10PresenterImpl;
 import com.weihan.scanner.utils.AdapterHelper;
 import com.weihan.scanner.utils.ViewHelper;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.weihan.scanner.Constant.KEY_CODE;
-import static com.weihan.scanner.Constant.KEY_PARAM2;
 import static com.weihan.scanner.Constant.KEY_SPREF_FUNC10_DATA;
-import static com.weihan.scanner.Constant.KEY_TITLE;
-import static com.weihan.scanner.Constant.REQUEST_RECOMMAND;
-import static com.weihan.scanner.Constant.RESULT_SUCCESS;
 
-public class Func10Activity extends BaseFuncActivity<Func10PresenterImpl> implements Func7MvpView, View.OnClickListener {
+public class Func10Activity extends BaseFuncActivity<Func10PresenterImpl> implements Func10MvpView, View.OnClickListener {
 
 
     RecyclerView recyclerView;
     EditText etCheck;
-    Button btCheck, btSubmit;
+    Button btCheck;
     TextView tvCode;
 
     private Func10PresenterImpl.NewOutstandingSalesLineAdapter adapter;
-    private List<Polymorph<List<Polymorph<WarehouseShipmentAddon, BinContentInfo>>, OutstandingSalesLineInfo>> datas = new ArrayList<>();
+    private List<Polymorph<WarehouseShipmentAddon, OutstandingSalesLineInfo>> datas = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +58,6 @@ public class Func10Activity extends BaseFuncActivity<Func10PresenterImpl> implem
     public void onClick(View view) {
         if (view == btCheck) {
             doChecking();
-        } else if (view == btSubmit) {
-            etCheck.requestFocus();
-            presenter.submitDatas(datas);
         }
     }
 
@@ -91,16 +79,22 @@ public class Func10Activity extends BaseFuncActivity<Func10PresenterImpl> implem
         editor.apply();
     }
 
-    private Polymorph<List<Polymorph<WarehouseShipmentAddon, BinContentInfo>>, OutstandingSalesLineInfo> itemRecommanded;
 
     @Override
     protected void loadPref() {
         sharedPreferences = getSharedPreferences(Constant.SHAREDPREF_NAME, MODE_PRIVATE);
         String prefJson = sharedPreferences.getString(KEY_SPREF_FUNC10_DATA, "");
         if (!prefJson.isEmpty()) {
-            List<Polymorph<List<Polymorph<WarehouseShipmentAddon, BinContentInfo>>, OutstandingSalesLineInfo>> tmpList = new Gson()
-                    .fromJson(prefJson, new TypeToken<List<Polymorph<List<Polymorph<WarehouseShipmentAddon, BinContentInfo>>, OutstandingSalesLineInfo>>>() {
-                    }.getType());
+            List<Polymorph<WarehouseShipmentAddon, OutstandingSalesLineInfo>> tmpList = null;
+            try {
+                tmpList = new Gson()
+                        .fromJson(prefJson, new TypeToken<List<Polymorph<WarehouseShipmentAddon, OutstandingSalesLineInfo>>>() {
+                        }.getType());
+            } catch (JsonSyntaxException e) {
+                e.printStackTrace();
+                savePref(true);
+                return;
+            }
             fillRecycler(tmpList);
         }
     }
@@ -115,62 +109,41 @@ public class Func10Activity extends BaseFuncActivity<Func10PresenterImpl> implem
     }
 
     @Override
+    protected void submitDatas() {
+        etCheck.requestFocus();
+        presenter.submitDatas(datas);
+    }
+
+    @Override
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void fillRecycler(List<Polymorph<List<Polymorph<WarehouseShipmentAddon, BinContentInfo>>, OutstandingSalesLineInfo>> datas) {
-        if (!datas.isEmpty()) tvCode.setText(datas.get(0).getInfoEntity().getDocument_No());
+    public void uncheckAdpaterBox() {
+        adapter.uncheckAllBoxes(recyclerView);
+    }
+
+    @Override
+    public void fillRecycler(List<Polymorph<WarehouseShipmentAddon, OutstandingSalesLineInfo>> datas) {
+        if (!datas.isEmpty()) {
+            tvCode.setText(datas.get(0).getInfoEntity().getDocument_No());
+            etCheck.setText(datas.get(0).getInfoEntity().getDocument_No());
+        }
         this.datas.clear();
         this.datas.addAll(datas);
         adapter.notifyDataSetChanged();
     }
 
-    private void doRecommanding() {
-        if (itemRecommanded == null) return;
-
-        String itemno = itemRecommanded.getInfoEntity().getNo();
-        if (itemno.isEmpty()) {
-            ToastUtils.show("物料条码不能为空");
-            return;
-        }
-        Intent intent = new Intent(Func10Activity.this, ChooseListActivity.class);
-        intent.putExtra(KEY_CODE, itemno);
-        intent.putExtra(KEY_TITLE, getString(R.string.text_recommand_bin));
-        startActivityForResult(intent, REQUEST_RECOMMAND);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_RECOMMAND && resultCode == RESULT_SUCCESS) {
-            Serializable s = data.getSerializableExtra(KEY_PARAM2);
-
-            if (s != null && s instanceof BinContentInfo)
-                presenter.attemptToAddPoly(itemRecommanded.getAddonEntity(), (BinContentInfo) s, itemRecommanded.getInfoEntity());
-
-            notifyAdapter();
-        }
-    }
 
     @Override
     public void initWidget() {
         btCheck.setOnClickListener(this);
-        btSubmit.setOnClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        adapter = new Func10PresenterImpl.NewOutstandingSalesLineAdapter(datas, "包装");
+        adapter = new Func10PresenterImpl.NewOutstandingSalesLineAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.tv_item_func7_recommand) {
-                    itemRecommanded = (Polymorph<List<Polymorph<WarehouseShipmentAddon, BinContentInfo>>, OutstandingSalesLineInfo>) adapter.getItem(position);
-                    doRecommanding();
-                }
-            }
-        });
+
         recyclerView.setAdapter(adapter);
 
         etCheck.setOnKeyListener(new View.OnKeyListener() {
@@ -191,7 +164,6 @@ public class Func10Activity extends BaseFuncActivity<Func10PresenterImpl> implem
     public void findView() {
         recyclerView = findViewById(R.id.recycler_func7);
         btCheck = findViewById(R.id.button_func7_check);
-        btSubmit = findViewById(R.id.button_func7_submit);
         etCheck = findViewById(R.id.et_func7_barcode);
         tvCode = findViewById(R.id.tv_func7_code);
     }

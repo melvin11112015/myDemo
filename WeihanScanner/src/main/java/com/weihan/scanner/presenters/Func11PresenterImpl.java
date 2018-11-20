@@ -1,5 +1,7 @@
 package com.weihan.scanner.presenters;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.common.utils.ToastUtils;
@@ -10,6 +12,7 @@ import com.weihan.scanner.models.AllFuncModelImpl;
 import com.weihan.scanner.mvpviews.Func11MvpView;
 import com.weihan.scanner.net.ApiTool;
 import com.weihan.scanner.net.GenericOdataCallback;
+import com.weihan.scanner.utils.AdapterHelper;
 
 import java.util.List;
 
@@ -20,10 +23,9 @@ public class Func11PresenterImpl extends BasePresenter<Func11MvpView> {
     private GenericOdataCallback<BinContentInfo> callback1 = new GenericOdataCallback<BinContentInfo>() {
         @Override
         public void onDataAvailable(List<BinContentInfo> datas) {
-            if (datas.isEmpty()) {
+            if (datas.isEmpty())
                 ToastUtils.show(R.string.toast_no_record);
-                return;
-            }
+
             getView().fillRecycler(datas);
         }
 
@@ -55,16 +57,24 @@ public class Func11PresenterImpl extends BasePresenter<Func11MvpView> {
     public static class BinContentListAdapter extends BaseQuickAdapter<BinContentInfo, BaseViewHolder> {
 
         public BinContentListAdapter(List<BinContentInfo> datas) {
-            super(R.layout.item_func11, datas);
+            super(R.layout.item_func11b, datas);
+        }
+
+        @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+            super.onAttachedToRecyclerView(recyclerView);
+            AdapterHelper.addAdapterHeaderAndItemDivider(recyclerView, this, R.layout.item_func11b_header);
         }
 
         @Override
         protected void convert(final BaseViewHolder helper, BinContentInfo item) {
             helper.setText(R.id.tv_item_func11_mcn, item.getItem_No());
-            helper.setText(R.id.tv_item_func11_binname, item.getLocation_Code());
-            helper.setText(R.id.tv_item_func11_bincode, item.getBin_Code());
+            helper.getView(R.id.tv_item_func11_mcn).setSelected(true);
+            helper.setText(R.id.tv_item_func11_wbcode, item.getLocation_Code() + item.getBin_Code());
+            helper.getView(R.id.tv_item_func11_wbcode).setSelected(true);
             helper.setText(R.id.tv_item_func11_quantity, item.getQuantity_Base());
             helper.setText(R.id.tv_item_func11_name, item.getItem_No());
+            helper.getView(R.id.tv_item_func11_name).setSelected(true);
         }
     }
 

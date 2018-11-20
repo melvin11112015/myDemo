@@ -1,25 +1,25 @@
 package com.weihan.scanner.activities;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ToggleButton;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.common.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.weihan.scanner.BaseMVP.BaseFuncActivity;
 import com.weihan.scanner.Constant;
 import com.weihan.scanner.R;
+import com.weihan.scanner.entities.BinContentInfo;
 import com.weihan.scanner.entities.OutputPutAwayAddon;
 import com.weihan.scanner.entities.Polymorph;
 import com.weihan.scanner.mvpviews.Func9MvpView;
+import com.weihan.scanner.presenters.Func11PresenterImpl;
 import com.weihan.scanner.presenters.Func9PresenterImpl;
 import com.weihan.scanner.utils.AdapterHelper;
 import com.weihan.scanner.utils.ViewHelper;
@@ -27,27 +27,24 @@ import com.weihan.scanner.utils.ViewHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.weihan.scanner.Constant.KEY_CODE;
-import static com.weihan.scanner.Constant.KEY_CODE2;
-import static com.weihan.scanner.Constant.KEY_PARAM;
 import static com.weihan.scanner.Constant.KEY_SPREF_FUNC9_DATA;
-import static com.weihan.scanner.Constant.KEY_TITLE;
-import static com.weihan.scanner.Constant.REQUEST_RECOMMAND;
-import static com.weihan.scanner.Constant.RESULT_SUCCESS;
 
 public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implements Func9MvpView, View.OnClickListener {
 
-    EditText etItemno, etBincode;
-    Button buttonAdd, buttonSubmit, buttonRecommand;
-    RecyclerView recyclerView;
+    EditText etItemno, etWBcode, etQuantity;
+    Button buttonAdd, buttonRecommand;
+    RecyclerView recyclerView, recyclerViewRecomandInfo;
+    ToggleButton toggleButton;
 
     private List<Polymorph<OutputPutAwayAddon, OutputPutAwayAddon>> datas = new ArrayList<>();
     private Func9PresenterImpl.OutputPutAwayListAdapter adapter;
+    private List<BinContentInfo> datasRecommandInfo = new ArrayList<>();
+    private Func11PresenterImpl.BinContentListAdapter adapterRecommandInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_func9);
+        setContentView(R.layout.activity_func3);
 
         findView();
         initWidget();
@@ -60,22 +57,18 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
 
     @Override
     public void initWidget() {
-        buttonSubmit.setOnClickListener(this);
         buttonAdd.setOnClickListener(this);
         buttonRecommand.setOnClickListener(this);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new Func9PresenterImpl.OutputPutAwayListAdapter(datas);
         AdapterHelper.setAdapterEmpty(this, adapter);
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.tv_item_func9_delete) {
-                    buildDeleteDialog(adapter, position);
-                }
-            }
-        });
         recyclerView.setAdapter(adapter);
+
+        adapterRecommandInfo = new Func11PresenterImpl.BinContentListAdapter(datasRecommandInfo);
+        AdapterHelper.setAdapterEmpty(this, adapterRecommandInfo);
+        recyclerViewRecomandInfo.setAdapter(adapterRecommandInfo);
+
+
         etItemno.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
@@ -86,7 +79,7 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
                 return false;
             }
         });
-        etBincode.setOnKeyListener(new View.OnKeyListener() {
+        etWBcode.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
@@ -98,60 +91,44 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
         });
         loadPref();
         ViewHelper.initEdittextInputState(this, etItemno);
+
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                recyclerViewRecomandInfo.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
     @Override
     public void findView() {
-        etItemno = findViewById(R.id.et_func9_itemno);
-        etBincode = findViewById(R.id.et_func9_bincode);
-        buttonAdd = findViewById(R.id.button_func9_add);
-        buttonSubmit = findViewById(R.id.button_func9_submit);
-        buttonRecommand = findViewById(R.id.button_func9_recommand);
-        recyclerView = findViewById(R.id.recycler_func9);
+        etItemno = findViewById(R.id.et_func3_itemno);
+        etWBcode = findViewById(R.id.et_func3_bincode);
+        etQuantity = findViewById(R.id.et_func3_quantity);
+        buttonAdd = findViewById(R.id.button_func3_add);
+        buttonRecommand = findViewById(R.id.button_func3_recommand);
+        recyclerView = findViewById(R.id.recycler_func3);
+        recyclerViewRecomandInfo = findViewById(R.id.recycler_func3_recommand);
+        toggleButton = findViewById(R.id.toggleButton_func3);
     }
 
     @Override
     public void onClick(View view) {
         if (view == buttonAdd) {
             doAdding();
-        } else if (view == buttonSubmit) {
-            etItemno.requestFocus();
-            presenter.submitDatas(datas);
         } else if (view == buttonRecommand) {
             doRecommanding();
         }
     }
 
     private void doAdding() {
-        presenter.attemptToAddPoly(datas, etItemno.getText().toString(), etBincode.getText().toString(), "1");
+        presenter.attemptToAddPoly(datas, etItemno.getText().toString().trim(), etWBcode.getText().toString().trim(), etQuantity.getText().toString().trim());
     }
 
     private void doRecommanding() {
-        String itemno = etItemno.getText().toString();
-        if (itemno.isEmpty()) {
-            ToastUtils.show("物料条码不能为空");
-            return;
-        }
-        Intent intent = new Intent(Func9Activity.this, ChooseListActivity.class);
-        intent.putExtra(KEY_CODE, itemno);
-        intent.putExtra(KEY_TITLE, getString(R.string.title_recommand_bin));
-        startActivityForResult(intent, REQUEST_RECOMMAND);
+        presenter.acquireDatas(etItemno.getText().toString(), "");
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_RECOMMAND && resultCode == RESULT_SUCCESS) {
-            String quantity = data.getStringExtra(KEY_PARAM);
-            String locationCode = data.getStringExtra(KEY_CODE);
-            String binCode = data.getStringExtra(KEY_CODE2);
-            if (locationCode != null && binCode != null) etBincode.setText(locationCode + binCode);
-            if (quantity != null)
-                presenter.attemptToAddPoly(datas, etItemno.getText().toString(), etBincode.getText().toString(), quantity);
-            else
-                presenter.attemptToAddPoly(datas, etItemno.getText().toString(), etBincode.getText().toString(), "1");
-        }
-    }
 
     @Override
     protected void savePref(boolean isToClear) {
@@ -180,12 +157,22 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
     }
 
     @Override
-    public void clearDatas() {
+    protected void clearDatas() {
         savePref(true);
-        etBincode.setText("");
+        etWBcode.setText("");
         etItemno.setText("");
         datas.clear();
+        datasRecommandInfo.clear();
+        toggleButton.setTextOn(getString(R.string.togglebutton_on_default));
+        toggleButton.setTextOff(getString(R.string.togglebutton_off_default));
+        toggleButton.setChecked(false);
         notifyAdapter();
+    }
+
+    @Override
+    protected void submitDatas() {
+        etItemno.requestFocus();
+        presenter.submitDatas(datas);
     }
 
     @Override
@@ -195,8 +182,21 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
         notifyAdapter();
     }
 
+    @Override
+    public void fillRecyclerWithRecommandInfo(List<BinContentInfo> datasRecommandInfo) {
+        this.datasRecommandInfo.clear();
+        this.datasRecommandInfo.addAll(datasRecommandInfo);
+        adapterRecommandInfo.notifyDataSetChanged();
+        if (!datasRecommandInfo.isEmpty()) {
+            toggleButton.setTextOn("▼▼ " + datasRecommandInfo.get(0).getItem_No() + "推荐库位 ▼▼");
+            toggleButton.setTextOff("▲▲ " + datasRecommandInfo.get(0).getItem_No() + "推荐库位 ▲▲");
+            toggleButton.setChecked(true);
+        }
+    }
+
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
+        adapterRecommandInfo.notifyDataSetChanged();
     }
 
 

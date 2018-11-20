@@ -54,4 +54,13 @@
     <string name="text_pick_quantity_colon">领料数:</string>
     <string name="canvas_swipe_remove">向右划动删除记录</string>
     <string name="text_name_colon">名称:</string>
+    <string name="dialog_title_attention">注意</string>
+    <string name="dialog_submit_tip">确认提交数据？</string>
+    <string name="dialog_clear_tip">确认清空当前界面数据？</string>
+    <string name="text_bin">库位</string>
+    <string name="text_material">物料</string>
+    <string name="text_name">名称</string>
+    <string name="togglebutton_off_default">▲▲ 推荐库位 ▲▲</string>
+    <string name="togglebutton_on_default">▼▼ 推荐库位 ▼▼</string>
+    <string name="text_confirm">确认</string>
 </resources>

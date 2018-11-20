@@ -18,8 +18,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
-        android:text="6666"
+        android:textIsSelectable="true"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold" />
 
@@ -29,8 +31,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
-        android:text="2222"
+        android:textIsSelectable="true"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold" />
 
@@ -41,7 +45,6 @@
         android:layout_weight="1"
         android:gravity="center"
         android:singleLine="true"
-        android:text="3333"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold" />
 
@@ -55,6 +58,7 @@
         android:imeOptions="actionDone"
         android:inputType="number|numberSigned|numberDecimal"
         android:singleLine="true"
+        android:selectAllOnFocus="true"
         android:text="4444"
         android:textColor="#0000FF"
         android:textSize="14sp"
