@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res/com.scancode"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    
+    <com.scancode.widget.HeaderView
+        android:id="@+id/headerview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:showOther="true"
+        app:otherContent="修改"
+        app:title="托盘分拆" />
+    <include layout="@layout/search"/>
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+        >
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="默认新托盘："
+            />
+        <TextView 
+            android:id="@+id/new_code_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="暂无"
+            />
+    </LinearLayout>
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+        >
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="删除："
+            />
+        <CheckBox
+        android:id="@+id/isdel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="" />
+    </LinearLayout>
+    
+
+        <com.scancode.widget.swipelistview.SwipeListView
+            android:id="@+id/lv_requiremnt_supply"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="8dp"
+            android:divider="#000000"
+            android:dividerHeight="1px"
+            android:footerDividersEnabled="false"
+            android:scrollbarSize="2dp"
+            android:scrollbarThumbVertical="@drawable/scrollbar"
+            swipe:swipeBackView="@+id/back"
+            swipe:swipeCloseAllItemsWhenMoveList="true"
+            swipe:swipeDrawableChecked="@drawable/choice_selected"
+            swipe:swipeDrawableUnchecked="@drawable/choice_unselected"
+            swipe:swipeFrontView="@+id/front"
+            swipe:swipeIsAutoLoadOnBottom="true"
+            swipe:swipeIsDropDownStyle="false"
+            swipe:swipeIsOnBottomStyle="true"
+            swipe:swipeMode="none" />
+</LinearLayout>

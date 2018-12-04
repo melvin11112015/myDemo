@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="nav_header_bar" type="id" />
+    <item name="title_btn_left" type="id" />
+    <item name="title_btn_right" type="id" />
+    <item name="segment_route" type="id" />
+    <item name="radio_bus" type="id" />
+    <item name="radio_car" type="id" />
+    <item name="radio_walk" type="id" />
+
+    <item name="iv_topbar_left_back" type="id" />
+    <item name="ll_right_btn" type="id" />
+    <item name="iv_topbar_right_options" type="id" />
+    <item name="iv_topbar_right_search" type="id" />
+    <item name="iv_topbar_middle_car" type="id" />
+    <item name="iv_topbar_middle_bus" type="id" />
+    <item name="iv_topbar_middle_foot" type="id" />
+    <item name="imagebtn_navsearch_switch" type="id" />
+    <item name="EditText_navsearch_start" type="id" />
+    <item name="EditText_navsearch_end" type="id" />
+    <item name="SerialTextView" type="id" />
+    <item name="TextView01" type="id" />
+    <item name="TextView02" type="id" />
+    <item name="imageView1" type="id" />
+    <item name="LinearLayout01" type="id" />
+    <item name="RelativeLayout01" type="id" />
+    <item name="ItemTitle" type="id" />
+    <item name="ItemTimeArrive" type="id" />
+    <item name="ItemTime" type="id" />
+    <item name="ItemDistance" type="id" />
+    <item name="ItemWalk" type="id" />
+    <item name="time_capsule" type="id" />
+    <item name="taxi_info_id" type="id" />
+    <item name="navresult_taxi_btn" type="id" />
+    <item name="vertical_line" type="id" />
+    <item name="navresult_taxi" type="id" />
+    <item name="ll_buslinedetail_back" type="id" />
+    <item name="btn_buslinedetail_back" type="id" />
+    <item name="divider1" type="id" />
+    <item name="tv_route_title" type="id" />
+    <item name="tv_route_info" type="id" />
+    <item name="tv_route_arrivaltime" type="id" />
+    <item name="tv_route_time" type="id" />
+    <item name="tv_route_distance" type="id" />
+    <item name="tv_route_walk" type="id" />
+    <item name="btn_showmap" type="id" />
+    <item name="divider" type="id" />
+
+    <item name="frmTest1Head" type="id" />
+    <item name="frmTest1EditSearch" type="id" />
+    <item name="rgAutoUpdate" type="id" />
+    <item name="rbAutoUpdate_Yes" type="id" />
+    <item name="rbAutoUpdate_No" type="id" />
+
+    <!-- 二维码 -->
+    <!-- Messages IDs -->
+    <item name="auto_focus" type="id" />
+    <item name="decode" type="id" />
+    <item name="decode_failed" type="id" />
+    <item name="decode_succeeded" type="id" />
+    <item name="encode_failed" type="id" />
+    <item name="encode_succeeded" type="id" />
+    <item name="launch_product_query" type="id" />
+    <item name="quit" type="id" />
+    <item name="restart_preview" type="id" />
+    <item name="return_scan_result" type="id" />
+    <item name="search_book_contents_failed" type="id" />
+    <item name="search_book_contents_succeeded" type="id" />
+</resources>

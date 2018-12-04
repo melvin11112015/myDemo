@@ -1,1 +1,2 @@
-include ':idataScanner', ':WeihanScanner', ':scanCode2'
+include ':idataScanner', ':WeihanScanner'
+include ':EcoScanCode'

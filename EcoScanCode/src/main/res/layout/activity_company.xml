@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res/com.scancode"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    
+    <com.scancode.widget.HeaderView
+        android:id="@+id/headerview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:showBack="false"
+        app:title="选择公司" />
+    
+        <com.scancode.widget.swipelistview.SwipeListView
+            android:id="@+id/lv_requiremnt_supply"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="8dp"
+            android:divider="#000000"
+            android:dividerHeight="1px"
+            android:footerDividersEnabled="false"
+            android:scrollbarSize="2dp"
+            android:scrollbarThumbVertical="@drawable/scrollbar"
+            swipe:swipeBackView="@+id/back"
+            swipe:swipeCloseAllItemsWhenMoveList="true"
+            swipe:swipeDrawableChecked="@drawable/choice_selected"
+            swipe:swipeDrawableUnchecked="@drawable/choice_unselected"
+            swipe:swipeFrontView="@+id/front"
+            swipe:swipeIsAutoLoadOnBottom="true"
+            swipe:swipeIsDropDownStyle="false"
+            swipe:swipeIsOnBottomStyle="true"
+            swipe:swipeMode="none" />
+</LinearLayout>
