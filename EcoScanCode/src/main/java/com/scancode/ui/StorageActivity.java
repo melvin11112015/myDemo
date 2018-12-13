@@ -340,6 +340,10 @@ public class StorageActivity extends BaseActivity implements
 		}
 		//melvin code
 		String shipno = editShipno.getText().toString().trim();
+		if (shipno.isEmpty()) {
+			showCustomToast("没有送货单号");
+			return;
+		}
 		//melvin code
 		showLoadingDialog();
 		Map<String, Object> map = new HashMap<String, Object>();
