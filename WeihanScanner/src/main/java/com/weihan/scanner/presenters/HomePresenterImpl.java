@@ -11,19 +11,19 @@ public class HomePresenterImpl extends BasePresenter<HomeMvpView> implements Hom
 
     private HomeIconModelImpl model = new HomeIconModelImpl();
 
-    private String title;
+    private int title;
 
     public void getData() {
         model.generateDataList(this);
     }
 
-    public void processClickEvent(int position, String title) {
-        this.title = title;
+    public void processClickEvent(int position, int titleResId) {
+        this.title = titleResId;
         model.findClass(this, position);
     }
 
     @Override
-    public void onListComplete(List<Map<String, Object>> data) {
+    public void onListComplete(List<Map<String, Integer>> data) {
         getView().initGridAdapter(data);
     }
 

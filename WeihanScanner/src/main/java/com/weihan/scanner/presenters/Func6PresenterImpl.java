@@ -70,10 +70,13 @@ public class Func6PresenterImpl extends BasePresenter<Func6MvpView> {
 
         @Override
         protected void convert(final BaseViewHolder helper, Polymorph<ProdOutputAddon, ProdOutputAddon> item) {
+            EditText et = helper.getView(R.id.et_item_func6_count1);
+            et.setOnFocusChangeListener(null);
+
             helper.setText(R.id.tv_item_func6_mcn, item.getAddonEntity().getOutputNo());
             helper.setText(R.id.tv_item_func6_name, item.getAddonEntity().getBarcode());
             helper.setText(R.id.et_item_func6_count1, item.getAddonEntity().getQuantity());
-            EditText et = helper.getView(R.id.et_item_func6_count1);
+
 
             final Polymorph<ProdOutputAddon, ProdOutputAddon> polymorphItem = item;
 

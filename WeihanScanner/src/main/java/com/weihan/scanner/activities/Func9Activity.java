@@ -38,8 +38,8 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
 
     private List<Polymorph<OutputPutAwayAddon, OutputPutAwayAddon>> datas = new ArrayList<>();
     private Func9PresenterImpl.OutputPutAwayListAdapter adapter;
-    private List<BinContentInfo> datasRecommandInfo = new ArrayList<>();
-    private Func11PresenterImpl.BinContentListAdapter adapterRecommandInfo;
+    private List<BinContentInfo> datasRecommendInfo = new ArrayList<>();
+    private Func11PresenterImpl.BinContentListAdapter adapterRecommendInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +64,9 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
         AdapterHelper.setAdapterEmpty(this, adapter);
         recyclerView.setAdapter(adapter);
 
-        adapterRecommandInfo = new Func11PresenterImpl.BinContentListAdapter(datasRecommandInfo);
-        AdapterHelper.setAdapterEmpty(this, adapterRecommandInfo);
-        recyclerViewRecomandInfo.setAdapter(adapterRecommandInfo);
+        adapterRecommendInfo = new Func11PresenterImpl.BinContentListAdapter(datasRecommendInfo);
+        AdapterHelper.setAdapterEmpty(this, adapterRecommendInfo);
+        recyclerViewRecomandInfo.setAdapter(adapterRecommendInfo);
 
 
         etItemno.setOnKeyListener(new View.OnKeyListener() {
@@ -162,7 +162,7 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
         etWBcode.setText("");
         etItemno.setText("");
         datas.clear();
-        datasRecommandInfo.clear();
+        datasRecommendInfo.clear();
         toggleButton.setTextOn(getString(R.string.togglebutton_on_default));
         toggleButton.setTextOff(getString(R.string.togglebutton_off_default));
         toggleButton.setChecked(false);
@@ -183,20 +183,20 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
     }
 
     @Override
-    public void fillRecyclerWithRecommandInfo(List<BinContentInfo> datasRecommandInfo) {
-        this.datasRecommandInfo.clear();
-        this.datasRecommandInfo.addAll(datasRecommandInfo);
-        adapterRecommandInfo.notifyDataSetChanged();
-        if (!datasRecommandInfo.isEmpty()) {
-            toggleButton.setTextOn("▼▼ " + datasRecommandInfo.get(0).getItem_No() + "推荐库位 ▼▼");
-            toggleButton.setTextOff("▲▲ " + datasRecommandInfo.get(0).getItem_No() + "推荐库位 ▲▲");
+    public void fillRecyclerWithRecommandInfo(List<BinContentInfo> datasRecommendInfo) {
+        this.datasRecommendInfo.clear();
+        this.datasRecommendInfo.addAll(datasRecommendInfo);
+        adapterRecommendInfo.notifyDataSetChanged();
+        if (!datasRecommendInfo.isEmpty()) {
+            toggleButton.setTextOn(String.format(getString(R.string.formatting_title_recommend_down), datasRecommendInfo.get(0).getItem_No()));
+            toggleButton.setTextOff(String.format(getString(R.string.formatting_title_recommend_up), datasRecommendInfo.get(0).getItem_No()));
             toggleButton.setChecked(true);
         }
     }
 
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
-        adapterRecommandInfo.notifyDataSetChanged();
+        adapterRecommendInfo.notifyDataSetChanged();
     }
 
 

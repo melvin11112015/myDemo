@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.common.utils.ToastUtils;
+import com.weihan.scanner.R;
 import com.weihan.scanner.WApp;
 import com.weihan.scanner.entities.Polymorph;
 import com.weihan.scanner.net.BaseOdataCallback;
@@ -41,10 +42,10 @@ public class AllFuncModelImpl {
 
     public static boolean checkEmptyList(List datas) {
         if (datas.isEmpty()) {
-            ToastUtils.show("没有提交数据");
+            ToastUtils.show(R.string.toast_no_committed_data);
             return false;
         }
-        ToastUtils.show("提交中");
+        ToastUtils.show(R.string.toast_committing);
         return true;
     }
 
@@ -69,17 +70,21 @@ public class AllFuncModelImpl {
         return tempLine++;
     }
 
-    public <T, K> void processList(List<Polymorph<T, K>> datas, PolyChangeListener<T, K> listener, boolean canRemoveItemAfterCommitted) {
-        this.canRemoveItemAfterCommitted = canRemoveItemAfterCommitted;
-        this.datas = datas;
-        taskCount = datas.size();
-        for (Polymorph<T, K> poly : datas) {
-            if (poly.getState() != Polymorph.State.COMMITTED) {
-                listener.goCommitting(poly);
-            } else {
-                taskCount--;
-                listener.onPolyChanged(taskCount <= 0, null);
-            }
+    public static void setPolyAdapterItemStateColor(@IdRes int viewId, Polymorph.State state, BaseViewHolder helper, View enableView) {
+        switch (state) {
+            case FAILURE:
+                helper.setBackgroundColor(viewId, Color.argb(0Xff, 0xff, 0xcc, 0xcc));
+                enableView.setEnabled(true);
+                break;
+            case COMMITTED:
+                helper.setBackgroundColor(viewId, Color.argb(0Xff, 0xcc, 0xff, 0xcc));
+                enableView.setEnabled(false);
+                break;
+            case UNCOMMITTED:
+            case UNCOMMITTED_UNCHECKED:
+                helper.setBackgroundColor(viewId, Color.argb(0Xff, 0xff, 0xff, 0xff));
+                enableView.setEnabled(true);
+                break;
         }
     }
 
@@ -134,20 +139,18 @@ public class AllFuncModelImpl {
         }
     }
 
-    public static void setPolyAdapterItemStateColor(@IdRes int viewId, Polymorph.State state, BaseViewHolder helper, View enableView) {
-        switch (state) {
-            case FAILURE:
-                helper.setBackgroundColor(viewId, Color.argb(0Xff, 0xff, 0xcc, 0xcc));
-                enableView.setEnabled(true);
-                break;
-            case COMMITTED:
-                helper.setBackgroundColor(viewId, Color.argb(0Xff, 0xcc, 0xff, 0xcc));
-                enableView.setEnabled(false);
-                break;
-            case UNCOMMITTED:
-                helper.setBackgroundColor(viewId, Color.argb(0Xff, 0xff, 0xff, 0xff));
-                enableView.setEnabled(true);
-                break;
+    public <T, K> void processList(List<Polymorph<T, K>> datas, PolyChangeListener<T, K> listener, boolean canRemoveItemAfterCommitted) {
+        this.canRemoveItemAfterCommitted = canRemoveItemAfterCommitted;
+        this.datas = datas;
+        taskCount = datas.size();
+        for (Polymorph<T, K> poly : datas) {
+            if (poly.getState() != Polymorph.State.COMMITTED &&
+                    poly.getState() != Polymorph.State.UNCOMMITTED_UNCHECKED) {
+                listener.goCommitting(poly);
+            } else {
+                taskCount--;
+                listener.onPolyChanged(taskCount <= 0, null);
+            }
         }
     }
 }

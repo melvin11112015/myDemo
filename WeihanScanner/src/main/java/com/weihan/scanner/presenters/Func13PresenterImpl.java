@@ -85,12 +85,15 @@ public class Func13PresenterImpl extends BasePresenter<Func13MvpView> {
 
         @Override
         protected void convert(final BaseViewHolder helper, Polymorph<WarehouseTransferMultiAddon, WhseTransferMultiInfo> item) {
+            EditText et = helper.getView(R.id.et_item_func13_quantity1);
+            et.setOnFocusChangeListener(null);
+
             helper.setText(R.id.tv_item_func13_mcn, item.getInfoEntity().getItemNo());
             helper.setText(R.id.tv_item_func13_to_binname, item.getAddonEntity().getToLocationCode());
             helper.setText(R.id.tv_item_func13_to_bincode, item.getAddonEntity().getToBinCode());
             helper.setText(R.id.tv_item_func13_quantity0, item.getInfoEntity().getQuantity());
             helper.setText(R.id.et_item_func13_quantity1, item.getAddonEntity().getQuantity());
-            EditText et = helper.getView(R.id.et_item_func13_quantity1);
+
 
             final Polymorph<WarehouseTransferMultiAddon, WhseTransferMultiInfo> polymorphItem = item;
 

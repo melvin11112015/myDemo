@@ -84,10 +84,13 @@ public class Func2PresenterImpl extends BasePresenter<Func6MvpView> {
 
         @Override
         protected void convert(final BaseViewHolder helper, Polymorph<PhysicalInvtAddon, PhysicalInvtAddon> item) {
+            EditText et = helper.getView(R.id.et_item_func2_count1);
+            et.setOnFocusChangeListener(null);
+
             helper.setText(R.id.tv_item_func2_wbcode, item.getAddonEntity().getLoaction_Code() + item.getAddonEntity().getBinCode());
             helper.setText(R.id.tv_item_func2_itemno, item.getAddonEntity().getItemNo());
             helper.setText(R.id.et_item_func2_count1, item.getAddonEntity().getQuantity());
-            EditText et = helper.getView(R.id.et_item_func2_count1);
+
 
             final Polymorph<PhysicalInvtAddon, PhysicalInvtAddon> polymorphItem = item;
 

@@ -137,35 +137,6 @@ public class Func4Activity extends BaseFuncActivity<Func4PresenterImpl> implemen
         adapter.uncheckAllBoxes(recyclerView);
     }
 
-    /*
-    private void doRecommanding() {
-        if (itemRecommanded == null) return;
-
-        String itemno = itemRecommanded.getInfoEntity().getItem_No();
-        if (itemno.isEmpty()) {
-            ToastUtils.show("物料条码不能为空");
-            return;
-        }
-        Intent intent = new Intent(Func4Activity.this, ChooseListActivity.class);
-        intent.putExtra(KEY_CODE, itemno);
-        intent.putExtra(KEY_TITLE, getString(R.string.text_recommand_bin));
-        startActivityForResult(intent, REQUEST_RECOMMAND);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_RECOMMAND && resultCode == RESULT_SUCCESS) {
-            Serializable s = data.getSerializableExtra(KEY_PARAM2);
-
-            if (s != null && s instanceof BinContentInfo)
-                presenter.attemptToAddPoly(itemRecommanded.getAddonEntity(), (BinContentInfo) s, itemRecommanded.getInfoEntity());
-
-            notifyAdapter();
-        }
-    }
-    */
-
     @Override
     public void initWidget() {
         btCheck.setOnClickListener(this);

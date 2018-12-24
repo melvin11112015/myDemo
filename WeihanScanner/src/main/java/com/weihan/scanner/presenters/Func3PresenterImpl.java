@@ -115,10 +115,13 @@ public class Func3PresenterImpl extends BasePresenter<Func3MvpView> {
 
         @Override
         protected void convert(final BaseViewHolder helper, Polymorph<WarehousePutAwayAddon, BinContentInfo> item) {
+            EditText et = helper.getView(R.id.et_item_func3_quantity1);
+            et.setOnFocusChangeListener(null);
+
             helper.setText(R.id.tv_item_func3_mcn, item.getAddonEntity().getItemNo());
             helper.setText(R.id.tv_item_func3_to_wbcode, item.getAddonEntity().getLocationCode() + item.getAddonEntity().getBinCode());
             helper.setText(R.id.et_item_func3_quantity1, item.getAddonEntity().getQuantity());
-            EditText et = helper.getView(R.id.et_item_func3_quantity1);
+
 
             final Polymorph<WarehousePutAwayAddon, BinContentInfo> polymorphItem = item;
 

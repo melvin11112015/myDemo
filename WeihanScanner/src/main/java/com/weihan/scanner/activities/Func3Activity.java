@@ -38,8 +38,8 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
 
     private List<Polymorph<WarehousePutAwayAddon, BinContentInfo>> datas = new ArrayList<>();
     private Func3PresenterImpl.WarehousePutAwayListAdapter adapter;
-    private List<BinContentInfo> datasRecommandInfo = new ArrayList<>();
-    private Func11PresenterImpl.BinContentListAdapter adapterRecommandInfo;
+    private List<BinContentInfo> datasRecommendInfo = new ArrayList<>();
+    private Func11PresenterImpl.BinContentListAdapter adapterRecommendInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +64,15 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
         AdapterHelper.setAdapterEmpty(this, adapter);
         recyclerView.setAdapter(adapter);
 
-        adapterRecommandInfo = new Func11PresenterImpl.BinContentListAdapter(datasRecommandInfo);
-        AdapterHelper.setAdapterEmpty(this, adapterRecommandInfo);
-        recyclerViewRecomandInfo.setAdapter(adapterRecommandInfo);
+        adapterRecommendInfo = new Func11PresenterImpl.BinContentListAdapter(datasRecommendInfo);
+        AdapterHelper.setAdapterEmpty(this, adapterRecommendInfo);
+        recyclerViewRecomandInfo.setAdapter(adapterRecommendInfo);
 
         etItemno.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
-                    doRecommanding();
+                    doRecommending();
                     //return true;
                 }
                 return false;
@@ -118,7 +118,7 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
         if (view == buttonAdd) {
             doAdding();
         } else if (view == buttonRecommand) {
-            doRecommanding();
+            doRecommending();
         }
     }
 
@@ -126,35 +126,9 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
         presenter.attemptToAddPoly(datas, etItemno.getText().toString().trim(), etWBcode.getText().toString().trim(), etQuantity.getText().toString().trim());
     }
 
-    private void doRecommanding() {
+    private void doRecommending() {
         presenter.acquireDatas(etItemno.getText().toString(), "");
-        /*
-        String itemno = etItemno.getText().toString();
-        if (itemno.isEmpty()) {
-            ToastUtils.show("物料条码不能为空");
-            return;
-        }
-        Intent intent = new Intent(Func3Activity.this, ChooseListActivity.class);
-        intent.putExtra(KEY_CODE, itemno);
-        intent.putExtra(KEY_TITLE, getString(R.string.text_recommand_bin));
-        startActivityForResult(intent, REQUEST_RECOMMAND);
-        */
     }
-
-    /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_RECOMMAND && resultCode == RESULT_SUCCESS) {
-            String locationCode = data.getStringExtra(KEY_CODE);
-            String binCode = data.getStringExtra(KEY_CODE2);
-            if (locationCode != null && binCode != null) {
-                etWBcode.setText(locationCode + binCode);
-                doAdding();
-            }
-        }
-    }
-    */
 
     @Override
     protected void savePref(boolean isToClear) {
@@ -188,7 +162,7 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
         etWBcode.setText("");
         etItemno.setText("");
         datas.clear();
-        datasRecommandInfo.clear();
+        datasRecommendInfo.clear();
         toggleButton.setTextOn(getString(R.string.togglebutton_on_default));
         toggleButton.setTextOff(getString(R.string.togglebutton_off_default));
         toggleButton.setChecked(false);
@@ -209,13 +183,13 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
     }
 
     @Override
-    public void fillRecyclerWithRecommandInfo(List<BinContentInfo> datasRecommandInfo) {
-        this.datasRecommandInfo.clear();
-        this.datasRecommandInfo.addAll(datasRecommandInfo);
-        adapterRecommandInfo.notifyDataSetChanged();
-        if (!datasRecommandInfo.isEmpty()) {
-            toggleButton.setTextOn("▼▼ " + datasRecommandInfo.get(0).getItem_No() + "推荐库位 ▼▼");
-            toggleButton.setTextOff("▲▲ " + datasRecommandInfo.get(0).getItem_No() + "推荐库位 ▲▲");
+    public void fillRecyclerWithRecommandInfo(List<BinContentInfo> datasRecommendInfo) {
+        this.datasRecommendInfo.clear();
+        this.datasRecommendInfo.addAll(datasRecommendInfo);
+        adapterRecommendInfo.notifyDataSetChanged();
+        if (!datasRecommendInfo.isEmpty()) {
+            toggleButton.setTextOn(String.format(getString(R.string.formatting_title_recommend_down), datasRecommendInfo.get(0).getItem_No()));
+            toggleButton.setTextOff(String.format(getString(R.string.formatting_title_recommend_up), datasRecommendInfo.get(0).getItem_No()));
             toggleButton.setChecked(true);
         }
     }
@@ -223,7 +197,7 @@ public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implemen
     @Override
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
-        adapterRecommandInfo.notifyDataSetChanged();
+        adapterRecommendInfo.notifyDataSetChanged();
     }
 
 }

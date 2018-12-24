@@ -128,8 +128,8 @@ public class Func7PresenterImpl extends BasePresenter<Func7MvpView> {
             AdapterHelper.setAdapterEmpty(mContext, adapter);
             recyclerView.setAdapter(adapter);
 
-            helper.addOnClickListener(R.id.tv_item_func7_recommand);
-            helper.setVisible(R.id.tv_item_func7_recommand, item.getState() != Polymorph.State.COMMITTED);
+            helper.addOnClickListener(R.id.tv_item_func7_recommend);
+            helper.setVisible(R.id.tv_item_func7_recommend, item.getState() != Polymorph.State.COMMITTED);
 
         }
 

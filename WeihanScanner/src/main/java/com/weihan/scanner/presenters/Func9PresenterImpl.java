@@ -116,10 +116,13 @@ public class Func9PresenterImpl extends BasePresenter<Func9MvpView> {
 
         @Override
         protected void convert(final BaseViewHolder helper, Polymorph<OutputPutAwayAddon, OutputPutAwayAddon> item) {
+            EditText et = helper.getView(R.id.et_item_func3_quantity1);
+            et.setOnFocusChangeListener(null);
+
             helper.setText(R.id.tv_item_func3_mcn, item.getAddonEntity().getItemNo());
             helper.setText(R.id.tv_item_func3_to_wbcode, item.getAddonEntity().getLocationCode() + item.getAddonEntity().getBinCode());
             helper.setText(R.id.et_item_func3_quantity1, item.getAddonEntity().getQuantity());
-            EditText et = helper.getView(R.id.et_item_func3_quantity1);
+
 
             final Polymorph<OutputPutAwayAddon, OutputPutAwayAddon> polymorphItem = item;
 

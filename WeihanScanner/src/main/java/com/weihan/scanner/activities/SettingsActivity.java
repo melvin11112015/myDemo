@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.common.utils.ToastUtils;
 import com.weihan.scanner.BaseMVP.BaseActivity;
 import com.weihan.scanner.R;
 import com.weihan.scanner.WApp;
@@ -57,7 +57,7 @@ public class SettingsActivity extends BaseActivity<SettingsPresenterImpl> implem
 
     @Override
     public void showErrorMessage(int id) {
-        Toast.makeText(this, getString(id) + "格式错误", Toast.LENGTH_SHORT).show();
+        ToastUtils.showFormatting(R.string.formatting_text_incorrect_format, id);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class SettingsActivity extends BaseActivity<SettingsPresenterImpl> implem
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_SPREF_SETTINGS, settingsJson);
         editor.apply();
-        Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
+        ToastUtils.show(R.string.toast_save_successfully);
 
         SettingsPresenterImpl.applySetting(WApp.barcodeSettings);
     }

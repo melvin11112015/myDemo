@@ -138,12 +138,12 @@ public class Func7Activity extends BaseFuncActivity<Func7PresenterImpl> implemen
 
         String itemno = itemRecommanded.getInfoEntity().getNo();
         if (itemno.isEmpty()) {
-            ToastUtils.show("物料条码不能为空");
+            ToastUtils.showFormatting(R.string.formatting_toast_could_not_be_empty, R.string.text_material_barcode);
             return;
         }
         Intent intent = new Intent(Func7Activity.this, ChooseListActivity.class);
         intent.putExtra(KEY_CODE, itemno);
-        intent.putExtra(KEY_TITLE, getString(R.string.text_recommand_bin));
+        intent.putExtra(KEY_TITLE, getString(R.string.text_recommend_bin));
         startActivityForResult(intent, REQUEST_RECOMMAND);
     }
 
@@ -170,7 +170,7 @@ public class Func7Activity extends BaseFuncActivity<Func7PresenterImpl> implemen
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.tv_item_func7_recommand) {
+                if (view.getId() == R.id.tv_item_func7_recommend) {
                     itemRecommanded = (Polymorph<List<Polymorph<WarehouseShipmentAddon, BinContentInfo>>, OutstandingSalesLineInfo>) adapter.getItem(position);
                     doRecommanding();
                 }

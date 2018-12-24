@@ -3,14 +3,12 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
 
-
-
     defaultConfig {
         applicationId "com.weihan.scanner"
         minSdkVersion 18
         targetSdkVersion 27
-        versionCode 9
-        versionName "0.08"
+        versionCode 10
+        versionName "0.10"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 

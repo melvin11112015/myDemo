@@ -35,5 +35,5 @@ public class Polymorph<T, K> {
         this.state = state;
     }
 
-    public enum State {UNCOMMITTED, COMMITTED, FAILURE}
+    public enum State {UNCOMMITTED, COMMITTED, FAILURE, UNCOMMITTED_UNCHECKED}
 }

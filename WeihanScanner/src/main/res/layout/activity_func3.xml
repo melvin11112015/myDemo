@@ -52,11 +52,11 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:background="@color/colorPrimary"
-            android:text="@string/text_recommand_bin"
+            android:text="@string/text_recommend_bin"
             android:textColor="@android:color/background_light"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/text_bincode_barcode" />
+            android:text="@string/text_bin" />
 
         <EditText
             android:id="@+id/et_func3_bincode"

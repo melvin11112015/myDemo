@@ -90,13 +90,16 @@ public class Func0PresenterImpl extends BasePresenter<Func0MvpView> {
 
         @Override
         protected void convert(final BaseViewHolder helper, Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo> item) {
+            EditText et = helper.getView(R.id.et_item_func0_count1);
+            et.setOnFocusChangeListener(null);
+
             helper.setText(R.id.tv_item_func0_mcn, item.getInfoEntity().getNo());
             helper.getView(R.id.tv_item_func0_mcn).setSelected(true);
             helper.setText(R.id.tv_item_func0_name, item.getInfoEntity().getDescription());
             helper.getView(R.id.tv_item_func0_name).setSelected(true);
             helper.setText(R.id.tv_item_func0_count0, item.getInfoEntity().getOutstanding_Quantity());
             helper.setText(R.id.et_item_func0_count1, item.getAddonEntity().getQuantity());
-            EditText et = helper.getView(R.id.et_item_func0_count1);
+
 
             final Polymorph<WarehouseReceiptAddon, OutstandingPurchLineInfo> polymorphItem = item;
 

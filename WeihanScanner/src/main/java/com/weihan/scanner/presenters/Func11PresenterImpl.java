@@ -47,7 +47,7 @@ public class Func11PresenterImpl extends BasePresenter<Func11MvpView> {
         } else if (!WBcode.isEmpty() && itemNo.isEmpty()) {
             filter = "Bin_Code eq '" + bincode + "' and Location_Code eq '" + locationCode + "' and Quantity_Base ne 0";
         } else {
-            ToastUtils.show("请输入库位条码或物料条码");
+            ToastUtils.showFormatting(R.string.toast_please_enter_or, R.string.text_material_barcode, R.string.text_bin);
             return;
         }
         ApiTool.callBinContent(filter, callback1);

@@ -88,7 +88,7 @@ public class Func1Activity extends BaseFuncActivity<Func1PresenterImpl> implemen
         editor.apply();
     }
 
-    private Polymorph<List<Polymorph<ConsumptionPickAddon, BinContentInfo>>, InvPickingInfo> itemRecommanded;
+    private Polymorph<List<Polymorph<ConsumptionPickAddon, BinContentInfo>>, InvPickingInfo> itemRecommended;
 
     @Override
     protected void loadPref() {
@@ -132,17 +132,17 @@ public class Func1Activity extends BaseFuncActivity<Func1PresenterImpl> implemen
         adapter.notifyDataSetChanged();
     }
 
-    private void doRecommanding() {
-        if (itemRecommanded == null) return;
+    private void doRecommending() {
+        if (itemRecommended == null) return;
 
-        String itemno = itemRecommanded.getInfoEntity().getItem_No();
+        String itemno = itemRecommended.getInfoEntity().getItem_No();
         if (itemno.isEmpty()) {
-            ToastUtils.show("物料条码不能为空");
+            ToastUtils.showFormatting(R.string.formatting_toast_could_not_be_empty, R.string.text_material_barcode);
             return;
         }
         Intent intent = new Intent(Func1Activity.this, ChooseListActivity.class);
         intent.putExtra(KEY_CODE, itemno);
-        intent.putExtra(KEY_TITLE, getString(R.string.text_recommand_bin));
+        intent.putExtra(KEY_TITLE, getString(R.string.text_recommend_bin));
         startActivityForResult(intent, REQUEST_RECOMMAND);
     }
 
@@ -153,7 +153,7 @@ public class Func1Activity extends BaseFuncActivity<Func1PresenterImpl> implemen
             Serializable s = data.getSerializableExtra(KEY_PARAM2);
 
             if (s != null && s instanceof BinContentInfo)
-                presenter.attemptToAddPoly(itemRecommanded.getAddonEntity(), (BinContentInfo) s, itemRecommanded.getInfoEntity());
+                presenter.attemptToAddPoly(itemRecommended.getAddonEntity(), (BinContentInfo) s, itemRecommended.getInfoEntity());
 
             notifyAdapter();
         }
@@ -170,8 +170,8 @@ public class Func1Activity extends BaseFuncActivity<Func1PresenterImpl> implemen
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.tv_item_func1_recommand) {
-                    itemRecommanded = (Polymorph<List<Polymorph<ConsumptionPickAddon, BinContentInfo>>, InvPickingInfo>) adapter.getItem(position);
-                    doRecommanding();
+                    itemRecommended = (Polymorph<List<Polymorph<ConsumptionPickAddon, BinContentInfo>>, InvPickingInfo>) adapter.getItem(position);
+                    doRecommending();
                 }
             }
         });

@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">仓库条码系统</string>
-
-    <!-- Strings related to login -->
     <string name="prompt_username">用户名</string>
     <string name="prompt_password">密码</string>
     <string name="action_sign_in">登录</string>
@@ -36,9 +34,9 @@
     <string name="text_purchase_list">采购单</string>
     <string name="text_invpicking">领料单</string>
     <string name="text_bincode_barcode">库位条码</string>
-    <string name="text_material_barcode">物料编码</string>
+    <string name="text_material_barcode">物料编号</string>
     <string name="text_prooutput_list">入库单</string>
-    <string name="text_recommand_bin">推荐库位</string>
+    <string name="text_recommend_bin">推荐库位</string>
     <string name="text_shipment_list_code">发货单号</string>
     <string name="text_from_bin">从库位</string>
     <string name="text_to_bin">至库位</string>
@@ -46,11 +44,11 @@
     <string name="text_quantity_colon">数量:</string>
     <string name="text_bin_colon">库位:</string>
     <string name="text_warehouse_colon">仓库:</string>
-    <string name="text_material_colon">物料编码:</string>
+    <string name="text_material_colon">物料编号:</string>
     <string name="text_to_bin_colon">至库位:</string>
     <string name="text_material_name_colon">物料名称:</string>
     <string name="text_from_bin_colon">从库位:</string>
-    <string name="title_recommand_bin">选择推荐库位</string>
+    <string name="title_recommend_bin">选择推荐库位</string>
     <string name="text_pick_quantity_colon">领料数:</string>
     <string name="canvas_swipe_remove">向右划动删除记录</string>
     <string name="text_name_colon">名称:</string>
@@ -63,4 +61,29 @@
     <string name="togglebutton_off_default">▲▲ 推荐库位 ▲▲</string>
     <string name="togglebutton_on_default">▼▼ 推荐库位 ▼▼</string>
     <string name="text_confirm">确认</string>
+    <string name="toast_please_enter_or">请输入%s或%s</string>
+    <string name="title_func0">采购收货</string>
+    <string name="title_func1">生产领料</string>
+    <string name="title_func2">盘点</string>
+    <string name="title_func3">收货上架</string>
+    <string name="title_func4">领料确认</string>
+    <string name="title_func5">复盘</string>
+    <string name="title_func6">产出入库</string>
+    <string name="title_func7">仓库发货</string>
+    <string name="title_func8">单个移库</string>
+    <string name="title_func9">产出上架</string>
+    <string name="title_func10">包装确认</string>
+    <string name="title_func11">SKU查询</string>
+    <string name="title_func12">批量下架</string>
+    <string name="title_func13">批量上架</string>
+    <string name="title_func14">系统设置</string>
+    <string name="formatting_toast_could_not_be_empty">%s不能为空</string>
+    <string name="formatting_title_recommend_down">▼▼ %s推荐库位 ▼▼</string>
+    <string name="formatting_title_recommend_up">▲▲ %s推荐库位 ▲▲</string>
+    <string name="toast_save_successfully">保存成功</string>
+    <string name="formatting_text_incorrect_format">%s格式错误</string>
+    <string name="toast_no_committed_data">没有提交数据</string>
+    <string name="toast_committing">提交中</string>
+    <string name="formatting_toast_committed">提交完成</string>
+    <string name="hint_purchase_list_barcode">采购单条码</string>
 </resources>

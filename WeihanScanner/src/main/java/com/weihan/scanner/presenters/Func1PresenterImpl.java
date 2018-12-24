@@ -254,11 +254,13 @@ public class Func1PresenterImpl extends BasePresenter<Func1MvpView> {
         @Override
         protected void convert(final BaseViewHolder helper, Polymorph<ConsumptionPickAddon, BinContentInfo> item) {
 
+            EditText et = helper.getView(R.id.et_item_func1_count1);
+            et.setOnFocusChangeListener(null);
+
             helper.setText(R.id.tv_item_func1_count3, item.getInfoEntity().getQuantity_Base());
             helper.setText(R.id.et_item_func1_count1, item.getAddonEntity().getQuantity());
             helper.setText(R.id.tv_item_func1_wbcode, item.getAddonEntity().getLocationCode() + item.getAddonEntity().getBinCode());
 
-            EditText et = helper.getView(R.id.et_item_func1_count1);
 
             final Polymorph<ConsumptionPickAddon, BinContentInfo> polymorphItem = item;
 

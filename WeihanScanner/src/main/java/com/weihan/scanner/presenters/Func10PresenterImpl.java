@@ -104,25 +104,28 @@ public class Func10PresenterImpl extends BasePresenter<Func10MvpView> {
 
         @Override
         protected void convert(final BaseViewHolder helper, final Polymorph<WarehouseShipmentAddon, OutstandingSalesLineInfo> item) {
+            CheckBox checkBox = helper.getView(R.id.checkBox_item_func4);
+            checkBox.setOnCheckedChangeListener(null);
+
             helper.setText(R.id.tv_item_func4_mcn, item.getInfoEntity().getNo());
             helper.getView(R.id.tv_item_func4_mcn).setSelected(true);
             helper.setText(R.id.tv_item_func4_name, item.getInfoEntity().getDescription());
             helper.getView(R.id.tv_item_func4_name).setSelected(true);
             helper.setText(R.id.et_item_func4_count1, item.getAddonEntity().getQuantity());
 
-            CheckBox checkBox = helper.getView(R.id.checkBox_item_func4);
+
 
             final Polymorph<WarehouseShipmentAddon, OutstandingSalesLineInfo> polymorphItem = item;
 
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    polymorphItem.setState(isChecked ? Polymorph.State.UNCOMMITTED : Polymorph.State.FAILURE);
+                    polymorphItem.setState(isChecked ? Polymorph.State.UNCOMMITTED : Polymorph.State.UNCOMMITTED_UNCHECKED);
                     AllFuncModelImpl.setPolyAdapterItemStateColor(R.id.la_item_func4, item.getState(), helper, compoundButton);
                 }
             });
 
-            item.setState(checkBox.isChecked() ? Polymorph.State.UNCOMMITTED : Polymorph.State.FAILURE);
+            item.setState(checkBox.isChecked() ? Polymorph.State.UNCOMMITTED : Polymorph.State.UNCOMMITTED_UNCHECKED);
             /*
            EditText et = helper.getView(R.id.et_item_func4_count1);
 

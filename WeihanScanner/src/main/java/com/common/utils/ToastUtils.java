@@ -356,6 +356,38 @@ public class ToastUtils {
     }
 
     /**
+     * Toast ：立即显示无需等待
+     * <p>
+     * 显示格式化的消息
+     */
+    public static void showFormatting(String formatMsg, @NonNull int... args) {
+        String[] argsMsg = new String[args.length];
+        for (int index = 0; index < args.length; index++)
+            argsMsg[index] = mContext.getString(args[index]);
+        String msg = String.format(formatMsg, argsMsg);
+        if (mToast == null) {
+            mToast = Toast.makeText(mContext, msg, Toast.LENGTH_SHORT);
+        } else {
+            mToast.setText(msg);
+        }
+        mToast.show();
+    }
+
+    public static void showFormatting(@NonNull int... args) {
+        if (args.length < 1) return;
+        String[] argsMsg = new String[args.length - 1];
+        for (int index = 0; index < args.length - 1; index++)
+            argsMsg[index] = mContext.getString(args[index + 1]);
+        String msg = String.format(mContext.getString(args[0]), argsMsg);
+        if (mToast == null) {
+            mToast = Toast.makeText(mContext, msg, Toast.LENGTH_SHORT);
+        } else {
+            mToast.setText(msg);
+        }
+        mToast.show();
+    }
+
+    /**
      * Toast 替代方法 ：立即显示无需等待
      *
      * @param resId String资源ID
