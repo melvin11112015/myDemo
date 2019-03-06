@@ -37,7 +37,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:singleLine="true"
-        android:text="复盘数"
+        android:text="@string/text_recheck_quantity"
         android:textColor="@color/colorBackgroundGrey"
         android:textStyle="bold" />
 

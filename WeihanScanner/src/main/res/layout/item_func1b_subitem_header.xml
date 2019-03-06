@@ -27,7 +27,7 @@
         android:layout_weight="3"
         android:gravity="center"
         android:singleLine="true"
-        android:text="库存数"
+        android:text="@string/text_stock"
         android:textColor="@color/colorBackgroundGrey"
         android:textStyle="bold" />
 
@@ -37,7 +37,7 @@
         android:layout_weight="3"
         android:gravity="center"
         android:singleLine="true"
-        android:text="领料数"
+        android:text="@string/text_received_quantity"
         android:textColor="@color/colorBackgroundGrey"
         android:textStyle="bold" />
 

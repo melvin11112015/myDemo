@@ -86,4 +86,19 @@
     <string name="toast_committing">提交中</string>
     <string name="formatting_toast_committed">提交完成</string>
     <string name="hint_purchase_list_barcode">采购单条码</string>
+    <string name="hint_bincode">库位条码</string>
+    <string name="hint_material_barcode">物料条码</string>
+    <string name="hint_search_for_material_quantity">搜索物料编号或数量</string>
+    <string name="text_setting">设置</string>
+    <string name="text_api_address">接口地址</string>
+    <string name="text_not_clear_quantity">未结清数</string>
+    <string name="text_actual_arrived_goods_quantity">实际到货数</string>
+    <string name="text_stock">库存数</string>
+    <string name="text_received_quantity">领料数</string>
+    <string name="text_recheck_quantity">复盘数</string>
+    <string name="text_receipt">入库单</string>
+    <string name="text_quantity_in_storage">入库数</string>
+    <string name="text_shipment_quantity_colon">发货数:</string>
+    <string name="text_picking">拣货</string>
+    <string name="text_quantity_on_shelves">上架数:</string>
 </resources>

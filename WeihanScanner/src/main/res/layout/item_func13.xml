@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="物料编号:        "
+                android:text="@string/text_material_colon"
                 android:textSize="12sp" />
 
             <TextView
@@ -47,50 +47,27 @@
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:paddingRight="@dimen/dp_10"
+                android:text="@string/text_to_bin_colon"
+                android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:text="至仓:"
-                    android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_item_func13_to_binname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="22"
+                android:textColor="@color/colorPrimary" />
 
-                <TextView
-                    android:id="@+id/tv_item_func13_to_binname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/colorPrimary" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/tv_item_func13_to_bincode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:text="@string/text_to_bin_colon"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tv_item_func13_to_bincode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="哈哈"
-                    android:textColor="@color/colorPrimary" />
-
-            </LinearLayout>
+                android:text="哈哈"
+                android:textColor="@color/colorPrimary" />
 
         </LinearLayout>
 
@@ -135,7 +112,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center_vertical"
-                    android:text="上架数:"
+                    android:text="@string/text_quantity_on_shelves"
                     android:textSize="12sp" />
 
                 <EditText

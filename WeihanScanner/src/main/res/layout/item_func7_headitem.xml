@@ -46,7 +46,7 @@
             android:paddingTop="3dp"
             android:paddingRight="6dp"
             android:paddingBottom="3dp"
-            android:text="拣货"
+            android:text="@string/text_picking"
             android:textColor="@android:color/background_light"
             android:textStyle="bold" />
 
@@ -68,7 +68,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="发货数:" />
+            android:text="@string/text_shipment_quantity_colon" />
 
         <TextView
             android:id="@+id/tv_item_func7_count0"
