@@ -28,6 +28,10 @@ import java.util.List;
 
 import static com.weihan.scanner.Constant.KEY_SPREF_FUNC0_DATA;
 
+/**
+ * 采购收货
+ */
+
 public class Func0Activity extends BaseFuncActivity<Func0PresenterImpl> implements Func0MvpView, View.OnClickListener {
 
     RecyclerView recyclerView;

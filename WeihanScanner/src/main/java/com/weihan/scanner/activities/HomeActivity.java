@@ -22,6 +22,10 @@ import java.util.Map;
 import static com.weihan.scanner.Constant.KEY_IMAGE_ID;
 import static com.weihan.scanner.Constant.KEY_TITLE;
 
+/**
+ * 主菜单
+ */
+
 public class HomeActivity extends BaseActivity<HomePresenterImpl> implements HomeMvpView {
 
     GridView gridView;

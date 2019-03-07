@@ -16,6 +16,10 @@ import com.weihan.scanner.presenters.SettingsPresenterImpl;
 import static com.weihan.scanner.Constant.KEY_SPREF_SETTINGS;
 import static com.weihan.scanner.Constant.SHAREDPREF_NAME;
 
+/**
+ * 设置
+ */
+
 public class SettingsActivity extends BaseActivity<SettingsPresenterImpl> implements SettingsMvpView {
 
     SharedPreferences sharedPreferences;

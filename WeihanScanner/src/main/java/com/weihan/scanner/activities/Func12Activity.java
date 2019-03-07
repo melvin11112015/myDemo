@@ -28,6 +28,10 @@ import java.util.List;
 
 import static com.weihan.scanner.Constant.KEY_SPREF_FUNC12_DATA;
 
+/**
+ * 批量下架
+ */
+
 public class Func12Activity extends BaseFuncActivity<Func12PresenterImpl> implements Func12MvpView, View.OnClickListener {
 
     EditText etFromWBcode, etItemno;

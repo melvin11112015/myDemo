@@ -25,6 +25,10 @@ import static com.weihan.scanner.Constant.KEY_PARAM;
 import static com.weihan.scanner.Constant.KEY_PARAM2;
 import static com.weihan.scanner.Constant.RESULT_SUCCESS;
 
+/**
+ * 选择推荐库位
+ */
+
 public class ChooseListActivity extends BaseActivity<ChooseListPresenterImpl> implements ChooseListMvpView {
 
     Intent resultIntent = new Intent();

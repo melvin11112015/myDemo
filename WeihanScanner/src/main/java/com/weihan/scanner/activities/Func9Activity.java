@@ -29,6 +29,10 @@ import java.util.List;
 
 import static com.weihan.scanner.Constant.KEY_SPREF_FUNC9_DATA;
 
+/**
+ * 产出上架
+ */
+
 public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implements Func9MvpView, View.OnClickListener {
 
     EditText etItemno, etWBcode, etQuantity;
@@ -198,7 +202,6 @@ public class Func9Activity extends BaseFuncActivity<Func9PresenterImpl> implemen
         adapter.notifyDataSetChanged();
         adapterRecommendInfo.notifyDataSetChanged();
     }
-
 
 
 }

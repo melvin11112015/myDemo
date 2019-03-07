@@ -28,6 +28,10 @@ import java.util.List;
 
 import static com.weihan.scanner.Constant.KEY_SPREF_FUNC13_DATA;
 
+/**
+ * 批量上架
+ */
+
 public class Func13Activity extends BaseFuncActivity<Func13PresenterImpl> implements Func13MvpView, View.OnClickListener {
 
     EditText etToBincode, etItemno;
@@ -152,7 +156,6 @@ public class Func13Activity extends BaseFuncActivity<Func13PresenterImpl> implem
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
     }
-
 
 
 }

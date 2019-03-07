@@ -30,6 +30,10 @@ import java.util.List;
 
 import static com.weihan.scanner.Constant.KEY_SPREF_FUNC5_DATA;
 
+/**
+ * 复盘
+ */
+
 public class Func5Activity extends BaseFuncActivity<Func5PresenterImpl> implements Func5MvpView, View.OnClickListener {
 
     EditText etWBcode, etItemno;

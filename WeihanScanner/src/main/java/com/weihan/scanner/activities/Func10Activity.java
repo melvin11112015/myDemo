@@ -29,6 +29,10 @@ import java.util.List;
 
 import static com.weihan.scanner.Constant.KEY_SPREF_FUNC10_DATA;
 
+/**
+ * 包装确认
+ */
+
 public class Func10Activity extends BaseFuncActivity<Func10PresenterImpl> implements Func10MvpView, View.OnClickListener {
 
 

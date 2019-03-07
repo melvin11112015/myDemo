@@ -29,6 +29,10 @@ import java.util.List;
 
 import static com.weihan.scanner.Constant.KEY_SPREF_FUNC4_DATA;
 
+/**
+ * 领料确认
+ */
+
 public class Func4Activity extends BaseFuncActivity<Func4PresenterImpl> implements Func4MvpView, View.OnClickListener {
 
 

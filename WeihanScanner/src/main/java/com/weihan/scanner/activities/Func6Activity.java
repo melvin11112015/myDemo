@@ -27,6 +27,10 @@ import java.util.List;
 
 import static com.weihan.scanner.Constant.KEY_SPREF_FUNC6_DATA;
 
+/**
+ * 产出入库
+ */
+
 public class Func6Activity extends BaseFuncActivity<Func6PresenterImpl> implements Func6MvpView, View.OnClickListener {
 
     RecyclerView recyclerView;

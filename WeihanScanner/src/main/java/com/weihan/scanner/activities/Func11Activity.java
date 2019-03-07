@@ -22,6 +22,10 @@ import com.weihan.scanner.utils.ViewHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SKU查询
+ */
+
 public class Func11Activity extends BaseActivity<Func11PresenterImpl> implements Func11MvpView, View.OnClickListener {
 
     EditText etItemNo, etWBcode;
@@ -90,7 +94,6 @@ public class Func11Activity extends BaseActivity<Func11PresenterImpl> implements
     private void doChecking() {
         presenter.acquireDatas(etItemNo.getText().toString().trim(), etWBcode.getText().toString().trim());
     }
-
 
 
     @Override

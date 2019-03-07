@@ -29,6 +29,10 @@ import java.util.List;
 
 import static com.weihan.scanner.Constant.KEY_SPREF_FUNC3_DATA;
 
+/**
+ * 收货上架
+ */
+
 public class Func3Activity extends BaseFuncActivity<Func3PresenterImpl> implements Func3MvpView, View.OnClickListener {
 
     EditText etItemno, etWBcode, etQuantity;

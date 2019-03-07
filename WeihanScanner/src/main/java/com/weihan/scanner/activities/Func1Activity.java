@@ -38,6 +38,10 @@ import static com.weihan.scanner.Constant.KEY_TITLE;
 import static com.weihan.scanner.Constant.REQUEST_RECOMMAND;
 import static com.weihan.scanner.Constant.RESULT_SUCCESS;
 
+/**
+ * 生产领料
+ */
+
 public class Func1Activity extends BaseFuncActivity<Func1PresenterImpl> implements Func1MvpView, View.OnClickListener {
 
 

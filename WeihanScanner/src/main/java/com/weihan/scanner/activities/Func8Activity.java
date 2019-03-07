@@ -32,6 +32,10 @@ import java.util.List;
 
 import static com.weihan.scanner.Constant.KEY_SPREF_FUNC8_DATA;
 
+/**
+ * 单个移库
+ */
+
 public class Func8Activity extends BaseFuncActivity<Func8PresenterImpl> implements Func8MvpView, View.OnClickListener {
 
     EditText etFromWBcode, etItemno, etToWBcode, etQuantity;
